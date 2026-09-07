@@ -1,5 +1,19 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Carrinho: CEP com busca automática e endereço obrigatório
+- Ao digitar o CEP (8 dígitos), o site busca automaticamente Rua, Bairro e
+  Cidade usando a API pública e gratuita **ViaCEP** — não precisa de chave
+  nem cadastro, mas precisa de internet no aparelho do cliente.
+- O campo **Número** é sempre digitado manualmente (nenhum CEP indica o
+  número da casa), e fica disponível mesmo se o CEP não retornar endereço.
+- **Nome e CEP (com endereço encontrado) são obrigatórios** para liberar o
+  botão "Fazer pedido pelo WhatsApp" — ele fica desabilitado até os dois
+  estarem preenchidos corretamente.
+- Se o cliente digitar um CEP que não existe, aparece o aviso "CEP não
+  encontrado" e o botão continua bloqueado até corrigir.
+- O endereço entra automaticamente na mensagem enviada ao WhatsApp, junto
+  com o pedido.
+
 ## Correções mais recentes
 - **Carregamento infinito corrigido**: havia um bug no código que, quando uma
   foto de produto não existia, tentava "limpar" a imagem definindo

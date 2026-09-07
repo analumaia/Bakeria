@@ -751,6 +751,77 @@ h1, h2, h3, .fonte-titulo{
 }
 .campo-nome input:focus{ border-color: var(--rosa); }
 
+.obrigatorio{ color: var(--rosa); }
+
+/* --------- ENDEREÇO (CEP com busca automática + número manual) --------- */
+.campo-endereco{
+  margin-bottom: 14px;
+}
+
+.campo-endereco > label{
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.campo-endereco > input{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--marrom-claro);
+  font-family: inherit;
+  font-size: 0.92rem;
+  background: var(--branco);
+  color: var(--marrom-escuro);
+}
+.campo-endereco > input:focus{ border-color: var(--rosa); }
+
+.cep-status{
+  display: block;
+  font-size: 0.78rem;
+  margin-top: 5px;
+  min-height: 1.1em;
+}
+.cep-status.buscando{ color: var(--marrom-cafe); }
+.cep-status.sucesso{ color: #2e7d4f; font-weight: 600; }
+.cep-status.erro{ color: #b23a3a; font-weight: 600; }
+
+.linha-endereco{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.campo-endereco-item label{
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--marrom-cafe);
+  margin-bottom: 4px;
+}
+
+.campo-endereco-item input{
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1.5px solid var(--marrom-claro);
+  font-family: inherit;
+  font-size: 0.88rem;
+  background: var(--branco);
+  color: var(--marrom-escuro);
+}
+
+.campo-endereco-item input:focus{ border-color: var(--rosa); }
+
+.aviso-obrigatorio{
+  font-size: 0.74rem;
+  color: var(--marrom-cafe);
+  text-align: center;
+  margin: 10px 0 0;
+}
+
 .carrinho-total{
   display: flex;
   justify-content: space-between;
@@ -892,4 +963,5 @@ h1, h2, h3, .fonte-titulo{
   .btn-carrinho{ padding: 8px 12px; font-size: 0.85rem; }
   .banner-conteudo h2{ font-size: 1.25rem; }
   .cartao-produto h3{ font-size: 0.95rem; }
+  .linha-endereco{ grid-template-columns: 1fr; gap: 8px; }
 }
