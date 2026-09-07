@@ -55,7 +55,7 @@ const PRODUTOS = [
     id: 1,
     nome: "Cookie Tradicional Chocolate",
     categoria: "tradicionais",
-    preco: 9.90,
+    preco: 14.00,
     descricaoCurta: "Cookie crocante por fora, macio por dentro, com gotas de chocolate.",
     descricaoCompleta: "Nosso cookie tradicional é feito com manteiga de verdade e uma generosa quantidade de gotas de chocolate meio amargo. Assado na hora para garantir aquele centro macio e derretido.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Açúcar mascavo", "Ovos", "Baunilha"],
