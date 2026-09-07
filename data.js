@@ -112,7 +112,7 @@ const PRODUTOS = [
     imagens: ["combo-dupla-1.jpg"]
   },
   {
-    id: 6,
+    id: 7,
     nome: "Combo Cookie Pie + Refrigerante",
     categoria: "combos",
     preco: 29.90,
@@ -122,7 +122,7 @@ const PRODUTOS = [
     imagens: ["combo-cookiepie-1.jpg"]
   },
   {
-    id: 13,
+    id: 8,
     nome: "Combo dupla Cookie Pìes",
     categoria: "combos",
     preco: 30.00,
@@ -132,7 +132,7 @@ const PRODUTOS = [
     imagens: ["combo-doiscookies-1.jpg"]
   },
   {
-    id: 7,
+    id: 9,
     nome: "Promoção: Leve 5 pague 4",
     categoria: "promocoes",
     preco: 68.00,
