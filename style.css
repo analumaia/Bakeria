@@ -343,6 +343,10 @@ h1, h2, h3, .fonte-titulo{
   }
 }
 
+.secao-vitrine{
+  padding-top: 4px;
+}
+
 .sem-produtos{
   color: var(--marrom-cafe);
   text-align: center;
@@ -417,6 +421,22 @@ h1, h2, h3, .fonte-titulo{
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 999px;
+}
+
+.foto-indisponivel{ display: none; }
+
+.aviso-foto{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--marrom-cafe);
+  background: var(--bege);
 }
 
 .cartao-produto .info{
@@ -762,9 +782,86 @@ h1, h2, h3, .fonte-titulo{
 .rodape{
   background: var(--marrom-escuro);
   color: var(--bege-claro);
-  padding: 32px 0;
+  padding: 36px 0;
   margin-top: 60px;
   text-align: center;
   font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
-.rodape strong{ font-family: var(--fonte-titulo); font-size: 1.1rem; color: var(--rosa-claro); }
+.logo-caixa-rodape{
+  height: 40px;
+  max-width: 200px;
+}
+.rodape p{ margin: 0; opacity: 0.85; }
+
+/* ============================================================
+   RESPONSIVO — TABLET E CELULAR (9:16)
+   Faixas usadas neste site:
+   - até 1024px  -> tablets (retrato e paisagem)
+   - até 860px   -> tablets estreitos / celulares grandes deitados
+                    (breakpoint que já existe acima, sidebar vira barra horizontal)
+   - até 600px   -> celulares em pé (9:16)
+   - até 380px   -> celulares bem pequenos
+   ============================================================ */
+
+/* --- Tablets (768px–1024px): reduz respiro geral, 2 colunas no grid --- */
+@media (max-width: 1024px){
+  .container{ padding: 0 18px; }
+
+  .conteudo-principal{ gap: 22px; }
+
+  .grid-produtos{
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* --- Celulares em pé (9:16), até 600px --- */
+@media (max-width: 600px){
+  .container{ padding: 0 14px; }
+
+  .cabecalho{ padding: 10px 0; }
+  .cabecalho-interno{ padding: 8px 14px; }
+
+  .banner-slide{ border-radius: 16px; min-height: 260px; }
+  .banner-conteudo{ min-height: 260px; padding: 18px; }
+  .banner-conteudo p{ max-width: 100%; font-size: 0.9rem; }
+
+  .filtro-categorias{ border-radius: 14px; padding: 12px; }
+  .filtro-categorias h3{ font-size: 0.85rem; margin-bottom: 10px; }
+  .tile-categoria{ padding: 10px 6px; }
+  .tile-icone{ font-size: 1.3rem; }
+  .tile-nome{ font-size: 0.72rem; }
+
+  .secao-categoria h2{ font-size: 1.35rem; }
+
+  /* Uma única coluna de produtos, largura total, mais fácil de rolar com o polegar */
+  .grid-produtos{
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .cartao-produto .imagem-produto{ aspect-ratio: 16/10; }
+
+  .produto-detalhe{ gap: 24px; }
+  .galeria .miniaturas button{ width: 58px; height: 58px; }
+
+  .acao-produto{
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-adicionar-grande{ width: 100%; text-align: center; }
+
+  .painel-carrinho{ width: 100vw; }
+}
+
+/* --- Celulares bem pequenos (ex: iPhone SE, ~360px e menos) --- */
+@media (max-width: 380px){
+  .logo-caixa{ max-width: 110px; }
+  .btn-carrinho{ padding: 8px 12px; font-size: 0.85rem; }
+  .banner-conteudo h2{ font-size: 1.25rem; }
+  .cartao-produto h3{ font-size: 0.95rem; }
+}

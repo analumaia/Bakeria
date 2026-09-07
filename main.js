@@ -4,6 +4,23 @@
    Não precisa editar este arquivo: edite data.js.
    ============================================================ */
 
+/* ------------------------------------------------------------
+   FOTO INDISPONÍVEL
+   Usada quando o arquivo de imagem de um produto ainda não foi
+   adicionado. IMPORTANTE: nunca usar this.src="" no lugar disso —
+   isso faz o navegador recarregar a própria página como se fosse
+   uma imagem, entra em loop e trava o carregamento do site.
+------------------------------------------------------------ */
+function marcarFotoIndisponivel(img){
+  img.onerror = null; // evita disparar de novo caso o pixel também falhe
+  img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+  img.classList.add("foto-indisponivel");
+  const container = img.closest(".imagem-produto");
+  if(container && !container.querySelector(".aviso-foto")){
+    container.insertAdjacentHTML("beforeend", '<span class="aviso-foto">🍪 Foto em breve</span>');
+  }
+}
+
 let indiceBannerAtual = 0;
 let temporizadorBanner = null;
 let categoriaAtiva = "todos";
@@ -97,9 +114,12 @@ function renderizarProdutos(){
   const container = document.getElementById("categorias-container");
   if(!container) return;
 
-  const categoriasParaMostrar = categoriaAtiva === "todos"
-    ? CATEGORIAS
-    : CATEGORIAS.filter(c => c.id === categoriaAtiva);
+  if(categoriaAtiva === "todos"){
+    renderizarVitrineDestaques(container);
+    return;
+  }
+
+  const categoriasParaMostrar = CATEGORIAS.filter(c => c.id === categoriaAtiva);
 
   container.innerHTML = categoriasParaMostrar.map(cat => {
     const produtosDaCategoria = PRODUTOS.filter(p => p.categoria === cat.id);
@@ -117,13 +137,40 @@ function renderizarProdutos(){
   }).join("") || `<p class="sem-produtos">Nenhum produto encontrado nessa categoria.</p>`;
 }
 
+function renderizarVitrineDestaques(container){
+  // Sem agrupar por categoria: mostra uma vitrine única, na ordem
+  // definida em DESTAQUES (ou na ordem de cadastro, se DESTAQUES estiver vazio).
+  let produtosParaMostrar;
+
+  if(DESTAQUES && DESTAQUES.length > 0){
+    produtosParaMostrar = DESTAQUES
+      .map(id => PRODUTOS.find(p => p.id === id))
+      .filter(Boolean);
+  }else{
+    produtosParaMostrar = PRODUTOS;
+  }
+
+  if(produtosParaMostrar.length === 0){
+    container.innerHTML = `<p class="sem-produtos">Nenhum produto cadastrado ainda.</p>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <section class="secao-categoria secao-vitrine">
+      <div class="grid-produtos">
+        ${produtosParaMostrar.map(cartaoProdutoHTML).join("")}
+      </div>
+    </section>
+  `;
+}
+
 function cartaoProdutoHTML(produto){
   const imagem = (produto.imagens && produto.imagens[0]) || "";
   const categoriaInfo = CATEGORIAS.find(c => c.id === produto.categoria);
   return `
     <article class="cartao-produto">
       <a class="imagem-produto" href="produto.html?id=${produto.id}">
-        <img src="${imagem}" alt="${produto.nome}" onerror="this.src=''; this.alt='Foto em breve';">
+        <img src="${imagem}" alt="${produto.nome}" onerror="marcarFotoIndisponivel(this)">
         ${categoriaInfo ? `<span class="mini-tag">${categoriaInfo.icone} ${categoriaInfo.nome}</span>` : ""}
       </a>
       <div class="info">
