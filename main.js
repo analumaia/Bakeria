@@ -83,7 +83,7 @@ function renderizarFiltro(){
   if(!grade) return;
 
   const tiles = [
-    { id: "tradicionais","cookie-pies","combos", "promocoes", nome: "Todos", icone: "🍽️" },
+    { id: "todos", nome: "Todos", icone: "🍽️" },
     ...CATEGORIAS
   ];
 
