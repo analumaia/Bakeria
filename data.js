@@ -28,7 +28,7 @@ const CATEGORIAS = [
 const BANNERS = [
   {
     tag: "Promoção da semana",
-    titulo: "Cookie Pie + Refrigerante",
+    titulo: "Combo Cookie Pie + Refrigerante",
     texto: "Peça pelo WhatsApp e garanta preço especial até domingo.",
     imagem: "banner-1.jpg",
     linkTexto: "Ver promoções",
@@ -37,7 +37,7 @@ const BANNERS = [
   {
     tag: "Novidade",
     titulo: "Cookie Pie Chocotella",
-    texto: "Chegou o sabor que você pediu — massa amanteigada e de nutella de verdade.",
+    texto: "Massa crocante por fora, recheio generoso de Nutella por dentro.",
     imagem: "banner-2.jpg",
     linkTexto: "Conferir Cookie Pies",
     linkCategoria: "cookie-pies"
@@ -140,5 +140,24 @@ const PRODUTOS = [
     descricaoCompleta: "Monte sua caixa com 5 cookies pies dos sabores que quiser e leve um cookie tradicional de bride. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["5 cookies pies a sua escolha"],
     imagens: ["promo-leve6-1.jpg"]
-  },
+  }
 ];
+
+/* ------------------------------------------------------------
+   DESTAQUES — controla a ORDEM de prioridade na aba "Todos"
+   IMPORTANTE: a aba "Todos" sempre mostra TODOS os produtos
+   cadastrados em PRODUTOS, sem exceção. Você não precisa colocar
+   um produto aqui para ele aparecer.
+
+   Esta lista serve só para colocar produtos específicos na FRENTE
+   da fila (ex: destacar uma promoção). Qualquer produto que não
+   esteja nesta lista aparece do mesmo jeito, logo em seguida, na
+   ordem em que foi cadastrado em PRODUTOS.
+
+   COMO USAR:
+   - Quer destacar um produto? Coloque o "id" dele aqui.
+   - A ordem da lista é a ordem que aparece na tela.
+   - Pode deixar vazia ([]) — nesse caso, a vitrine simplesmente
+     segue a ordem de cadastro em PRODUTOS.
+------------------------------------------------------------ */
+const DESTAQUES = [9, 7, 8, 1, 2, 3, 4, 5, 6];
