@@ -1,5 +1,25 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Correções mais recentes
+- **Carregamento infinito corrigido**: havia um bug no código que, quando uma
+  foto de produto não existia, tentava "limpar" a imagem definindo
+  `src=""`. Isso faz o navegador recarregar a própria página como se fosse
+  uma imagem, entrando em loop — por isso o site ficava "carregando" para
+  sempre. Corrigido: agora, quando falta uma foto, aparece um aviso discreto
+  "🍪 Foto em breve" no lugar, sem travar nada.
+- **Favicon adicionado**: a mascote que você enviou agora aparece na aba do
+  navegador (`favicon.png`) e como ícone ao salvar o site na tela inicial do
+  celular (`apple-touch-icon.png`). O fundo branco foi removido automaticamente.
+- **Rodapé**: trocado o texto "Bakeria Confeitaria Artesanal" (que ficava
+  ilegível) pela logo de verdade, na versão bege (`logo-rodape.png`), que
+  contrasta bem com o fundo marrom escuro do rodapé.
+- **Aba "Todos"**: não agrupa mais por categoria. Agora mostra uma vitrine
+  única, na ordem que você define no array `DESTAQUES` dentro de `data.js`
+  — é assim que você destaca um produto específico quando quiser.
+- **Responsivo**: ajustes específicos para celular em pé (proporção 9:16) e
+  para tablet — grade de produtos em 1 coluna no celular, cabeçalho e banner
+  mais compactos, filtro de categorias em lista rolável horizontal.
+
 ## ⚠️ Por que o site não estava funcionando no GitHub Pages
 No repositório, todos os arquivos ficaram soltos na raiz (sem as pastas `css/`,
 `js/` e `assets/`). Como o site procurava por `css/style.css`, `js/data.js` e
