@@ -28,7 +28,7 @@ const CATEGORIAS = [
 const BANNERS = [
   {
     tag: "Promoção da semana",
-    titulo: "Combo Cookie Pie + Refrigerante",
+    titulo: "Cookie Pie + Refrigerante",
     texto: "Peça pelo WhatsApp e garanta preço especial até domingo.",
     imagem: "banner-1.jpg",
     linkTexto: "Ver promoções",
@@ -36,8 +36,8 @@ const BANNERS = [
   },
   {
     tag: "Novidade",
-    titulo: "Cookie Pie de Doce de Leite",
-    texto: "Chegou o sabor que você pediu — massa amanteigada e recheio cremoso.",
+    titulo: "Cookie Pie Chocotella",
+    texto: "Chegou o sabor que você pediu — massa amanteigada e de nutella de verdade.",
     imagem: "banner-2.jpg",
     linkTexto: "Conferir Cookie Pies",
     linkCategoria: "cookie-pies"
@@ -55,7 +55,7 @@ const PRODUTOS = [
     id: 1,
     nome: "Cookie Tradicional Chocolate",
     categoria: "tradicionais",
-    preco: 9.90,
+    preco: 14.00,
     descricaoCurta: "Cookie crocante por fora, macio por dentro, com gotas de chocolate.",
     descricaoCompleta: "Nosso cookie tradicional é feito com manteiga de verdade e uma generosa quantidade de gotas de chocolate meio amargo. Assado na hora para garantir aquele centro macio e derretido.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Açúcar mascavo", "Ovos", "Baunilha"],
@@ -63,56 +63,16 @@ const PRODUTOS = [
   },
   {
     id: 2,
-    nome: "Cookie Tradicional Nozes",
-    categoria: "tradicionais",
-    preco: 10.90,
-    descricaoCurta: "Receita clássica com pedaços generosos de nozes.",
-    descricaoCompleta: "Uma releitura crocante do clássico, com nozes selecionadas que dão o toque especial em cada mordida.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Nozes", "Açúcar mascavo", "Ovos"],
-    imagens: ["cookie-nozes-1.jpg"]
-  },
-  {
-    id: 8,
-    nome: "Tradicional",
-    categoria: "tradicionais",
-    preco: 14.00,
-    descricaoCurta: "O cookie tradicional da casa, no ponto certo de crocância e maciez.",
-    descricaoCompleta: "Nosso cookie tradicional, feito com a receita clássica da casa: crocante nas bordas e macio por dentro.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Açúcar mascavo", "Ovos", "Baunilha"],
-    imagens: ["tradicional-1.jpg"]
-  },
-  {
-    id: 3,
-    nome: "Cookie Pie Chocolate com Avelã",
+    nome: "Cookie Pie Chocotella",
     categoria: "cookie-pies",
-    preco: 24.90,
-    descricaoCurta: "Cookie gigante recheado, servido quentinho na embalagem.",
-    descricaoCompleta: "Uma torta de cookie individual, com bordas crocantes e centro derretido recheado com creme de chocolate e avelã. Perfeito para comer de colher, ainda quentinho.",
+    preco: 17.00,
+    descricaoCurta: "Cookie em formato de tartelete, servido com muuuuuita Nutella.",
+    descricaoCompleta: "Uma torta de cookie individual, com bordas crocantes e centro derretido recheado com creme de chocolate e avelã. Perfeito para comer de colher.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Creme de avelã", "Chocolate ao leite", "Açúcar", "Ovos"],
     imagens: ["cookie-pie-avela-1.jpg", "cookie-pie-avela-2.jpg", "cookie-pie-avela-3.jpg"]
   },
   {
-    id: 4,
-    nome: "Cookie Pie Doce de Leite",
-    categoria: "cookie-pies",
-    preco: 24.90,
-    descricaoCurta: "Massa amanteigada com recheio cremoso de doce de leite.",
-    descricaoCompleta: "Nossa versão mais pedida: massa de cookie assada em formato de torta individual, recheada com doce de leite argentino e finalizada com flor de sal.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Doce de leite", "Açúcar mascavo", "Flor de sal", "Ovos"],
-    imagens: ["cookie-pie-docedeleite-1.jpg"]
-  },
-  {
-    id: 9,
-    nome: "Cookie Pie Nutella",
-    categoria: "cookie-pies",
-    preco: 17.00,
-    descricaoCurta: "Massa de cookie recheada com Nutella cremosa.",
-    descricaoCompleta: "Torta de cookie individual com recheio generoso de Nutella, servida quentinha para aproveitar o creme derretido.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Nutella", "Açúcar mascavo", "Ovos"],
-    imagens: ["cookie-pie-nutella-1.jpg"]
-  },
-  {
-    id: 10,
+    id: 3,
     nome: "Cookie Pie Kinder Bueno",
     categoria: "cookie-pies",
     preco: 17.00,
@@ -122,8 +82,8 @@ const PRODUTOS = [
     imagens: ["cookie-pie-kinderbueno-1.jpg"]
   },
   {
-    id: 11,
-    nome: "Cookie Pie Ninho com Nutella",
+    id: 4,
+    nome: "Cookie Pie Ninhotella",
     categoria: "cookie-pies",
     preco: 17.00,
     descricaoCurta: "Combinação cremosa de leite Ninho com Nutella.",
@@ -132,7 +92,7 @@ const PRODUTOS = [
     imagens: ["cookie-pie-ninhonutella-1.jpg"]
   },
   {
-    id: 12,
+    id: 5,
     nome: "Cookie Pie Brigadeiro ao Leite",
     categoria: "cookie-pies",
     preco: 17.00,
@@ -142,13 +102,13 @@ const PRODUTOS = [
     imagens: ["cookie-pie-brigadeiro-1.jpg"]
   },
   {
-    id: 5,
-    nome: "Combo Dupla Tradicional",
+    id: 6,
+    nome: "Tradicional + Coca Zero",
     categoria: "combos",
     preco: 17.90,
-    descricaoCurta: "2 cookies tradicionais à sua escolha + suco natural.",
-    descricaoCompleta: "Combo perfeito para matar a vontade: escolha 2 sabores de cookie tradicional e leve um suco natural para acompanhar.",
-    ingredientes: ["2 cookies tradicionais", "Suco natural 300ml"],
+    descricaoCurta: "1 cookies tradicionais à sua escolha + coca cola zero.",
+    descricaoCompleta: "Combo perfeito para matar a vontade: cookie tradicional e leve uma coquinha para acompanhar.",
+    ingredientes: ["cookies tradicionais", "Coca Cola Zero Lata"],
     imagens: ["combo-dupla-1.jpg"]
   },
   {
@@ -163,32 +123,22 @@ const PRODUTOS = [
   },
   {
     id: 13,
-    nome: "Combo Dois Cookies",
+    nome: "Combo dupla Cookie Pìes",
     categoria: "combos",
     preco: 30.00,
-    descricaoCurta: "2 cookies à sua escolha por R$ 30.",
-    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 30. Também disponível na aba Promoções.",
+    descricaoCurta: "2 cookies pies à sua escolha por R$ 30.",
+    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 30.",
     ingredientes: ["2 cookies à escolha"],
     imagens: ["combo-doiscookies-1.jpg"]
   },
   {
     id: 7,
-    nome: "Promoção: Leve 6 pague 5",
+    nome: "Promoção: Leve 5 pague 4",
     categoria: "promocoes",
-    preco: 49.50,
-    descricaoCurta: "6 cookies tradicionais sortidos pelo preço de 5.",
-    descricaoCompleta: "Monte sua caixa com 6 cookies tradicionais dos sabores que quiser e pague apenas 5. Promoção válida enquanto durarem os estoques do dia.",
-    ingredientes: ["6 cookies tradicionais sortidos"],
+    preco: 68.00,
+    descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
+    descricaoCompleta: "Monte sua caixa com 5 cookies pies dos sabores que quiser e leve um cookie tradicional de bride. Promoção válida enquanto durarem os estoques do dia.",
+    ingredientes: ["5 cookies pies a sua escolha"],
     imagens: ["promo-leve6-1.jpg"]
   },
-  {
-    id: 14,
-    nome: "Combo Dois Cookies",
-    categoria: "promocoes",
-    preco: 30.00,
-    descricaoCurta: "2 cookies à sua escolha por R$ 30.",
-    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 30. Também disponível na aba Combos.",
-    ingredientes: ["2 cookies à escolha"],
-    imagens: ["combo-doiscookies-1.jpg"]
-  }
 ];
