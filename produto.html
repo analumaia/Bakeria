@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produto — Cardápio</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== CABEÇALHO (idêntico ao da index.html) ===================== -->
+  <header class="cabecalho">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <!-- Quando tiver o arquivo da logo, troque a linha abaixo por:
+             <img src="assets/logo.png" alt="Nome da loja"> -->
+        <span class="logo-texto">Cookie<span>&</span>Cia</span>
+      </a>
+
+      <nav class="nav-categorias" aria-label="Categorias de produtos">
+        <a href="index.html#categoria-tradicionais">Tradicionais</a>
+        <a href="index.html#categoria-cookie-pies">Cookie Pies</a>
+        <a href="index.html#categoria-combos">Combos</a>
+        <a href="index.html#categoria-promocoes">Promoções</a>
+      </nav>
+
+      <button type="button" class="btn-carrinho" id="btn-abrir-carrinho" aria-label="Abrir carrinho">
+        🛒 Carrinho
+        <span class="badge-carrinho" id="badge-carrinho">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== DETALHE DO PRODUTO ===================== -->
+  <main class="container pagina-produto" id="produto-detalhe-container">
+    <!-- Preenchido automaticamente por js/produto.js a partir de js/data.js -->
+  </main>
+
+  <!-- ===================== RODAPÉ ===================== -->
+  <footer class="rodape">
+    <strong>Cookie & Cia</strong>
+    <p>Feito com carinho, pedido pelo WhatsApp. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- ===================== CARRINHO (painel lateral fixo, igual em todas as páginas) ===================== -->
+  <div class="overlay-carrinho" id="overlay-carrinho"></div>
+  <aside class="painel-carrinho" id="painel-carrinho" aria-label="Carrinho de compras">
+    <div class="carrinho-cabecalho">
+      <h2>Seu carrinho</h2>
+      <button type="button" class="fechar-carrinho" id="btn-fechar-carrinho" aria-label="Fechar carrinho">&times;</button>
+    </div>
+    <div class="lista-carrinho" id="lista-carrinho"></div>
+    <div class="carrinho-rodape">
+      <div class="campo-nome">
+        <label for="campo-nome-cliente">Seu nome</label>
+        <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome">
+      </div>
+      <div class="carrinho-total">
+        <span>Total</span>
+        <span id="carrinho-total-valor">R$ 0,00</span>
+      </div>
+      <button type="button" class="btn-pedido" id="btn-fazer-pedido" disabled>
+        Fazer pedido pelo WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <script src="js/data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/produto.js"></script>
+</body>
+</html>
