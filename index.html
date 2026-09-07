@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bakeria Confeitaria Artesanal — Peça pelo WhatsApp</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===================== CABEÇALHO ===================== -->
+  <header class="cabecalho">
+    <div class="container cabecalho-interno">
+      <a href="index.html" class="logo">
+        <!-- O tamanho da logo é limitado pelo CSS (.logo-caixa), então qualquer
+             imagem que você colocar aqui vai se ajustar sem quebrar o layout. -->
+        <span class="logo-caixa">
+          <img src="logo.png" alt="Bakeria Confeitaria Artesanal">
+        </span>
+      </a>
+
+      <button type="button" class="btn-carrinho" id="btn-abrir-carrinho" aria-label="Abrir carrinho">
+        🛒 Carrinho
+        <span class="badge-carrinho" id="badge-carrinho">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== BANNER DE PROMOÇÃO ===================== -->
+  <!-- Conteúdo vem de js/data.js (array BANNERS) — edite lá, não aqui -->
+  <section class="banner-promo container">
+    <div id="banner-container"></div>
+    <div class="banner-pontos" id="banner-pontos"></div>
+  </section>
+
+  <!-- ===================== FILTRO + PRODUTOS ===================== -->
+  <main class="container conteudo-principal">
+    <aside class="filtro-categorias" aria-label="Filtrar por categoria">
+      <h3>Seleciona a categoria</h3>
+      <div class="grade-filtro" id="grade-filtro">
+        <!-- Preenchido automaticamente por main.js a partir de js/data.js -->
+      </div>
+    </aside>
+
+    <div class="area-produtos" id="categorias-container">
+      <!-- Preenchido automaticamente por main.js a partir de js/data.js -->
+    </div>
+  </main>
+
+  <!-- ===================== RODAPÉ ===================== -->
+  <footer class="rodape">
+    <strong>Bakeria Confeitaria Artesanal</strong>
+    <p>Feito com carinho, pedido pelo WhatsApp. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- ===================== CARRINHO (painel lateral fixo) ===================== -->
+  <div class="overlay-carrinho" id="overlay-carrinho"></div>
+  <aside class="painel-carrinho" id="painel-carrinho" aria-label="Carrinho de compras">
+    <div class="carrinho-cabecalho">
+      <h2>Seu carrinho</h2>
+      <button type="button" class="fechar-carrinho" id="btn-fechar-carrinho" aria-label="Fechar carrinho">&times;</button>
+    </div>
+    <div class="lista-carrinho" id="lista-carrinho"></div>
+    <div class="carrinho-rodape">
+      <div class="campo-nome">
+        <label for="campo-nome-cliente">Seu nome</label>
+        <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome">
+      </div>
+      <div class="carrinho-total">
+        <span>Total</span>
+        <span id="carrinho-total-valor">R$ 0,00</span>
+      </div>
+      <button type="button" class="btn-pedido" id="btn-fazer-pedido" disabled>
+        Fazer pedido pelo WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <script src="data.js"></script>
+  <script src="cart.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
