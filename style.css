@@ -178,8 +178,7 @@ h1, h2, h3, .fonte-titulo{
   position: relative;
   border-radius: 22px;
   overflow: hidden;
-  aspect-ratio: 21 / 9;
-  min-height: 200px;
+  min-height: 260px;
   box-shadow: var(--sombra);
   background: var(--marrom-escuro);
 }
@@ -195,9 +194,9 @@ h1, h2, h3, .fonte-titulo{
 }
 
 .banner-conteudo{
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 1;
+  min-height: 260px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -259,6 +258,11 @@ h1, h2, h3, .fonte-titulo{
   opacity: 0.5;
 }
 .banner-pontos button.ativo{ opacity: 1; background: var(--rosa); }
+
+@media (max-width: 600px){
+  .banner-slide{ min-height: 320px; }
+  .banner-conteudo{ min-height: 320px; padding: 22px; }
+}
 
 /* ---------------------------------------------------------
    LAYOUT PRINCIPAL: filtro lateral + produtos
