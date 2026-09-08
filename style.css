@@ -662,6 +662,7 @@ h1, h2, h3, .fonte-titulo{
   transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .painel-carrinho.aberto{ transform: translateX(0); }
 
@@ -671,6 +672,7 @@ h1, h2, h3, .fonte-titulo{
   justify-content: space-between;
   padding: 20px 22px;
   border-bottom: 2px solid var(--marrom-claro);
+  flex-shrink: 0;
 }
 
 .carrinho-cabecalho h2{ font-size: 1.3rem; margin: 0; }
@@ -682,13 +684,33 @@ h1, h2, h3, .fonte-titulo{
   line-height: 1;
 }
 
-.lista-carrinho{
+/* Área central rolável do carrinho: contém a lista de produtos E o
+   formulário de dados do pedido, juntos. Só ela tem scroll — o cabeçalho
+   e o rodapé (Total + botão) ficam sempre visíveis, fora dessa área. */
+.carrinho-scroll{
   flex: 1;
+  min-height: 0; /* necessário para o overflow funcionar dentro de flex */
   overflow-y: auto;
+}
+
+.lista-carrinho{
   padding: 16px 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.carrinho-dados{
+  padding: 4px 22px 18px;
+}
+
+/* Rodapé fixo: nunca rola, sempre visível na parte de baixo do painel */
+.carrinho-fixo{
+  flex-shrink: 0;
+  padding: 16px 22px 20px;
+  border-top: 2px solid var(--marrom-claro);
+  background: var(--bege-claro);
+  box-shadow: 0 -6px 16px rgba(58, 42, 28, 0.08);
 }
 
 .item-carrinho{
@@ -734,9 +756,9 @@ h1, h2, h3, .fonte-titulo{
 }
 
 .carrinho-rodape{
-  padding: 18px 22px 22px;
-  border-top: 2px solid var(--marrom-claro);
-  background: var(--bege-claro);
+  /* Classe legada, sem uso no HTML atual (substituída por
+     .carrinho-dados + .carrinho-fixo). Mantida vazia de propósito
+     para não quebrar nada caso algo externo ainda a referencie. */
 }
 
 .titulo-dados-pedido{

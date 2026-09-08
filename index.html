@@ -64,65 +64,75 @@
       <h2>Seu carrinho</h2>
       <button type="button" class="fechar-carrinho" id="btn-fechar-carrinho" aria-label="Fechar carrinho">&times;</button>
     </div>
-    <div class="lista-carrinho" id="lista-carrinho"></div>
-    <div class="carrinho-rodape">
-      <h3 class="titulo-dados-pedido">Dados do pedido</h3>
 
-      <div class="campo-nome">
-        <label for="campo-nome-cliente">Seu nome <span class="obrigatorio">*</span></label>
-        <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome">
-      </div>
+    <!-- Área do meio: única parte que rola. Lista de produtos + formulário
+         inteiro, juntos, para o Total e o botão de pedido (fora daqui,
+         embaixo) ficarem sempre visíveis, não importa o quanto cresça. -->
+    <div class="carrinho-scroll">
+      <div class="lista-carrinho" id="lista-carrinho"></div>
 
-      <div class="campo-tipo-entrega">
-        <label>Como você quer receber?</label>
-        <div class="opcoes-entrega">
-          <label class="opcao-entrega">
-            <input type="radio" name="tipo-entrega" id="tipo-entrega-retirada" value="retirada" checked>
-            <span>🏪 Retirada</span>
-          </label>
-          <label class="opcao-entrega">
-            <input type="radio" name="tipo-entrega" id="tipo-entrega-entrega" value="entrega">
-            <span>🛵 Entrega</span>
-          </label>
+      <div class="carrinho-dados">
+        <h3 class="titulo-dados-pedido">Dados do pedido</h3>
+
+        <div class="campo-nome">
+          <label for="campo-nome-cliente">Seu nome <span class="obrigatorio">*</span></label>
+          <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome">
         </div>
-      </div>
 
-      <p class="aviso-retirada" id="aviso-retirada">
-        🏪 <span id="texto-endereco-retirada"></span>
-      </p>
-
-      <p class="aviso-frete" id="aviso-frete">
-        🛵 O frete é calculado à parte e combinado direto pelo WhatsApp — o valor mostrado aqui é só dos produtos.
-      </p>
-
-      <div class="campo-endereco" id="bloco-endereco">
-        <label for="campo-cep">CEP de entrega <span class="obrigatorio">*</span></label>
-        <input type="text" id="campo-cep" placeholder="00000-000" inputmode="numeric" maxlength="9">
-        <span class="cep-status" id="cep-status"></span>
-
-        <div class="linha-endereco">
-          <div class="campo-endereco-item campo-rua-wrap">
-            <label for="campo-rua">Rua</label>
-            <input type="text" id="campo-rua" placeholder="Preenchido pelo CEP (edite se precisar)">
-          </div>
-          <div class="campo-endereco-item campo-numero-wrap">
-            <label for="campo-numero">Número</label>
-            <input type="text" id="campo-numero" placeholder="Nº" inputmode="numeric">
+        <div class="campo-tipo-entrega">
+          <label>Como você quer receber?</label>
+          <div class="opcoes-entrega">
+            <label class="opcao-entrega">
+              <input type="radio" name="tipo-entrega" id="tipo-entrega-retirada" value="retirada" checked>
+              <span>🏪 Retirada</span>
+            </label>
+            <label class="opcao-entrega">
+              <input type="radio" name="tipo-entrega" id="tipo-entrega-entrega" value="entrega">
+              <span>🛵 Entrega</span>
+            </label>
           </div>
         </div>
 
-        <div class="linha-endereco">
-          <div class="campo-endereco-item">
-            <label for="campo-bairro">Bairro</label>
-            <input type="text" id="campo-bairro" placeholder="Preenchido pelo CEP (edite se precisar)">
+        <p class="aviso-retirada" id="aviso-retirada">
+          🏪 <span id="texto-endereco-retirada"></span>
+        </p>
+
+        <p class="aviso-frete" id="aviso-frete">
+          🛵 O frete é calculado à parte e combinado direto pelo WhatsApp — o valor mostrado aqui é só dos produtos.
+        </p>
+
+        <div class="campo-endereco" id="bloco-endereco">
+          <label for="campo-cep">CEP de entrega <span class="obrigatorio">*</span></label>
+          <input type="text" id="campo-cep" placeholder="00000-000" inputmode="numeric" maxlength="9">
+          <span class="cep-status" id="cep-status"></span>
+
+          <div class="linha-endereco">
+            <div class="campo-endereco-item campo-rua-wrap">
+              <label for="campo-rua">Rua</label>
+              <input type="text" id="campo-rua" placeholder="Preenchido pelo CEP (edite se precisar)">
+            </div>
+            <div class="campo-endereco-item campo-numero-wrap">
+              <label for="campo-numero">Número</label>
+              <input type="text" id="campo-numero" placeholder="Nº" inputmode="numeric">
+            </div>
           </div>
-          <div class="campo-endereco-item">
-            <label for="campo-cidade">Cidade</label>
-            <input type="text" id="campo-cidade" placeholder="Preenchido pelo CEP (edite se precisar)">
+
+          <div class="linha-endereco">
+            <div class="campo-endereco-item">
+              <label for="campo-bairro">Bairro</label>
+              <input type="text" id="campo-bairro" placeholder="Preenchido pelo CEP (edite se precisar)">
+            </div>
+            <div class="campo-endereco-item">
+              <label for="campo-cidade">Cidade</label>
+              <input type="text" id="campo-cidade" placeholder="Preenchido pelo CEP (edite se precisar)">
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
+    <!-- Rodapé fixo: sempre visível, não rola junto com o resto. -->
+    <div class="carrinho-fixo">
       <div class="carrinho-total">
         <span>Total</span>
         <span id="carrinho-total-valor">R$ 0,00</span>

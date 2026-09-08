@@ -1,5 +1,22 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Correção: carrinho difícil de ver com "Entrega" selecionado
+Antes, só a lista de produtos rolava — o formulário (nome, entrega/retirada,
+CEP, endereço) ficava "fixo" no tamanho que precisasse, sem rolar. Quando
+"Entrega" era selecionado, o formulário crescia tanto que espremia a lista
+de produtos até quase sumir, e no computador o botão de pedido podia até
+ficar cortado, fora da tela.
+
+**Correção**: agora o carrinho tem 3 partes bem definidas:
+1. **Cabeçalho** ("Seu carrinho" + X) — sempre fixo no topo.
+2. **Meio** (lista de produtos + formulário completo) — é a ÚNICA parte
+   que rola, não importa o quanto cresça.
+3. **Rodapé** (Total + botão "Fazer pedido" + aviso) — sempre fixo embaixo,
+   sempre visível, nunca precisa rolar pra alcançar o botão.
+
+Esse é o mesmo padrão usado em apps de delivery conhecidos: o botão de
+finalizar pedido nunca some da tela.
+
 ## Entrega ou Retirada no carrinho
 - O carrinho agora começa com o título **"Dados do pedido"** e um seletor
   **Retirada / Entrega** logo abaixo do nome do cliente — **Retirada vem
