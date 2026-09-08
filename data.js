@@ -12,6 +12,13 @@
    "tradicionais" | "cookie-pies" | "combos" | "promocoes"
    ============================================================ */
 
+/* ------------------------------------------------------------
+   ENDEREÇO DE RETIRADA
+   Aparece no carrinho quando o cliente escolhe "Retirada" em vez
+   de "Entrega". Troque pelo endereço real da sua loja/cozinha.
+------------------------------------------------------------ */
+const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
+
 const CATEGORIAS = [
   { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos que nunca saem de moda", icone: "🍪" },
   { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookie recheado, quentinho e generoso", icone: "🥧" },

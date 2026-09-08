@@ -11,6 +11,7 @@ const WHATSAPP_NUMERO = "5538997248270";
 const CHAVE_CARRINHO = "carrinho_delivery";
 const CHAVE_NOME = "carrinho_nome_cliente";
 const CHAVE_ENDERECO = "carrinho_endereco_cliente";
+const CHAVE_TIPO_ENTREGA = "carrinho_tipo_entrega";
 
 /* ------------------------------------------------------------
    CARRINHO (itens)
@@ -103,6 +104,60 @@ function abrirCarrinho(){
 function fecharCarrinho(){
   document.getElementById("painel-carrinho")?.classList.remove("aberto");
   document.getElementById("overlay-carrinho")?.classList.remove("aberto");
+}
+
+/* ------------------------------------------------------------
+   TIPO DE ENTREGA — Entrega (com frete à parte) ou Retirada
+   Quando é Retirada, o bloco de CEP/endereço fica escondido e
+   deixa de ser obrigatório.
+------------------------------------------------------------ */
+function obterTipoEntrega(){
+  const marcado = document.querySelector('input[name="tipo-entrega"]:checked');
+  return marcado ? marcado.value : "retirada";
+}
+
+function salvarTipoEntrega(tipo){
+  localStorage.setItem(CHAVE_TIPO_ENTREGA, tipo);
+}
+
+function carregarTipoEntregaSalvo(){
+  const salvo = localStorage.getItem(CHAVE_TIPO_ENTREGA);
+  if(!salvo) return;
+  const radio = document.getElementById(`tipo-entrega-${salvo}`);
+  if(radio) radio.checked = true;
+}
+
+function atualizarVisibilidadeEntrega(){
+  const tipo = obterTipoEntrega();
+  const avisoFrete = document.getElementById("aviso-frete");
+  const avisoRetirada = document.getElementById("aviso-retirada");
+  const blocoEndereco = document.getElementById("bloco-endereco");
+  const avisoObrigatorio = document.getElementById("aviso-obrigatorio");
+
+  const ehEntrega = tipo === "entrega";
+
+  if(avisoFrete) avisoFrete.style.display = ehEntrega ? "block" : "none";
+  if(blocoEndereco) blocoEndereco.style.display = ehEntrega ? "block" : "none";
+
+  if(avisoRetirada){
+    avisoRetirada.style.display = ehEntrega ? "none" : "block";
+    const textoEndereco = document.getElementById("texto-endereco-retirada");
+    if(textoEndereco && typeof ENDERECO_RETIRADA !== "undefined"){
+      textoEndereco.textContent = `Endereço para retirada: ${ENDERECO_RETIRADA}`;
+    }
+  }
+
+  if(avisoObrigatorio){
+    avisoObrigatorio.textContent = ehEntrega
+      ? "* Nome e CEP são obrigatórios para fazer o pedido"
+      : "* Nome é obrigatório para fazer o pedido";
+  }
+
+  // Realça visualmente a opção marcada (fallback para navegadores sem :has())
+  document.querySelectorAll(".opcao-entrega").forEach(label => {
+    const input = label.querySelector('input[name="tipo-entrega"]');
+    label.classList.toggle("selecionada", !!input?.checked);
+  });
 }
 
 /* ------------------------------------------------------------
@@ -199,16 +254,25 @@ async function buscarEnderecoPorCep(){
 
 /* ------------------------------------------------------------
    VALIDAÇÃO DO FORMULÁRIO
-   Nome e CEP (com endereço resolvido) são obrigatórios para
-   liberar o botão de pedido. Número é sempre manual e opcional.
+   - Sempre obrigatório: nome + pelo menos 1 item no carrinho.
+   - Se for ENTREGA: CEP (com endereço resolvido) também é obrigatório.
+   - Se for RETIRADA: não precisa de CEP/endereço nenhum.
+   Número é sempre manual e nunca obrigatório.
 ------------------------------------------------------------ */
 function formularioValido(){
   const nome = document.getElementById("campo-nome-cliente")?.value.trim() || "";
-  const cepDigitos = (document.getElementById("campo-cep")?.value || "").replace(/\D/g, "");
-  const ruaEncontrada = (document.getElementById("campo-rua")?.value || "").trim().length > 0;
   const itens = obterCarrinho();
 
-  return nome.length > 0 && cepDigitos.length === 8 && ruaEncontrada && itens.length > 0;
+  if(nome.length === 0 || itens.length === 0) return false;
+
+  if(obterTipoEntrega() === "retirada"){
+    return true;
+  }
+
+  const cepDigitos = (document.getElementById("campo-cep")?.value || "").replace(/\D/g, "");
+  const ruaEncontrada = (document.getElementById("campo-rua")?.value || "").trim().length > 0;
+
+  return cepDigitos.length === 8 && ruaEncontrada;
 }
 
 function atualizarEstadoBotaoPedido(){
@@ -275,6 +339,7 @@ function renderizarCarrinho(){
 function montarMensagemWhatsapp(){
   const itens = obterCarrinho();
   const nome = document.getElementById("campo-nome-cliente")?.value?.trim() || "";
+  const tipoEntrega = obterTipoEntrega();
   const cep = document.getElementById("campo-cep")?.value?.trim() || "";
   const rua = document.getElementById("campo-rua")?.value?.trim() || "";
   const numero = document.getElementById("campo-numero")?.value?.trim() || "";
@@ -287,18 +352,26 @@ function montarMensagemWhatsapp(){
 
   const total = formatarPreco(totalCarrinho());
 
-  let mensagem = `Olá, gostaria de pedir:\n${linhasPedido}\n\nTotal: ${total}`;
+  let mensagem = `Olá, gostaria de pedir:\n${linhasPedido}\n\nTotal (produtos): ${total}`;
 
   if(nome){
     mensagem += `\n\nNome: ${nome}`;
   }
 
-  if(rua || cep){
-    const linhaRua = numero ? `${rua}, nº ${numero}` : `${rua} (sem número informado)`;
-    mensagem += `\nEndereço: ${linhaRua}`;
-    if(bairro) mensagem += ` - ${bairro}`;
-    if(cidade) mensagem += ` - ${cidade}`;
-    if(cep) mensagem += ` (CEP: ${cep})`;
+  if(tipoEntrega === "retirada"){
+    mensagem += `\nForma de recebimento: Retirada no local`;
+    if(typeof ENDERECO_RETIRADA !== "undefined"){
+      mensagem += `\nEndereço para retirada: ${ENDERECO_RETIRADA}`;
+    }
+  }else{
+    mensagem += `\nForma de recebimento: Entrega (frete a combinar à parte)`;
+    if(rua || cep){
+      const linhaRua = numero ? `${rua}, nº ${numero}` : `${rua} (sem número informado)`;
+      mensagem += `\nEndereço de entrega: ${linhaRua}`;
+      if(bairro) mensagem += ` - ${bairro}`;
+      if(cidade) mensagem += ` - ${cidade}`;
+      if(cep) mensagem += ` (CEP: ${cep})`;
+    }
   }
 
   return mensagem;
@@ -308,7 +381,10 @@ function enviarPedidoWhatsapp(){
   if(!formularioValido()) return;
 
   salvarNomeCliente(document.getElementById("campo-nome-cliente")?.value?.trim() || "");
-  salvarEnderecoAtual();
+  salvarTipoEntrega(obterTipoEntrega());
+  if(obterTipoEntrega() === "entrega"){
+    salvarEnderecoAtual();
+  }
 
   const mensagem = montarMensagemWhatsapp();
   const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensagem)}`;
@@ -320,6 +396,8 @@ function enviarPedidoWhatsapp(){
 ------------------------------------------------------------ */
 function iniciarCarrinho(){
   carregarEnderecoSalvo();
+  carregarTipoEntregaSalvo();
+  atualizarVisibilidadeEntrega();
   atualizarBadgeCarrinho();
   renderizarCarrinho();
 
@@ -334,6 +412,14 @@ function iniciarCarrinho(){
   document.getElementById("campo-nome-cliente")?.addEventListener("input", (e) => {
     salvarNomeCliente(e.target.value);
     atualizarEstadoBotaoPedido();
+  });
+
+  document.querySelectorAll('input[name="tipo-entrega"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+      salvarTipoEntrega(obterTipoEntrega());
+      atualizarVisibilidadeEntrega();
+      atualizarEstadoBotaoPedido();
+    });
   });
 
   const campoCep = document.getElementById("campo-cep");

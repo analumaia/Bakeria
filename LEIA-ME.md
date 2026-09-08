@@ -1,5 +1,24 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Entrega ou Retirada no carrinho
+- O carrinho agora começa com o título **"Dados do pedido"** e um seletor
+  **Retirada / Entrega** logo abaixo do nome do cliente — **Retirada vem
+  marcada por padrão**.
+- **Retirada**: mostra o endereço do local para o cliente buscar o pedido.
+  ⚠️ **Você precisa editar esse endereço** — abra `data.js`, procure pela
+  constante `ENDERECO_RETIRADA` bem no topo do arquivo, e troque
+  `"Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF"` pelo endereço real
+  da sua loja/cozinha. Nenhum campo de CEP é exigido nesse modo.
+- **Entrega**: mostra um aviso de que o frete é calculado à parte e
+  combinado pelo WhatsApp, e exibe os campos de **CEP de entrega** (com
+  busca automática), Rua, Número, Bairro e Cidade — todos obrigatórios,
+  exceto o Número.
+- A mensagem enviada ao WhatsApp já indica automaticamente qual foi a
+  escolha: se for retirada, inclui o endereço da loja; se for entrega,
+  inclui o endereço do cliente.
+- A escolha (Entrega/Retirada) fica salva no navegador do cliente, então
+  se ele voltar depois já vem pré-selecionada com a última opção usada.
+
 ## Correção de bugs no mobile (após teste real no celular)
 Ao testar no celular, dois problemas apareceram:
 - **Banner desproporcional**: havia duas regras de CSS conflitantes para

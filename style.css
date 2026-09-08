@@ -727,6 +727,14 @@ h1, h2, h3, .fonte-titulo{
   background: var(--bege-claro);
 }
 
+.titulo-dados-pedido{
+  font-family: var(--fonte-corpo);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--marrom-escuro);
+  margin: 0 0 14px;
+}
+
 .campo-nome{
   margin-bottom: 14px;
 }
@@ -749,6 +757,81 @@ h1, h2, h3, .fonte-titulo{
 .campo-nome input:focus{ border-color: var(--rosa); }
 
 .obrigatorio{ color: var(--rosa); }
+
+/* --------- SELETOR DE ENTREGA OU RETIRADA --------- */
+.campo-tipo-entrega{
+  margin-bottom: 14px;
+}
+
+.campo-tipo-entrega > label{
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.opcoes-entrega{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.opcao-entrega{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  border-radius: 999px;
+  border: 1.5px solid var(--marrom-claro);
+  background: var(--branco);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--marrom-escuro);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.opcao-entrega input{
+  /* Mantido acessível para leitores de tela, mas escondido visualmente —
+     o estilo do "botão" vem do <label> ao redor. */
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.opcao-entrega:has(input:checked){
+  border-color: var(--rosa);
+  background: var(--rosa-claro);
+}
+
+/* Fallback via JS para navegadores sem suporte a :has() */
+.opcao-entrega.selecionada{
+  border-color: var(--rosa);
+  background: var(--rosa-claro);
+}
+
+.aviso-frete{
+  display: block;
+  background: var(--rosa-claro);
+  color: var(--marrom-escuro);
+  font-size: 0.8rem;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin: 0 0 14px;
+}
+
+.aviso-retirada{
+  display: none;
+  background: var(--bege);
+  color: var(--marrom-escuro);
+  font-size: 0.8rem;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin: 0 0 14px;
+  border: 1.5px dashed var(--marrom-claro);
+}
 
 /* --------- ENDEREÇO (CEP com busca automática + número manual) --------- */
 .campo-endereco{
