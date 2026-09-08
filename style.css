@@ -702,6 +702,18 @@ h1, h2, h3, .fonte-titulo{
 
 .item-carrinho img{ width: 56px; height: 56px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
 
+.foto-placeholder{
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background: var(--bege);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
 .item-carrinho .item-info{ flex: 1; min-width: 0; }
 .item-carrinho .item-info strong{ display: block; font-size: 0.9rem; }
 .item-carrinho .item-info .preco-unit{ font-size: 0.8rem; color: var(--marrom-cafe); }

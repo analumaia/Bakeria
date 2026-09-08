@@ -107,6 +107,21 @@ function fecharCarrinho(){
 }
 
 /* ------------------------------------------------------------
+   FOTO DO ITEM NO CARRINHO
+   Mantém o espaço da miniatura reservado mesmo sem foto (evita que
+   o texto "pule" para a esquerda e desorganize o layout). IMPORTANTE:
+   nunca usar this.src="" aqui — causa loop de recarregamento da página.
+------------------------------------------------------------ */
+function marcarFotoCarrinhoIndisponivel(img){
+  img.onerror = null;
+  img.style.display = "none";
+  const container = img.closest(".item-carrinho");
+  if(container && !container.querySelector(".foto-placeholder")){
+    img.insertAdjacentHTML("afterend", '<span class="foto-placeholder">🍪</span>');
+  }
+}
+
+/* ------------------------------------------------------------
    TIPO DE ENTREGA — Entrega (com frete à parte) ou Retirada
    Quando é Retirada, o bloco de CEP/endereço fica escondido e
    deixa de ser obrigatório.
@@ -312,7 +327,7 @@ function renderizarCarrinho(){
   }else{
     lista.innerHTML = itens.map(item => `
       <div class="item-carrinho">
-        <img src="${item.imagem}" alt="${item.nome}" onerror="this.style.display='none'">
+        <img src="${item.imagem}" alt="${item.nome}" class="foto-item-carrinho" onerror="marcarFotoCarrinhoIndisponivel(this)">
         <div class="item-info">
           <strong>${item.nome}</strong>
           <span class="preco-unit">${formatarPreco(item.preco)} un.</span>
