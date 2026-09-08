@@ -1,5 +1,30 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Correção de bugs no mobile (após teste real no celular)
+Ao testar no celular, dois problemas apareceram:
+- **Banner desproporcional**: havia duas regras de CSS conflitantes para
+  telas pequenas (uma esquecida de uma versão anterior), forçando uma altura
+  fixa em pixels que não se adaptava à largura real da tela — o banner
+  ficava muito mais alto do que devia, empurrando todo o resto do site pra
+  baixo. Corrigido: agora a altura do banner é sempre proporcional à
+  largura da tela (usando `aspect-ratio` em vez de altura fixa), então se
+  adapta corretamente a qualquer aparelho.
+- **Categoria "Promoções" sumindo no celular**: o filtro de categorias
+  rolava na horizontal, mas sem nenhuma indicação visual de que dava pra
+  arrastar — resultado: "Combos" aparecia cortado na borda e "Promoções"
+  ficava completamente escondido fora da tela. Corrigido: os tiles agora
+  quebram em linhas (2–3 por linha, dependendo do espaço) em vez de rolar
+  para o lado. Todas as categorias ficam sempre visíveis de uma vez,
+  sem precisar arrastar nada.
+
+**Se você tiver testado antes desta correção e ainda ver o problema
+antigo**: pode ser cache do navegador segurando a versão anterior do
+`style.css`. Tente atualizar a página forçando o recarregamento
+(no Chrome do Android: menu ⋮ → Configurações → Privacidade → Limpar dados
+de navegação, ou simplesmente feche e abra o site de novo depois de alguns
+minutos — o GitHub Pages também pode levar um ou dois minutos para propagar
+uma atualização).
+
 ## Carrinho: CEP com busca automática e endereço obrigatório
 - Ao digitar o CEP (8 dígitos), o site busca automaticamente Rua, Bairro e
   Cidade usando a API pública e gratuita **ViaCEP** — não precisa de chave

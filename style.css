@@ -178,7 +178,8 @@ h1, h2, h3, .fonte-titulo{
   position: relative;
   border-radius: 22px;
   overflow: hidden;
-  min-height: 260px;
+  aspect-ratio: 21 / 9;
+  min-height: 200px;
   box-shadow: var(--sombra);
   background: var(--marrom-escuro);
 }
@@ -194,9 +195,9 @@ h1, h2, h3, .fonte-titulo{
 }
 
 .banner-conteudo{
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  min-height: 260px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -258,11 +259,6 @@ h1, h2, h3, .fonte-titulo{
   opacity: 0.5;
 }
 .banner-pontos button.ativo{ opacity: 1; background: var(--rosa); }
-
-@media (max-width: 600px){
-  .banner-slide{ min-height: 320px; }
-  .banner-conteudo{ min-height: 320px; padding: 22px; }
-}
 
 /* ---------------------------------------------------------
    LAYOUT PRINCIPAL: filtro lateral + produtos
@@ -334,12 +330,13 @@ h1, h2, h3, .fonte-titulo{
     padding: 14px 16px;
   }
 
+  /* Antes disso, os tiles rolavam na horizontal e ficavam cortados na
+     borda (ex: "Combos" cortado, "Promoções" invisível, sem indicação
+     de que dava pra arrastar). Agora quebram em linhas — sempre visíveis
+     por completo, sem precisar rolar. */
   .grade-filtro{
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: 84px;
-    overflow-x: auto;
-    padding-bottom: 4px;
+    grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+    gap: 10px;
   }
 }
 
@@ -890,15 +887,6 @@ h1, h2, h3, .fonte-titulo{
   }
 }
 
-/* --- Rolagem por toque mais suave no filtro horizontal (tablet/celular) --- */
-@media (max-width: 860px){
-  .grade-filtro{
-    scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
-  }
-  .tile-categoria{ scroll-snap-align: start; }
-}
-
 /* --- Suporte a notch/áreas seguras em iPhones recentes --- */
 @supports (padding: max(0px)){
   .cabecalho{
@@ -917,8 +905,8 @@ h1, h2, h3, .fonte-titulo{
   .cabecalho{ padding: 10px 0; }
   .cabecalho-interno{ padding: 8px 14px; }
 
-  .banner-slide{ border-radius: 16px; min-height: 260px; }
-  .banner-conteudo{ min-height: 260px; padding: 18px; }
+  .banner-slide{ border-radius: 16px; aspect-ratio: 4 / 3; }
+  .banner-conteudo{ padding: 18px; }
   .banner-conteudo p{ max-width: 100%; font-size: 0.9rem; }
 
   .filtro-categorias{ border-radius: 14px; padding: 12px; }
