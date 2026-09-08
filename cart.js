@@ -1,146 +1,4 @@
-/* ============================================================
-   CARRINHO — lógica compartilhada entre index.html e produto.html
-   Usa localStorage para o carrinho "seguir" o cliente entre páginas.
-
-   NÚMERO DE WHATSAPP DA LOJA:
-   Troque o valor de WHATSAPP_NUMERO abaixo (apenas números,
-   com DDI 55 + DDD + número, sem espaços, sem "+").
-   ============================================================ */
-
-const WHATSAPP_NUMERO = "5538997248270";
-const CHAVE_CARRINHO = "carrinho_delivery";
-const CHAVE_NOME = "carrinho_nome_cliente";
-const CHAVE_ENDERECO = "carrinho_endereco_cliente";
-const CHAVE_TIPO_ENTREGA = "carrinho_tipo_entrega";
-
-/* ------------------------------------------------------------
-   CARRINHO (itens)
------------------------------------------------------------- */
-function obterCarrinho(){
-  try{
-    const dados = localStorage.getItem(CHAVE_CARRINHO);
-    return dados ? JSON.parse(dados) : [];
-  }catch(e){
-    return [];
-  }
-}
-
-function salvarCarrinho(itens){
-  localStorage.setItem(CHAVE_CARRINHO, JSON.stringify(itens));
-  atualizarBadgeCarrinho();
-}
-
-function obterNomeCliente(){
-  return localStorage.getItem(CHAVE_NOME) || "";
-}
-
-function salvarNomeCliente(nome){
-  localStorage.setItem(CHAVE_NOME, nome);
-}
-
-function adicionarAoCarrinho(produto, quantidade){
-  if(quantidade <= 0) return;
-  const itens = obterCarrinho();
-  const existente = itens.find(i => i.id === produto.id);
-  if(existente){
-    existente.quantidade += quantidade;
-  }else{
-    itens.push({
-      id: produto.id,
-      nome: produto.nome,
-      preco: produto.preco,
-      imagem: (produto.imagens && produto.imagens[0]) || "",
-      quantidade: quantidade
-    });
-  }
-  salvarCarrinho(itens);
-  renderizarCarrinho();
-  abrirCarrinho();
-}
-
-function removerDoCarrinho(id){
-  const itens = obterCarrinho().filter(i => i.id !== id);
-  salvarCarrinho(itens);
-  renderizarCarrinho();
-}
-
-function alterarQuantidadeCarrinho(id, delta){
-  const itens = obterCarrinho();
-  const item = itens.find(i => i.id === id);
-  if(!item) return;
-  item.quantidade += delta;
-  if(item.quantidade <= 0){
-    return removerDoCarrinho(id);
-  }
-  salvarCarrinho(itens);
-  renderizarCarrinho();
-}
-
-function totalCarrinho(){
-  return obterCarrinho().reduce((soma, i) => soma + i.preco * i.quantidade, 0);
-}
-
-function quantidadeTotalCarrinho(){
-  return obterCarrinho().reduce((soma, i) => soma + i.quantidade, 0);
-}
-
-function formatarPreco(valor){
-  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
-function atualizarBadgeCarrinho(){
-  const badge = document.getElementById("badge-carrinho");
-  if(!badge) return;
-  const qtd = quantidadeTotalCarrinho();
-  badge.textContent = qtd;
-  badge.style.display = qtd > 0 ? "flex" : "none";
-}
-
-function abrirCarrinho(){
-  document.getElementById("painel-carrinho")?.classList.add("aberto");
-  document.getElementById("overlay-carrinho")?.classList.add("aberto");
-}
-
-function fecharCarrinho(){
-  document.getElementById("painel-carrinho")?.classList.remove("aberto");
-  document.getElementById("overlay-carrinho")?.classList.remove("aberto");
-}
-
-/* ------------------------------------------------------------
-   FOTO DO ITEM NO CARRINHO
-   Mantém o espaço da miniatura reservado mesmo sem foto (evita que
-   o texto "pule" para a esquerda e desorganize o layout). IMPORTANTE:
-   nunca usar this.src="" aqui — causa loop de recarregamento da página.
------------------------------------------------------------- */
-function marcarFotoCarrinhoIndisponivel(img){
-  img.onerror = null;
-  img.style.display = "none";
-  const container = img.closest(".item-carrinho");
-  if(container && !container.querySelector(".foto-placeholder")){
-    img.insertAdjacentHTML("afterend", '<span class="foto-placeholder">🍪</span>');
-  }
-}
-
-/* ------------------------------------------------------------
-   TIPO DE ENTREGA — Entrega (com frete à parte) ou Retirada
-   Quando é Retirada, o bloco de CEP/endereço fica escondido e
-   deixa de ser obrigatório.
------------------------------------------------------------- */
-function obterTipoEntrega(){
-  const marcado = document.querySelector('input[name="tipo-entrega"]:checked');
-  return marcado ? marcado.value : "retirada";
-}
-
-function salvarTipoEntrega(tipo){
-  localStorage.setItem(CHAVE_TIPO_ENTREGA, tipo);
-}
-
-function carregarTipoEntregaSalvo(){
-  const salvo = localStorage.getItem(CHAVE_TIPO_ENTREGA);
-  if(!salvo) return;
-  const radio = document.getElementById(`tipo-entrega-${salvo}`);
-  if(radio) radio.checked = true;
-}
+/* Substitua ou adicione estas funções em cart.js */
 
 function atualizarVisibilidadeEntrega(){
   const tipo = obterTipoEntrega();
@@ -149,7 +7,22 @@ function atualizarVisibilidadeEntrega(){
   const blocoEndereco = document.getElementById("bloco-endereco");
   const avisoObrigatorio = document.getElementById("aviso-obrigatorio");
 
+  // Atualiza os textos do card superior estilo "Mooca Buns"
+  const iconeAtual = document.getElementById("icone-tipo-atual");
+  const tituloAtual = document.getElementById("titulo-tipo-atual");
+  const subAtual = document.getElementById("sub-tipo-atual");
+
   const ehEntrega = tipo === "entrega";
+
+  if(ehEntrega){
+    if(iconeAtual) iconeAtual.textContent = "🛵";
+    if(tituloAtual) tituloAtual.textContent = "Entrega em domicílio";
+    if(subAtual) subAtual.textContent = "Clique para alterar";
+  } else {
+    if(iconeAtual) iconeAtual.textContent = "🏪";
+    if(tituloAtual) tituloAtual.textContent = "Retirar no local";
+    if(subAtual) subAtual.textContent = typeof ENDERECO_RETIRADA !== "undefined" ? ENDERECO_RETIRADA : "Clique para alterar";
+  }
 
   if(avisoFrete) avisoFrete.style.display = ehEntrega ? "block" : "none";
   if(blocoEndereco) blocoEndereco.style.display = ehEntrega ? "block" : "none";
@@ -168,310 +41,46 @@ function atualizarVisibilidadeEntrega(){
       : "* Nome é obrigatório para fazer o pedido";
   }
 
-  // Realça visualmente a opção marcada (fallback para navegadores sem :has())
-  document.querySelectorAll(".opcao-entrega").forEach(label => {
-    const input = label.querySelector('input[name="tipo-entrega"]');
-    label.classList.toggle("selecionada", !!input?.checked);
+  // Sincroniza os radios internos caso existam
+  document.querySelectorAll('input[name="modal-tipo-entrega"]').forEach(radio => {
+    radio.checked = (radio.value === tipo);
   });
 }
 
-/* ------------------------------------------------------------
-   ENDEREÇO — busca automática de CEP via ViaCEP (API pública,
-   gratuita, sem necessidade de chave/cadastro).
-   https://viacep.com.br
-
-   Rua, bairro e cidade vêm automaticamente do CEP.
-   Número é sempre digitado manualmente (o CEP não indica isso).
------------------------------------------------------------- */
-function obterEndereco(){
-  try{
-    const dados = localStorage.getItem(CHAVE_ENDERECO);
-    return dados ? JSON.parse(dados) : {};
-  }catch(e){
-    return {};
-  }
+// Controle do Modal de Escolha de Entrega
+function abrirModalEntrega(){
+  document.getElementById("modal-entrega-overlay")?.classList.add("aberto");
 }
 
-function salvarEnderecoAtual(){
-  const endereco = {
-    cep: document.getElementById("campo-cep")?.value || "",
-    rua: document.getElementById("campo-rua")?.value || "",
-    bairro: document.getElementById("campo-bairro")?.value || "",
-    cidade: document.getElementById("campo-cidade")?.value || "",
-    numero: document.getElementById("campo-numero")?.value || ""
-  };
-  localStorage.setItem(CHAVE_ENDERECO, JSON.stringify(endereco));
+function fecharModalEntrega(){
+  document.getElementById("modal-entrega-overlay")?.classList.remove("aberto");
 }
 
-function formatarCepDigitado(valor){
-  const digitos = valor.replace(/\D/g, "").slice(0, 8);
-  if(digitos.length > 5) return digitos.slice(0, 5) + "-" + digitos.slice(5);
-  return digitos;
-}
+// Dentro da função iniciarCarrinho(), adicione os ouvintes de evento:
+// (Certifique-se de incluir estas linhas na sua função iniciarCarrinho existente)
+document.addEventListener("DOMContentLoaded", () => {
+  // ... código anterior ...
+  
+  const btnAbrirModal = document.getElementById("btn-abrir-modal-entrega");
+  const btnFecharModal = document.getElementById("btn-fechar-modal-entrega");
+  const modalOverlay = document.getElementById("modal-entrega-overlay");
 
-function limparCamposEndereco(){
-  ["campo-rua", "campo-bairro", "campo-cidade"].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.value = "";
-  });
-}
-
-function definirStatusCep(texto, tipo){
-  const statusEl = document.getElementById("cep-status");
-  if(!statusEl) return;
-  statusEl.textContent = texto;
-  statusEl.className = "cep-status" + (tipo ? ` ${tipo}` : "");
-}
-
-async function buscarEnderecoPorCep(){
-  const campoCep = document.getElementById("campo-cep");
-  if(!campoCep) return;
-
-  const digitos = campoCep.value.replace(/\D/g, "");
-
-  if(digitos.length !== 8){
-    limparCamposEndereco();
-    definirStatusCep(digitos.length === 0 ? "" : "CEP incompleto.", digitos.length === 0 ? "" : "erro");
-    atualizarEstadoBotaoPedido();
-    return;
-  }
-
-  definirStatusCep("Buscando endereço...", "buscando");
-
-  try{
-    const resposta = await fetch(`https://viacep.com.br/ws/${digitos}/json/`);
-    const dados = await resposta.json();
-
-    if(dados.erro){
-      limparCamposEndereco();
-      definirStatusCep("CEP não encontrado. Confira os números.", "erro");
-      atualizarEstadoBotaoPedido();
-      return;
-    }
-
-    document.getElementById("campo-rua").value = dados.logradouro || "";
-    document.getElementById("campo-bairro").value = dados.bairro || "";
-    document.getElementById("campo-cidade").value =
-      [dados.localidade, dados.uf].filter(Boolean).join(" - ");
-
-    definirStatusCep("Endereço encontrado ✓", "sucesso");
-    salvarEnderecoAtual();
-    atualizarEstadoBotaoPedido();
-
-    // Se o CEP não tem número de rua associado (ex: alguns CEPs de zona
-    // rural), o campo de número segue liberado para digitação manual.
-    document.getElementById("campo-numero")?.focus();
-  }catch(erro){
-    definirStatusCep("Não deu pra buscar o CEP agora. Verifique sua internet.", "erro");
-    atualizarEstadoBotaoPedido();
-  }
-}
-
-/* ------------------------------------------------------------
-   VALIDAÇÃO DO FORMULÁRIO
-   - Sempre obrigatório: nome + pelo menos 1 item no carrinho.
-   - Se for ENTREGA: CEP (com endereço resolvido) também é obrigatório.
-   - Se for RETIRADA: não precisa de CEP/endereço nenhum.
-   Número é sempre manual e nunca obrigatório.
------------------------------------------------------------- */
-function formularioValido(){
-  const nome = document.getElementById("campo-nome-cliente")?.value.trim() || "";
-  const itens = obterCarrinho();
-
-  if(nome.length === 0 || itens.length === 0) return false;
-
-  if(obterTipoEntrega() === "retirada"){
-    return true;
-  }
-
-  const cepDigitos = (document.getElementById("campo-cep")?.value || "").replace(/\D/g, "");
-  const ruaEncontrada = (document.getElementById("campo-rua")?.value || "").trim().length > 0;
-
-  return cepDigitos.length === 8 && ruaEncontrada;
-}
-
-function atualizarEstadoBotaoPedido(){
-  const btnPedido = document.getElementById("btn-fazer-pedido");
-  if(btnPedido) btnPedido.disabled = !formularioValido();
-}
-
-function carregarEnderecoSalvo(){
-  const endereco = obterEndereco();
-  const campoCep = document.getElementById("campo-cep");
-  if(!campoCep) return;
-
-  if(endereco.cep) campoCep.value = endereco.cep;
-  if(endereco.rua) document.getElementById("campo-rua").value = endereco.rua;
-  if(endereco.bairro) document.getElementById("campo-bairro").value = endereco.bairro;
-  if(endereco.cidade) document.getElementById("campo-cidade").value = endereco.cidade;
-  if(endereco.numero) document.getElementById("campo-numero").value = endereco.numero;
-}
-
-/* ------------------------------------------------------------
-   RENDERIZAÇÃO DO CARRINHO
------------------------------------------------------------- */
-function renderizarCarrinho(){
-  const lista = document.getElementById("lista-carrinho");
-  const totalEl = document.getElementById("carrinho-total-valor");
-  const campoNome = document.getElementById("campo-nome-cliente");
-  if(!lista) return;
-
-  const itens = obterCarrinho();
-
-  if(campoNome && !campoNome.value){
-    campoNome.value = obterNomeCliente();
-  }
-
-  if(itens.length === 0){
-    lista.innerHTML = '<p class="carrinho-vazio">Seu carrinho está vazio.<br>Adicione produtos para montar seu pedido.</p>';
-  }else{
-    lista.innerHTML = itens.map(item => `
-      <div class="item-carrinho">
-        <img src="${item.imagem}" alt="${item.nome}" class="foto-item-carrinho" onerror="marcarFotoCarrinhoIndisponivel(this)">
-        <div class="item-info">
-          <strong>${item.nome}</strong>
-          <span class="preco-unit">${formatarPreco(item.preco)} un.</span>
-          <div class="seletor-qtd" style="margin-top:6px;">
-            <button type="button" onclick="alterarQuantidadeCarrinho(${item.id}, -1)" aria-label="Diminuir quantidade">−</button>
-            <span>${item.quantidade}</span>
-            <button type="button" onclick="alterarQuantidadeCarrinho(${item.id}, 1)" aria-label="Aumentar quantidade">+</button>
-          </div>
-        </div>
-        <button type="button" class="remover" onclick="removerDoCarrinho(${item.id})">Remover</button>
-      </div>
-    `).join("");
-  }
-
-  if(totalEl) totalEl.textContent = formatarPreco(totalCarrinho());
-
-  atualizarEstadoBotaoPedido();
-  atualizarBadgeCarrinho();
-}
-
-/* ------------------------------------------------------------
-   MENSAGEM E ENVIO PARA O WHATSAPP
------------------------------------------------------------- */
-function montarMensagemWhatsapp(){
-  const itens = obterCarrinho();
-  const nome = document.getElementById("campo-nome-cliente")?.value?.trim() || "";
-  const tipoEntrega = obterTipoEntrega();
-  const cep = document.getElementById("campo-cep")?.value?.trim() || "";
-  const rua = document.getElementById("campo-rua")?.value?.trim() || "";
-  const numero = document.getElementById("campo-numero")?.value?.trim() || "";
-  const bairro = document.getElementById("campo-bairro")?.value?.trim() || "";
-  const cidade = document.getElementById("campo-cidade")?.value?.trim() || "";
-
-  const linhasPedido = itens
-    .map(i => `- ${i.quantidade}x ${i.nome} (${formatarPreco(i.preco * i.quantidade)})`)
-    .join("\n");
-
-  const total = formatarPreco(totalCarrinho());
-
-  let mensagem = `Olá, gostaria de pedir:\n${linhasPedido}\n\nTotal (produtos): ${total}`;
-
-  if(nome){
-    mensagem += `\n\nNome: ${nome}`;
-  }
-
-  if(tipoEntrega === "retirada"){
-    mensagem += `\nForma de recebimento: Retirada no local`;
-    if(typeof ENDERECO_RETIRADA !== "undefined"){
-      mensagem += `\nEndereço para retirada: ${ENDERECO_RETIRADA}`;
-    }
-  }else{
-    mensagem += `\nForma de recebimento: Entrega (frete a combinar à parte)`;
-    if(rua || cep){
-      const linhaRua = numero ? `${rua}, nº ${numero}` : `${rua} (sem número informado)`;
-      mensagem += `\nEndereço de entrega: ${linhaRua}`;
-      if(bairro) mensagem += ` - ${bairro}`;
-      if(cidade) mensagem += ` - ${cidade}`;
-      if(cep) mensagem += ` (CEP: ${cep})`;
-    }
-  }
-
-  return mensagem;
-}
-
-function enviarPedidoWhatsapp(){
-  if(!formularioValido()) return;
-
-  salvarNomeCliente(document.getElementById("campo-nome-cliente")?.value?.trim() || "");
-  salvarTipoEntrega(obterTipoEntrega());
-  if(obterTipoEntrega() === "entrega"){
-    salvarEnderecoAtual();
-  }
-
-  const mensagem = montarMensagemWhatsapp();
-  const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensagem)}`;
-  window.open(url, "_blank");
-}
-
-/* ------------------------------------------------------------
-   INICIALIZAÇÃO
------------------------------------------------------------- */
-function iniciarCarrinho(){
-  carregarEnderecoSalvo();
-  carregarTipoEntregaSalvo();
-  atualizarVisibilidadeEntrega();
-  atualizarBadgeCarrinho();
-  renderizarCarrinho();
-
-  document.getElementById("btn-abrir-carrinho")?.addEventListener("click", () => {
-    renderizarCarrinho();
-    abrirCarrinho();
-  });
-  document.getElementById("btn-fechar-carrinho")?.addEventListener("click", fecharCarrinho);
-  document.getElementById("overlay-carrinho")?.addEventListener("click", fecharCarrinho);
-  document.getElementById("btn-fazer-pedido")?.addEventListener("click", enviarPedidoWhatsapp);
-
-  document.getElementById("campo-nome-cliente")?.addEventListener("input", (e) => {
-    salvarNomeCliente(e.target.value);
-    atualizarEstadoBotaoPedido();
+  btnAbrirModal?.addEventListener("click", abrirModalEntrega);
+  btnFecharModal?.addEventListener("click", fecharModalEntrega);
+  modalOverlay?.addEventListener("click", (e) => {
+    if(e.target === modalOverlay) fecharModalEntrega();
   });
 
-  document.querySelectorAll('input[name="tipo-entrega"]').forEach(radio => {
-    radio.addEventListener("change", () => {
-      salvarTipoEntrega(obterTipoEntrega());
+  document.querySelectorAll('.modal-opcao-item').forEach(label => {
+    label.addEventListener("click", () => {
+      const valor = label.dataset.valor;
+      const radio = label.querySelector('input');
+      if(radio) radio.checked = true;
+      
+      salvarTipoEntrega(valor);
       atualizarVisibilidadeEntrega();
       atualizarEstadoBotaoPedido();
+      fecharModalEntrega();
     });
   });
-
-  const campoCep = document.getElementById("campo-cep");
-  if(campoCep){
-    campoCep.addEventListener("input", (e) => {
-      e.target.value = formatarCepDigitado(e.target.value);
-      const digitos = e.target.value.replace(/\D/g, "");
-      if(digitos.length === 8){
-        buscarEnderecoPorCep();
-      }else{
-        limparCamposEndereco();
-        definirStatusCep("", "");
-        atualizarEstadoBotaoPedido();
-      }
-    });
-    campoCep.addEventListener("blur", () => {
-      const digitos = campoCep.value.replace(/\D/g, "");
-      if(digitos.length === 8) buscarEnderecoPorCep();
-    });
-  }
-
-  document.getElementById("campo-numero")?.addEventListener("input", () => {
-    salvarEnderecoAtual();
-  });
-
-  // Rua, bairro e cidade vêm preenchidos pelo CEP, mas o cliente pode
-  // corrigir manualmente (ex: CEP não muito preciso, endereço novo, etc.)
-  ["campo-rua", "campo-bairro", "campo-cidade"].forEach(id => {
-    document.getElementById(id)?.addEventListener("input", () => {
-      salvarEnderecoAtual();
-      atualizarEstadoBotaoPedido();
-    });
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if(e.key === "Escape") fecharCarrinho();
-  });
-}
-
-document.addEventListener("DOMContentLoaded", iniciarCarrinho);
+});
