@@ -57,26 +57,17 @@
     <p>Feito com carinho, pedido pelo WhatsApp. Todos os direitos reservados.</p>
   </footer>
 
-<!-- ===================== CARRINHO (painel lateral fixo) ===================== -->
+  <!-- ===================== CARRINHO (painel lateral fixo) ===================== -->
   <div class="overlay-carrinho" id="overlay-carrinho"></div>
   <aside class="painel-carrinho" id="painel-carrinho" aria-label="Carrinho de compras">
     <div class="carrinho-cabecalho">
-      <h2>Sua sacola</h2>
+      <h2>Seu carrinho</h2>
       <button type="button" class="fechar-carrinho" id="btn-fechar-carrinho" aria-label="Fechar carrinho">&times;</button>
     </div>
 
-    <!-- Seletor de Tipo de Entrega Fixo no Topo (Estilo das referências) -->
-    <div class="card-seletor-entrega" id="btn-abrir-modal-entrega">
-      <div class="seletor-icone-texto">
-        <span id="icone-tipo-atual">🏪</span>
-        <div>
-          <strong id="titulo-tipo-atual">Retirar no local</strong>
-          <small id="sub-tipo-atual">Clique para alterar</small>
-        </div>
-      </div>
-      <span class="seta-giratoria">&gt;</span>
-    </div>
-
+    <!-- Área do meio: única parte que rola. Lista de produtos + formulário
+         inteiro, juntos, para o Total e o botão de pedido (fora daqui,
+         embaixo) ficarem sempre visíveis, não importa o quanto cresça. -->
     <div class="carrinho-scroll">
       <div class="lista-carrinho" id="lista-carrinho"></div>
 
@@ -86,6 +77,20 @@
         <div class="campo-nome">
           <label for="campo-nome-cliente">Seu nome <span class="obrigatorio">*</span></label>
           <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome">
+        </div>
+
+        <div class="campo-tipo-entrega">
+          <label>Como você quer receber?</label>
+          <div class="opcoes-entrega">
+            <label class="opcao-entrega">
+              <input type="radio" name="tipo-entrega" id="tipo-entrega-retirada" value="retirada" checked>
+              <span>🏪 Retirada</span>
+            </label>
+            <label class="opcao-entrega">
+              <input type="radio" name="tipo-entrega" id="tipo-entrega-entrega" value="entrega">
+              <span>🛵 Entrega</span>
+            </label>
+          </div>
         </div>
 
         <p class="aviso-retirada" id="aviso-retirada">
@@ -104,7 +109,7 @@
           <div class="linha-endereco">
             <div class="campo-endereco-item campo-rua-wrap">
               <label for="campo-rua">Rua</label>
-              <input type="text" id="campo-rua" placeholder="Preenchido pelo CEP">
+              <input type="text" id="campo-rua" placeholder="Preenchido pelo CEP (edite se precisar)">
             </div>
             <div class="campo-endereco-item campo-numero-wrap">
               <label for="campo-numero">Número</label>
@@ -115,57 +120,28 @@
           <div class="linha-endereco">
             <div class="campo-endereco-item">
               <label for="campo-bairro">Bairro</label>
-              <input type="text" id="campo-bairro" placeholder="Preenchido pelo CEP">
+              <input type="text" id="campo-bairro" placeholder="Preenchido pelo CEP (edite se precisar)">
             </div>
             <div class="campo-endereco-item">
               <label for="campo-cidade">Cidade</label>
-              <input type="text" id="campo-cidade" placeholder="Preenchido pelo CEP">
+              <input type="text" id="campo-cidade" placeholder="Preenchido pelo CEP (edite se precisar)">
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Rodapé fixo -->
+    <!-- Rodapé fixo: sempre visível, não rola junto com o resto. -->
     <div class="carrinho-fixo">
       <div class="carrinho-total">
         <span>Total</span>
         <span id="carrinho-total-valor">R$ 0,00</span>
       </div>
       <button type="button" class="btn-pedido" id="btn-fazer-pedido" disabled>
-        Continuar pedido
+        Fazer pedido pelo WhatsApp
       </button>
-      <p class="aviso-obrigatorio" id="aviso-obrigatorio">* Preencha os campos obrigatórios</p>
+      <p class="aviso-obrigatorio" id="aviso-obrigatorio">* Nome e CEP são obrigatórios para fazer o pedido</p>
     </div>
-  </aside>
-
-  <!-- Modal / Pop-up de Escolha de Entrega (Estilo Print 2) -->
-  <div class="modal-entrega-overlay" id="modal-entrega-overlay">
-    <div class="modal-entrega-conteudo">
-      <div class="modal-entrega-cabecalho">
-        <h3>Como você quer receber o pedido?</h3>
-        <button type="button" id="btn-fechar-modal-entrega">&times;</button>
-      </div>
-      <div class="modal-opcoes-lista">
-        <label class="modal-opcao-item" data-valor="retirada">
-          <span class="m-icone">🏪</span>
-          <div class="m-texto">
-            <strong>Retirada</strong>
-            <small>Você retira no local</small>
-          </div>
-          <input type="radio" name="modal-tipo-entrega" value="retirada" checked>
-        </label>
-        <label class="modal-opcao-item" data-valor="entrega">
-          <span class="m-icone">🛵</span>
-          <div class="m-texto">
-            <strong>Entrega</strong>
-            <small>A gente leva até você</small>
-          </div>
-          <input type="radio" name="modal-tipo-entrega" value="entrega">
-        </label>
-      </div>
-    </div>
-  </div>
   </aside>
 
   <script src="data.js"></script>
