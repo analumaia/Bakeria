@@ -94,6 +94,10 @@ h1, h2, h3, .fonte-titulo{
   justify-content: space-between;
   gap: 20px;
   position: relative;
+  max-height: 76px; /* trava de segurança: a barra nunca cresce além disso,
+                        mesmo que algum elemento interno fique maior do
+                        que deveria (ex: cache antigo de CSS) */
+  overflow: hidden;
 }
 
 /* Mascote centralizada no cabeçalho — só em telas de computador/tablet.
@@ -104,8 +108,10 @@ h1, h2, h3, .fonte-titulo{
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  height: 54px;
-  width: auto;
+  height: 44px !important;
+  max-height: 44px;
+  width: auto !important;
+  max-width: 60px;
   pointer-events: none;
 }
 
