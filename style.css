@@ -740,6 +740,30 @@ h1, h2, h3, .fonte-titulo{
 .item-carrinho .item-info strong{ display: block; font-size: 0.9rem; }
 .item-carrinho .item-info .preco-unit{ font-size: 0.8rem; color: var(--marrom-cafe); }
 
+.data-item-label{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--marrom-cafe);
+}
+
+.data-item-input{
+  flex: 1;
+  min-width: 0;
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1.5px solid var(--marrom-claro);
+  font-family: inherit;
+  font-size: 0.78rem;
+  background: var(--branco);
+  color: var(--marrom-escuro);
+}
+.data-item-input:focus{ border-color: var(--rosa); }
+.data-item-input:invalid{ border-color: #b23a3a; }
+
 .item-carrinho .remover{
   background: none; border: none;
   color: #b23a3a;
@@ -792,33 +816,14 @@ h1, h2, h3, .fonte-titulo{
 
 .obrigatorio{ color: var(--rosa); }
 
-/* --------- DATA DE ENTREGA/RETIRADA --------- */
-.campo-data-entrega{
-  margin-bottom: 14px;
-}
-.campo-data-entrega label{
-  display: block;
-  font-size: 0.82rem;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.campo-data-entrega input{
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1.5px solid var(--marrom-claro);
-  font-family: inherit;
-  font-size: 0.92rem;
-  background: var(--branco);
-  color: var(--marrom-escuro);
-}
-.campo-data-entrega input:focus{ border-color: var(--rosa); }
-
-.dica-data-entrega{
-  display: block;
-  font-size: 0.74rem;
+/* --------- AVISO GERAL SOBRE DATA (a data em si fica em cada item, veja .data-item-* mais abaixo) --------- */
+.dica-data-entrega-geral{
+  font-size: 0.8rem;
   color: var(--marrom-cafe);
-  margin-top: 5px;
+  background: var(--bege);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 0 0 14px;
 }
 
 /* --------- SELETOR DE ENTREGA OU RETIRADA --------- */

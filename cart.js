@@ -10,7 +10,6 @@
 const WHATSAPP_NUMERO = "5538997248270";
 const CHAVE_CARRINHO = "carrinho_delivery";
 const CHAVE_NOME = "carrinho_nome_cliente";
-const CHAVE_DATA_ENTREGA = "carrinho_data_entrega";
 const CHAVE_ENDERECO = "carrinho_endereco_cliente";
 const CHAVE_TIPO_ENTREGA = "carrinho_tipo_entrega";
 
@@ -39,41 +38,6 @@ function salvarNomeCliente(nome){
   localStorage.setItem(CHAVE_NOME, nome);
 }
 
-/* ------------------------------------------------------------
-   DATA DE ENTREGA/RETIRADA
-   Campo obrigatório para o cliente informar quando quer receber
-   o pedido — essencial para encomendas (tortas de cookie), que
-   costumam precisar de alguns dias de antecedência.
------------------------------------------------------------- */
-function obterDataEntregaSalva(){
-  return localStorage.getItem(CHAVE_DATA_ENTREGA) || "";
-}
-
-function salvarDataEntrega(data){
-  localStorage.setItem(CHAVE_DATA_ENTREGA, data);
-}
-
-function formatarDataEntregaExibicao(valorISO){
-  // Converte "2026-09-20" (formato do input date) para "20/09/2026"
-  if(!valorISO) return "";
-  const [ano, mes, dia] = valorISO.split("-");
-  if(!ano || !mes || !dia) return valorISO;
-  return `${dia}/${mes}/${ano}`;
-}
-
-function iniciarCampoDataEntrega(){
-  const campoData = document.getElementById("campo-data-entrega");
-  if(!campoData) return;
-
-  // Nunca deixa o cliente escolher uma data que já passou
-  const hoje = new Date();
-  const hojeISO = hoje.toISOString().split("T")[0];
-  campoData.min = hojeISO;
-
-  const salva = obterDataEntregaSalva();
-  if(salva) campoData.value = salva;
-}
-
 function adicionarAoCarrinho(produto, quantidade){
   if(quantidade <= 0) return;
   const itens = obterCarrinho();
@@ -86,7 +50,8 @@ function adicionarAoCarrinho(produto, quantidade){
       nome: produto.nome,
       preco: produto.preco,
       imagem: (produto.imagens && produto.imagens[0]) || "",
-      quantidade: quantidade
+      quantidade: quantidade,
+      dataEntrega: obterDataISOHoje() // valor inicial; o cliente ajusta por item no carrinho
     });
   }
   salvarCarrinho(itens);
@@ -110,6 +75,33 @@ function alterarQuantidadeCarrinho(id, delta){
   }
   salvarCarrinho(itens);
   renderizarCarrinho();
+}
+
+/* ------------------------------------------------------------
+   DATA DE ENTREGA — vinculada a CADA ITEM do carrinho (não ao
+   pedido inteiro), já que dá pra pedir, por exemplo, um cookie
+   tradicional (entrega hoje) junto com uma encomenda (entrega daqui
+   a alguns dias) no mesmo carrinho.
+------------------------------------------------------------ */
+function obterDataISOHoje(){
+  return new Date().toISOString().split("T")[0];
+}
+
+function formatarDataEntregaExibicao(valorISO){
+  // Converte "2026-09-20" (formato do input date) para "20/09/2026"
+  if(!valorISO) return "";
+  const [ano, mes, dia] = valorISO.split("-");
+  if(!ano || !mes || !dia) return valorISO;
+  return `${dia}/${mes}/${ano}`;
+}
+
+function atualizarDataItemCarrinho(id, novaData){
+  const itens = obterCarrinho();
+  const item = itens.find(i => i.id === id);
+  if(!item) return;
+  item.dataEntrega = novaData;
+  salvarCarrinho(itens);
+  atualizarEstadoBotaoPedido();
 }
 
 function totalCarrinho(){
@@ -200,8 +192,8 @@ function atualizarVisibilidadeEntrega(){
 
   if(avisoObrigatorio){
     avisoObrigatorio.textContent = ehEntrega
-      ? "* Nome, data e CEP são obrigatórios para fazer o pedido"
-      : "* Nome e data são obrigatórios para fazer o pedido";
+      ? "* Nome, CEP e a data de cada item são obrigatórios para fazer o pedido"
+      : "* Nome e a data de cada item são obrigatórios para fazer o pedido";
   }
 
   // Realça visualmente a opção marcada (fallback para navegadores sem :has())
@@ -312,10 +304,13 @@ async function buscarEnderecoPorCep(){
 ------------------------------------------------------------ */
 function formularioValido(){
   const nome = document.getElementById("campo-nome-cliente")?.value.trim() || "";
-  const dataEntrega = document.getElementById("campo-data-entrega")?.value || "";
   const itens = obterCarrinho();
 
-  if(nome.length === 0 || dataEntrega.length === 0 || itens.length === 0) return false;
+  if(nome.length === 0 || itens.length === 0) return false;
+
+  // Cada item precisa da própria data de entrega preenchida
+  const todosComData = itens.every(i => !!i.dataEntrega);
+  if(!todosComData) return false;
 
   if(obterTipoEntrega() === "retirada"){
     return true;
@@ -373,6 +368,11 @@ function renderizarCarrinho(){
             <span>${item.quantidade}</span>
             <button type="button" onclick="alterarQuantidadeCarrinho(${item.id}, 1)" aria-label="Aumentar quantidade">+</button>
           </div>
+          <label class="data-item-label">
+            📅 Data
+            <input type="date" class="data-item-input" value="${item.dataEntrega || ""}" min="${obterDataISOHoje()}"
+              onchange="atualizarDataItemCarrinho(${item.id}, this.value)">
+          </label>
         </div>
         <button type="button" class="remover" onclick="removerDoCarrinho(${item.id})">Remover</button>
       </div>
@@ -391,7 +391,6 @@ function renderizarCarrinho(){
 function montarMensagemWhatsapp(){
   const itens = obterCarrinho();
   const nome = document.getElementById("campo-nome-cliente")?.value?.trim() || "";
-  const dataEntrega = document.getElementById("campo-data-entrega")?.value || "";
   const tipoEntrega = obterTipoEntrega();
   const cep = document.getElementById("campo-cep")?.value?.trim() || "";
   const rua = document.getElementById("campo-rua")?.value?.trim() || "";
@@ -400,7 +399,11 @@ function montarMensagemWhatsapp(){
   const cidade = document.getElementById("campo-cidade")?.value?.trim() || "";
 
   const linhasPedido = itens
-    .map(i => `- ${i.quantidade}x ${i.nome} (${formatarPreco(i.preco * i.quantidade)})`)
+    .map(i => {
+      const dataFormatada = formatarDataEntregaExibicao(i.dataEntrega);
+      const linha = `- ${i.quantidade}x ${i.nome} (${formatarPreco(i.preco * i.quantidade)})`;
+      return dataFormatada ? `${linha} — data: ${dataFormatada}` : linha;
+    })
     .join("\n");
 
   const total = formatarPreco(totalCarrinho());
@@ -409,10 +412,6 @@ function montarMensagemWhatsapp(){
 
   if(nome){
     mensagem += `\n\nNome: ${nome}`;
-  }
-
-  if(dataEntrega){
-    mensagem += `\nData desejada: ${formatarDataEntregaExibicao(dataEntrega)}`;
   }
 
   if(tipoEntrega === "retirada"){
@@ -438,7 +437,6 @@ function enviarPedidoWhatsapp(){
   if(!formularioValido()) return;
 
   salvarNomeCliente(document.getElementById("campo-nome-cliente")?.value?.trim() || "");
-  salvarDataEntrega(document.getElementById("campo-data-entrega")?.value || "");
   salvarTipoEntrega(obterTipoEntrega());
   if(obterTipoEntrega() === "entrega"){
     salvarEnderecoAtual();
@@ -455,7 +453,6 @@ function enviarPedidoWhatsapp(){
 function iniciarCarrinho(){
   carregarEnderecoSalvo();
   carregarTipoEntregaSalvo();
-  iniciarCampoDataEntrega();
   atualizarVisibilidadeEntrega();
   atualizarBadgeCarrinho();
   renderizarCarrinho();
@@ -470,11 +467,6 @@ function iniciarCarrinho(){
 
   document.getElementById("campo-nome-cliente")?.addEventListener("input", (e) => {
     salvarNomeCliente(e.target.value);
-    atualizarEstadoBotaoPedido();
-  });
-
-  document.getElementById("campo-data-entrega")?.addEventListener("change", (e) => {
-    salvarDataEntrega(e.target.value);
     atualizarEstadoBotaoPedido();
   });
 

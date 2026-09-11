@@ -1,5 +1,20 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Data de entrega agora é por produto, não por pedido
+Mudança pedida: em vez de um único campo de data para o pedido inteiro,
+cada item do carrinho agora tem seu próprio campo de data — assim o
+cliente pode pedir, por exemplo, um cookie tradicional (entrega hoje)
+junto com uma torta de encomenda (entrega daqui a 5 dias) no mesmo
+pedido, cada um com a data certa.
+
+- Ao adicionar um produto ao carrinho, a data já vem preenchida com o
+  dia de hoje — o cliente ajusta se precisar de outra data.
+- Não deixa escolher datas no passado.
+- Todo item precisa ter uma data preenchida para o botão "Fazer pedido"
+  liberar (nome e CEP/entrega continuam com as mesmas regras de antes).
+- Na mensagem do WhatsApp, a data aparece ao lado de cada item:
+  `- 1x Torta de Cookie (R$ 120,00) — data: 25/09/2026`
+
 ## Nova categoria: Encomendas + data de entrega no carrinho
 - Adicionei a categoria **"Encomendas"** (ícone 🎂), pensada para tortas de
   cookie sob encomenda. Já cadastrei 1 produto de exemplo
