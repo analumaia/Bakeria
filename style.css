@@ -93,6 +93,24 @@ h1, h2, h3, .fonte-titulo{
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  position: relative;
+}
+
+/* Mascote centralizada no cabeçalho — só em telas de computador/tablet.
+   Usa position:absolute (não flex) para ficar sempre no centro exato da
+   barra, não importa o tamanho da logo ou do botão de carrinho. */
+.mascote-cabecalho{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 54px;
+  width: auto;
+  pointer-events: none;
+}
+
+@media (max-width: 600px){
+  .mascote-cabecalho{ display: none; }
 }
 
 .logo{ display: flex; align-items: center; flex-shrink: 0; }
