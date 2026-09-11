@@ -9,7 +9,7 @@
    4. Salve o arquivo — o site atualiza sozinho.
 
    CATEGORIAS VÁLIDAS (use exatamente estes textos em "categoria"):
-   "tradicionais" | "cookie-pies" | "combos" | "promocoes"
+   "tradicionais" | "cookie-pies" | "combos" | "promocoes" | "encomendas"
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -24,6 +24,7 @@ const CATEGORIAS = [
   { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookie recheado, quentinho e generoso", icone: "🥧" },
   { id: "combos",       nome: "Combos",        subtitulo: "Mais sabor, mais economia", icone: "🎁" },
   { id: "promocoes",    nome: "Promoções",     subtitulo: "Por tempo limitado", icone: "🔥" },
+  { id: "encomendas",   nome: "Encomendas",    subtitulo: "Tortas de cookie sob encomenda — combine a data de entrega", icone: "🎂" },
 ];
 
 /* ------------------------------------------------------------
@@ -147,6 +148,16 @@ const PRODUTOS = [
     descricaoCompleta: "Monte sua caixa com 5 cookies pies dos sabores que quiser e leve um cookie tradicional de bride. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["5 cookies pies a sua escolha"],
     imagens: ["promo-leve6-1.jpg"]
+  },
+  {
+    id: 10,
+    nome: "Torta de Cookie sob Encomenda",
+    categoria: "encomendas",
+    preco: 120.00,
+    descricaoCurta: "Torta de cookie personalizada, feita sob encomenda — combine sabor, tamanho e data de entrega.",
+    descricaoCompleta: "Torta de cookie artesanal, feita especialmente para o seu pedido. Aceita personalização de sabor e tamanho. IMPORTANTE: pedidos de encomenda precisam ser feitos com antecedência — combine a data de entrega no carrinho.",
+    ingredientes: ["Massa de cookie", "Recheio à escolha", "Cobertura à escolha"],
+    imagens: ["torta-cookie-encomenda-1.jpg"]
   }
 ];
 
@@ -167,4 +178,4 @@ const PRODUTOS = [
    - Pode deixar vazia ([]) — nesse caso, a vitrine simplesmente
      segue a ordem de cadastro em PRODUTOS.
 ------------------------------------------------------------ */
-const DESTAQUES = [9, 7, 8, 1, 2, 3, 4, 5, 6];
+const DESTAQUES = [9, 7, 8, 1, 2, 3, 4, 5, 6, 10];

@@ -61,6 +61,12 @@
           <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome">
         </div>
 
+        <div class="campo-data-entrega">
+          <label for="campo-data-entrega">Data desejada para entrega/retirada <span class="obrigatorio">*</span></label>
+          <input type="date" id="campo-data-entrega">
+          <span class="dica-data-entrega">Pedidos de encomenda podem precisar de mais dias — combine pelo WhatsApp se a data for muito em cima da hora.</span>
+        </div>
+
         <div class="campo-tipo-entrega">
           <label>Como você quer receber?</label>
           <div class="opcoes-entrega">
@@ -122,7 +128,7 @@
       <button type="button" class="btn-pedido" id="btn-fazer-pedido" disabled>
         Fazer pedido pelo WhatsApp
       </button>
-      <p class="aviso-obrigatorio" id="aviso-obrigatorio">* Nome e CEP são obrigatórios para fazer o pedido</p>
+      <p class="aviso-obrigatorio" id="aviso-obrigatorio">* Nome, data e CEP são obrigatórios para fazer o pedido</p>
     </div>
   </aside>
 

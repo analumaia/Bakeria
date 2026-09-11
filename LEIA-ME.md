@@ -1,5 +1,22 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Nova categoria: Encomendas + data de entrega no carrinho
+- Adicionei a categoria **"Encomendas"** (ícone 🎂), pensada para tortas de
+  cookie sob encomenda. Já cadastrei 1 produto de exemplo
+  ("Torta de Cookie sob Encomenda", `id: 10`) — edite ou duplique esse
+  bloco em `data.js` para colocar os sabores/tamanhos reais.
+- O carrinho agora tem um campo **"Data desejada para entrega/retirada"**,
+  logo abaixo do nome do cliente. Esse campo:
+  - É **obrigatório** para qualquer pedido (não só encomendas).
+  - Não deixa escolher uma data no passado (bloqueado automaticamente).
+  - Aparece na mensagem final do WhatsApp, formatada como DD/MM/AAAA.
+  - Fica salvo no navegador do cliente, como os outros campos.
+- Como o prazo de uma encomenda pode variar bastante, deixei um aviso
+  fixo abaixo do campo dizendo para combinar direto pelo WhatsApp se a
+  data escolhida for muito em cima da hora — o site não sabe seu prazo
+  mínimo real de produção, então essa parte fica a seu critério na
+  conversa com o cliente.
+
 ## Correção: carrinho difícil de ver com "Entrega" selecionado
 Antes, só a lista de produtos rolava — o formulário (nome, entrega/retirada,
 CEP, endereço) ficava "fixo" no tamanho que precisasse, sem rolar. Quando

@@ -792,6 +792,35 @@ h1, h2, h3, .fonte-titulo{
 
 .obrigatorio{ color: var(--rosa); }
 
+/* --------- DATA DE ENTREGA/RETIRADA --------- */
+.campo-data-entrega{
+  margin-bottom: 14px;
+}
+.campo-data-entrega label{
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.campo-data-entrega input{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--marrom-claro);
+  font-family: inherit;
+  font-size: 0.92rem;
+  background: var(--branco);
+  color: var(--marrom-escuro);
+}
+.campo-data-entrega input:focus{ border-color: var(--rosa); }
+
+.dica-data-entrega{
+  display: block;
+  font-size: 0.74rem;
+  color: var(--marrom-cafe);
+  margin-top: 5px;
+}
+
 /* --------- SELETOR DE ENTREGA OU RETIRADA --------- */
 .campo-tipo-entrega{
   margin-bottom: 14px;

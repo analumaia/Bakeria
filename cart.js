@@ -10,6 +10,7 @@
 const WHATSAPP_NUMERO = "5538997248270";
 const CHAVE_CARRINHO = "carrinho_delivery";
 const CHAVE_NOME = "carrinho_nome_cliente";
+const CHAVE_DATA_ENTREGA = "carrinho_data_entrega";
 const CHAVE_ENDERECO = "carrinho_endereco_cliente";
 const CHAVE_TIPO_ENTREGA = "carrinho_tipo_entrega";
 
@@ -36,6 +37,41 @@ function obterNomeCliente(){
 
 function salvarNomeCliente(nome){
   localStorage.setItem(CHAVE_NOME, nome);
+}
+
+/* ------------------------------------------------------------
+   DATA DE ENTREGA/RETIRADA
+   Campo obrigatório para o cliente informar quando quer receber
+   o pedido — essencial para encomendas (tortas de cookie), que
+   costumam precisar de alguns dias de antecedência.
+------------------------------------------------------------ */
+function obterDataEntregaSalva(){
+  return localStorage.getItem(CHAVE_DATA_ENTREGA) || "";
+}
+
+function salvarDataEntrega(data){
+  localStorage.setItem(CHAVE_DATA_ENTREGA, data);
+}
+
+function formatarDataEntregaExibicao(valorISO){
+  // Converte "2026-09-20" (formato do input date) para "20/09/2026"
+  if(!valorISO) return "";
+  const [ano, mes, dia] = valorISO.split("-");
+  if(!ano || !mes || !dia) return valorISO;
+  return `${dia}/${mes}/${ano}`;
+}
+
+function iniciarCampoDataEntrega(){
+  const campoData = document.getElementById("campo-data-entrega");
+  if(!campoData) return;
+
+  // Nunca deixa o cliente escolher uma data que já passou
+  const hoje = new Date();
+  const hojeISO = hoje.toISOString().split("T")[0];
+  campoData.min = hojeISO;
+
+  const salva = obterDataEntregaSalva();
+  if(salva) campoData.value = salva;
 }
 
 function adicionarAoCarrinho(produto, quantidade){
@@ -164,8 +200,8 @@ function atualizarVisibilidadeEntrega(){
 
   if(avisoObrigatorio){
     avisoObrigatorio.textContent = ehEntrega
-      ? "* Nome e CEP são obrigatórios para fazer o pedido"
-      : "* Nome é obrigatório para fazer o pedido";
+      ? "* Nome, data e CEP são obrigatórios para fazer o pedido"
+      : "* Nome e data são obrigatórios para fazer o pedido";
   }
 
   // Realça visualmente a opção marcada (fallback para navegadores sem :has())
@@ -276,9 +312,10 @@ async function buscarEnderecoPorCep(){
 ------------------------------------------------------------ */
 function formularioValido(){
   const nome = document.getElementById("campo-nome-cliente")?.value.trim() || "";
+  const dataEntrega = document.getElementById("campo-data-entrega")?.value || "";
   const itens = obterCarrinho();
 
-  if(nome.length === 0 || itens.length === 0) return false;
+  if(nome.length === 0 || dataEntrega.length === 0 || itens.length === 0) return false;
 
   if(obterTipoEntrega() === "retirada"){
     return true;
@@ -354,6 +391,7 @@ function renderizarCarrinho(){
 function montarMensagemWhatsapp(){
   const itens = obterCarrinho();
   const nome = document.getElementById("campo-nome-cliente")?.value?.trim() || "";
+  const dataEntrega = document.getElementById("campo-data-entrega")?.value || "";
   const tipoEntrega = obterTipoEntrega();
   const cep = document.getElementById("campo-cep")?.value?.trim() || "";
   const rua = document.getElementById("campo-rua")?.value?.trim() || "";
@@ -371,6 +409,10 @@ function montarMensagemWhatsapp(){
 
   if(nome){
     mensagem += `\n\nNome: ${nome}`;
+  }
+
+  if(dataEntrega){
+    mensagem += `\nData desejada: ${formatarDataEntregaExibicao(dataEntrega)}`;
   }
 
   if(tipoEntrega === "retirada"){
@@ -396,6 +438,7 @@ function enviarPedidoWhatsapp(){
   if(!formularioValido()) return;
 
   salvarNomeCliente(document.getElementById("campo-nome-cliente")?.value?.trim() || "");
+  salvarDataEntrega(document.getElementById("campo-data-entrega")?.value || "");
   salvarTipoEntrega(obterTipoEntrega());
   if(obterTipoEntrega() === "entrega"){
     salvarEnderecoAtual();
@@ -412,6 +455,7 @@ function enviarPedidoWhatsapp(){
 function iniciarCarrinho(){
   carregarEnderecoSalvo();
   carregarTipoEntregaSalvo();
+  iniciarCampoDataEntrega();
   atualizarVisibilidadeEntrega();
   atualizarBadgeCarrinho();
   renderizarCarrinho();
@@ -426,6 +470,11 @@ function iniciarCarrinho(){
 
   document.getElementById("campo-nome-cliente")?.addEventListener("input", (e) => {
     salvarNomeCliente(e.target.value);
+    atualizarEstadoBotaoPedido();
+  });
+
+  document.getElementById("campo-data-entrega")?.addEventListener("change", (e) => {
+    salvarDataEntrega(e.target.value);
     atualizarEstadoBotaoPedido();
   });
 
