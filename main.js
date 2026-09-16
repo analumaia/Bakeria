@@ -213,6 +213,120 @@ function adicionarCard(id){
   }
 }
 
+/* ------------------------------------------------------------
+   HORÁRIO DE FUNCIONAMENTO
+   Sempre calculado com base no horário de Brasília (fuso
+   America/Sao_Paulo), não importa de onde o cliente está acessando.
+   Edite os horários em data.js (HORARIO_FUNCIONAMENTO) — não aqui.
+------------------------------------------------------------ */
+function normalizarDiaSemana(diaIntl){
+  const mapa = {
+    "segunda-feira": "segunda",
+    "terça-feira": "terca",
+    "quarta-feira": "quarta",
+    "quinta-feira": "quinta",
+    "sexta-feira": "sexta",
+    "sábado": "sabado",
+    "domingo": "domingo"
+  };
+  return mapa[diaIntl.toLowerCase()] || diaIntl.toLowerCase();
+}
+
+function obterDataHoraBrasilia(){
+  const agora = new Date();
+  const partes = new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    weekday: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).formatToParts(agora);
+
+  const mapa = {};
+  partes.forEach(p => { mapa[p.type] = p.value; });
+
+  return {
+    diaSemana: normalizarDiaSemana(mapa.weekday || ""),
+    hora: parseInt(mapa.hour, 10),
+    minuto: parseInt(mapa.minute, 10)
+  };
+}
+
+function minutosDesdeMeiaNoite(horaStr){
+  const [h, m] = horaStr.split(":").map(Number);
+  return (h * 60) + m;
+}
+
+function obterStatusFuncionamento(){
+  const { diaSemana, hora, minuto } = obterDataHoraBrasilia();
+  const horarioHoje = HORARIO_FUNCIONAMENTO[diaSemana];
+
+  if(!horarioHoje){
+    return { aberto: false, horarioHoje: null, diaSemana };
+  }
+
+  const agoraEmMinutos = (hora * 60) + minuto;
+  const abreEmMinutos = minutosDesdeMeiaNoite(horarioHoje.abre);
+  const fechaEmMinutos = minutosDesdeMeiaNoite(horarioHoje.fecha);
+
+  const aberto = agoraEmMinutos >= abreEmMinutos && agoraEmMinutos < fechaEmMinutos;
+  return { aberto, horarioHoje, diaSemana };
+}
+
+function renderizarHorarioFuncionamento(){
+  const bolinha = document.getElementById("horario-bolinha");
+  const textoStatus = document.getElementById("horario-texto-status");
+  const horarioHojeEl = document.getElementById("horario-hoje");
+  const lista = document.getElementById("horario-lista");
+  if(!bolinha || !textoStatus) return;
+
+  const { aberto, horarioHoje, diaSemana } = obterStatusFuncionamento();
+
+  bolinha.classList.toggle("aberto", aberto);
+  bolinha.classList.toggle("fechado", !aberto);
+  textoStatus.textContent = aberto ? "Aberto" : "Fechado";
+  textoStatus.parentElement.classList.toggle("status-aberto", aberto);
+  textoStatus.parentElement.classList.toggle("status-fechado", !aberto);
+
+  if(horarioHojeEl){
+    horarioHojeEl.textContent = horarioHoje
+      ? `Hoje: ${horarioHoje.abre} às ${horarioHoje.fecha}`
+      : "Hoje: fechado o dia todo";
+  }
+
+  if(lista){
+    lista.innerHTML = DIAS_SEMANA.map(d => {
+      const h = HORARIO_FUNCIONAMENTO[d.chave];
+      const ehHoje = d.chave === diaSemana;
+      return `
+        <div class="horario-linha ${ehHoje ? "horario-linha-hoje" : ""}">
+          <span>${d.nome}${ehHoje ? " (hoje)" : ""}</span>
+          <span>${h ? `${h.abre} às ${h.fecha}` : "Fechado"}</span>
+        </div>
+      `;
+    }).join("");
+  }
+}
+
+function iniciarHorarioFuncionamento(){
+  renderizarHorarioFuncionamento();
+
+  // Reavalia a cada minuto, caso o cliente deixe a aba aberta bem na
+  // hora de abrir ou fechar a loja.
+  setInterval(renderizarHorarioFuncionamento, 60000);
+
+  document.getElementById("horario-resumo")?.addEventListener("click", (e) => {
+    const btn = e.currentTarget;
+    const lista = document.getElementById("horario-lista");
+    const seta = document.getElementById("horario-seta");
+    const estaAberta = !lista.hidden;
+
+    lista.hidden = estaAberta;
+    btn.setAttribute("aria-expanded", String(!estaAberta));
+    if(seta) seta.textContent = estaAberta ? "▾" : "▴";
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Permite abrir a home já filtrada, ex: index.html?categoria=promocoes
   const params = new URLSearchParams(window.location.search);
@@ -224,4 +338,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderizarBanners();
   renderizarFiltro();
   renderizarProdutos();
+  iniciarHorarioFuncionamento();
 });

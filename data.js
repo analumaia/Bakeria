@@ -19,6 +19,40 @@
 ------------------------------------------------------------ */
 const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
 
+/* ------------------------------------------------------------
+   HORÁRIO DE FUNCIONAMENTO
+   Aparece numa aba logo abaixo do banner, mostrando "Aberto"/"Fechado"
+   automaticamente, sempre seguindo o horário de Brasília — não importa
+   de onde o cliente esteja acessando o site.
+
+   COMO EDITAR:
+   - Para um dia com atendimento, use: { abre: "09:00", fecha: "19:00" }
+   - Para um dia sem atendimento (fechado o dia todo), use: null
+   - Os horários usam formato 24h ("19:00", não "7:00 PM")
+   - Só é possível um intervalo por dia (não dá pra configurar pausa de
+     almoço com esse formato simples — se precisar disso, me avise).
+------------------------------------------------------------ */
+const HORARIO_FUNCIONAMENTO = {
+  segunda: { abre: "09:00", fecha: "19:00" },
+  terca:   { abre: "09:00", fecha: "19:00" },
+  quarta:  { abre: "09:00", fecha: "19:00" },
+  quinta:  { abre: "09:00", fecha: "19:00" },
+  sexta:   { abre: "09:00", fecha: "19:00" },
+  sabado:  { abre: "09:00", fecha: "13:00" },
+  domingo: null
+};
+
+// Usado só para exibir os nomes dos dias na lista expandida — não precisa editar.
+const DIAS_SEMANA = [
+  { chave: "segunda", nome: "Segunda-feira" },
+  { chave: "terca",   nome: "Terça-feira" },
+  { chave: "quarta",  nome: "Quarta-feira" },
+  { chave: "quinta",  nome: "Quinta-feira" },
+  { chave: "sexta",   nome: "Sexta-feira" },
+  { chave: "sabado",  nome: "Sábado" },
+  { chave: "domingo", nome: "Domingo" },
+];
+
 const CATEGORIAS = [
   { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos que nunca saem de moda", icone: "🍪" },
   { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookie recheado, quentinho e generoso", icone: "🥧" },

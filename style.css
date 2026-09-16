@@ -285,6 +285,91 @@ h1, h2, h3, .fonte-titulo{
 .banner-pontos button.ativo{ opacity: 1; background: var(--rosa); }
 
 /* ---------------------------------------------------------
+   HORÁRIO DE FUNCIONAMENTO
+--------------------------------------------------------- */
+.horario-funcionamento{
+  margin-top: 16px;
+}
+
+.horario-resumo{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--branco);
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  box-shadow: var(--sombra);
+  font-family: inherit;
+}
+
+.horario-status{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.horario-status.status-aberto{ background: #e3f5e9; color: #1e7a45; }
+.horario-status.status-fechado{ background: #fbe4e4; color: #b23a3a; }
+
+.horario-bolinha{
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.horario-bolinha.aberto{ background: #2e9e5b; }
+.horario-bolinha.fechado{ background: #c0392b; }
+
+.horario-hoje{
+  flex: 1;
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--marrom-cafe);
+}
+
+.horario-seta{
+  font-size: 0.9rem;
+  color: var(--marrom-cafe);
+  flex-shrink: 0;
+}
+
+.horario-lista{
+  background: var(--branco);
+  border-radius: 16px;
+  margin-top: 8px;
+  padding: 6px 20px;
+  box-shadow: var(--sombra);
+}
+
+.horario-linha{
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  font-size: 0.86rem;
+  color: var(--marrom-escuro);
+  border-bottom: 1px solid var(--bege);
+}
+.horario-linha:last-child{ border-bottom: none; }
+
+.horario-linha-hoje{
+  font-weight: 700;
+  color: var(--rosa);
+}
+
+@media (max-width: 600px){
+  .horario-resumo{ padding: 10px 14px; flex-wrap: wrap; }
+  .horario-hoje{ order: 3; width: 100%; text-align: left; margin-top: 4px; }
+  .horario-status{ font-size: 0.85rem; padding: 4px 10px; }
+}
+
+/* ---------------------------------------------------------
    LAYOUT PRINCIPAL: filtro lateral + produtos
 --------------------------------------------------------- */
 .conteudo-principal{

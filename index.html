@@ -38,6 +38,20 @@
     <div class="banner-pontos" id="banner-pontos"></div>
   </section>
 
+  <!-- ===================== HORÁRIO DE FUNCIONAMENTO ===================== -->
+  <!-- Horários vêm de data.js (HORARIO_FUNCIONAMENTO) — edite lá, não aqui -->
+  <section class="horario-funcionamento container">
+    <button type="button" class="horario-resumo" id="horario-resumo" aria-expanded="false">
+      <span class="horario-status">
+        <span class="horario-bolinha" id="horario-bolinha"></span>
+        <strong id="horario-texto-status">Carregando horário...</strong>
+      </span>
+      <span class="horario-hoje" id="horario-hoje"></span>
+      <span class="horario-seta" id="horario-seta">▾</span>
+    </button>
+    <div class="horario-lista" id="horario-lista" hidden></div>
+  </section>
+
   <!-- ===================== FILTRO + PRODUTOS ===================== -->
   <main class="container conteudo-principal">
     <aside class="filtro-categorias" aria-label="Filtrar por categoria">
@@ -83,7 +97,7 @@
         </div>
 
         <p class="dica-data-entrega-geral">
-          📅 A data de entrega/retirada é individual para cada produto. Pedidos de encomenda precisam de pelo menos 48h de antecedência — confirme a disponibilidade via WhatsApp.
+          📅 A data de entrega/retirada agora é escolhida individualmente para cada produto, na lista acima. Pedidos de encomenda podem precisar de mais dias — combine pelo WhatsApp se a data for muito em cima da hora.
         </p>
 
         <div class="campo-tipo-entrega">

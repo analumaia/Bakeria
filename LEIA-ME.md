@@ -1,5 +1,22 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Horário de funcionamento (Aberto/Fechado automático)
+Logo abaixo do banner, agora tem uma aba mostrando se a loja está
+**Aberta** ou **Fechada**, calculado automaticamente com base no horário
+de Brasília — funciona certo mesmo se o cliente estiver acessando de
+outro fuso horário (o cálculo não depende do relógio do celular dele).
+
+- Clique na aba para expandir e ver os horários da semana inteira.
+- **Para editar os horários**: abra `data.js`, procure por
+  `HORARIO_FUNCIONAMENTO` (fica perto do topo do arquivo). Cada dia pode
+  ser `{ abre: "09:00", fecha: "19:00" }` ou `null` (fechado o dia todo).
+- Limitação atual: só dá pra configurar 1 intervalo por dia (não dá pra
+  fazer pausa de almoço, tipo "abre de manhã, fecha, abre de tarde de
+  novo"). Se precisar disso no futuro, me avise que eu ajusto.
+- O status é reavaliado sozinho a cada 1 minuto, então se um cliente
+  deixar a aba do site aberta bem na hora de abrir/fechar, o texto
+  atualiza sem precisar recarregar a página.
+
 ## Data de entrega agora é por produto, não por pedido
 Mudança pedida: em vez de um único campo de data para o pedido inteiro,
 cada item do carrinho agora tem seu próprio campo de data — assim o
