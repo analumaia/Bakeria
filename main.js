@@ -338,5 +338,16 @@ document.addEventListener("DOMContentLoaded", () => {
   renderizarBanners();
   renderizarFiltro();
   renderizarProdutos();
-  iniciarHorarioFuncionamento();
+
+  try{
+    iniciarHorarioFuncionamento();
+  }catch(erro){
+    // Se der erro aqui (ex: data.js desatualizado sem HORARIO_FUNCIONAMENTO),
+    // mostra um aviso claro em vez de ficar travado em "Carregando horário..."
+    console.error("Erro ao carregar horário de funcionamento:", erro);
+    const textoStatus = document.getElementById("horario-texto-status");
+    const horarioHojeEl = document.getElementById("horario-hoje");
+    if(textoStatus) textoStatus.textContent = "Horário indisponível";
+    if(horarioHojeEl) horarioHojeEl.textContent = "Atualize a página em alguns minutos";
+  }
 });
