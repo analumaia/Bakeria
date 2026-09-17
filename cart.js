@@ -12,6 +12,7 @@ const CHAVE_CARRINHO = "carrinho_delivery";
 const CHAVE_NOME = "carrinho_nome_cliente";
 const CHAVE_ENDERECO = "carrinho_endereco_cliente";
 const CHAVE_TIPO_ENTREGA = "carrinho_tipo_entrega";
+const CHAVE_CUPOM = "carrinho_cupom_aplicado";
 
 /* ------------------------------------------------------------
    CARRINHO (itens)
@@ -106,6 +107,87 @@ function atualizarDataItemCarrinho(id, novaData){
 
 function totalCarrinho(){
   return obterCarrinho().reduce((soma, i) => soma + i.preco * i.quantidade, 0);
+}
+
+/* ------------------------------------------------------------
+   CUPOM DE DESCONTO
+   Vale sobre o subtotal dos produtos. Frete não entra nessa conta,
+   já que é sempre combinado à parte pelo WhatsApp.
+------------------------------------------------------------ */
+function obterCupomAplicado(){
+  return localStorage.getItem(CHAVE_CUPOM) || "";
+}
+
+function salvarCupomAplicado(codigo){
+  localStorage.setItem(CHAVE_CUPOM, codigo);
+}
+
+function removerCupomAplicado(){
+  localStorage.removeItem(CHAVE_CUPOM);
+}
+
+function obterConfigCupomValido(){
+  const codigo = obterCupomAplicado();
+  if(!codigo) return null;
+  const config = CUPONS[codigo];
+  return config ? { codigo, ...config } : null;
+}
+
+function calcularDesconto(subtotal){
+  const cupom = obterConfigCupomValido();
+  if(!cupom) return 0;
+
+  if(cupom.tipo === "percentual"){
+    return subtotal * (cupom.valor / 100);
+  }
+  if(cupom.tipo === "fixo"){
+    return Math.min(cupom.valor, subtotal); // nunca deixa o desconto passar do subtotal
+  }
+  return 0;
+}
+
+function totalComDesconto(){
+  const subtotal = totalCarrinho();
+  return Math.max(0, subtotal - calcularDesconto(subtotal));
+}
+
+function exibirCupomAplicadoNoStatus(cupom){
+  const statusEl = document.getElementById("cupom-status");
+  if(!statusEl) return;
+  statusEl.innerHTML = `Cupom aplicado: ${cupom.descricao} ✓ <button type="button" class="link-remover-cupom" onclick="removerCupom()">Remover</button>`;
+  statusEl.className = "cupom-status sucesso";
+}
+
+function aplicarCupom(){
+  const input = document.getElementById("campo-cupom");
+  const statusEl = document.getElementById("cupom-status");
+  const codigoDigitado = (input?.value || "").trim().toUpperCase();
+
+  if(!codigoDigitado){
+    if(statusEl){ statusEl.textContent = "Digite um código de cupom."; statusEl.className = "cupom-status erro"; }
+    return;
+  }
+
+  if(!CUPONS[codigoDigitado]){
+    removerCupomAplicado();
+    if(statusEl){ statusEl.textContent = "Cupom inválido ou expirado."; statusEl.className = "cupom-status erro"; }
+    renderizarCarrinho();
+    return;
+  }
+
+  salvarCupomAplicado(codigoDigitado);
+  if(input) input.value = codigoDigitado;
+  exibirCupomAplicadoNoStatus(CUPONS[codigoDigitado]);
+  renderizarCarrinho();
+}
+
+function removerCupom(){
+  removerCupomAplicado();
+  const input = document.getElementById("campo-cupom");
+  const statusEl = document.getElementById("cupom-status");
+  if(input) input.value = "";
+  if(statusEl){ statusEl.textContent = ""; statusEl.className = "cupom-status"; }
+  renderizarCarrinho();
 }
 
 function quantidadeTotalCarrinho(){
@@ -379,7 +461,42 @@ function renderizarCarrinho(){
     `).join("");
   }
 
-  if(totalEl) totalEl.textContent = formatarPreco(totalCarrinho());
+  const subtotal = totalCarrinho();
+  const cupom = obterConfigCupomValido();
+  const desconto = calcularDesconto(subtotal);
+
+  const linhaSubtotal = document.getElementById("linha-subtotal");
+  const linhaDesconto = document.getElementById("linha-desconto");
+  const subtotalValorEl = document.getElementById("subtotal-valor");
+  const descontoValorEl = document.getElementById("desconto-valor");
+  const cupomCodigoEl = document.getElementById("cupom-aplicado-codigo");
+
+  const temDescontoAtivo = !!cupom && desconto > 0;
+
+  if(linhaSubtotal) linhaSubtotal.hidden = !temDescontoAtivo;
+  if(linhaDesconto) linhaDesconto.hidden = !temDescontoAtivo;
+
+  if(temDescontoAtivo){
+    if(subtotalValorEl) subtotalValorEl.textContent = formatarPreco(subtotal);
+    if(descontoValorEl) descontoValorEl.textContent = `- ${formatarPreco(desconto)}`;
+    if(cupomCodigoEl) cupomCodigoEl.textContent = cupom.codigo;
+  }
+
+  // Se o código salvo não existe mais em CUPONS (ex: você removeu o cupom
+  // de data.js), avisa o cliente em vez de aplicar um desconto silenciosamente.
+  const cupomSalvo = obterCupomAplicado();
+  const statusEl = document.getElementById("cupom-status");
+  const campoCupom = document.getElementById("campo-cupom");
+  if(cupomSalvo && !cupom && statusEl){
+    statusEl.textContent = "Esse cupom não é mais válido.";
+    statusEl.className = "cupom-status erro";
+    removerCupomAplicado();
+  }else if(cupom && campoCupom && !campoCupom.value){
+    campoCupom.value = cupom.codigo;
+    exibirCupomAplicadoNoStatus(cupom);
+  }
+
+  if(totalEl) totalEl.textContent = formatarPreco(totalComDesconto());
 
   atualizarEstadoBotaoPedido();
   atualizarBadgeCarrinho();
@@ -406,9 +523,20 @@ function montarMensagemWhatsapp(){
     })
     .join("\n");
 
-  const total = formatarPreco(totalCarrinho());
+  const subtotal = totalCarrinho();
+  const cupom = obterConfigCupomValido();
+  const desconto = calcularDesconto(subtotal);
+  const totalFinal = totalComDesconto();
 
-  let mensagem = `Olá, gostaria de pedir:\n${linhasPedido}\n\nTotal (produtos): ${total}`;
+  let mensagem = `Olá, gostaria de pedir:\n${linhasPedido}`;
+
+  if(cupom && desconto > 0){
+    mensagem += `\n\nSubtotal: ${formatarPreco(subtotal)}`;
+    mensagem += `\nCupom ${cupom.codigo} (${cupom.descricao}): -${formatarPreco(desconto)}`;
+    mensagem += `\nTotal (produtos): ${formatarPreco(totalFinal)}`;
+  }else{
+    mensagem += `\n\nTotal (produtos): ${formatarPreco(totalFinal)}`;
+  }
 
   if(nome){
     mensagem += `\n\nNome: ${nome}`;
@@ -464,6 +592,14 @@ function iniciarCarrinho(){
   document.getElementById("btn-fechar-carrinho")?.addEventListener("click", fecharCarrinho);
   document.getElementById("overlay-carrinho")?.addEventListener("click", fecharCarrinho);
   document.getElementById("btn-fazer-pedido")?.addEventListener("click", enviarPedidoWhatsapp);
+
+  document.getElementById("btn-aplicar-cupom")?.addEventListener("click", aplicarCupom);
+  document.getElementById("campo-cupom")?.addEventListener("keydown", (e) => {
+    if(e.key === "Enter"){
+      e.preventDefault();
+      aplicarCupom();
+    }
+  });
 
   document.getElementById("campo-nome-cliente")?.addEventListener("input", (e) => {
     salvarNomeCliente(e.target.value);

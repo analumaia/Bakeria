@@ -154,10 +154,30 @@
 
     <!-- Rodapé fixo: sempre visível, não rola junto com o resto. -->
     <div class="carrinho-fixo">
-      <div class="carrinho-total">
-        <span>Total</span>
-        <span id="carrinho-total-valor">R$ 0,00</span>
+      <div class="campo-cupom">
+        <label for="campo-cupom">Cupom de desconto</label>
+        <div class="cupom-linha">
+          <input type="text" id="campo-cupom" placeholder="Digite o código" autocapitalize="characters">
+          <button type="button" id="btn-aplicar-cupom">Aplicar</button>
+        </div>
+        <p class="cupom-status" id="cupom-status"></p>
       </div>
+
+      <div class="carrinho-total-bloco" id="carrinho-total-bloco">
+        <div class="linha-valor linha-subtotal" id="linha-subtotal" hidden>
+          <span>Subtotal</span>
+          <span id="subtotal-valor">R$ 0,00</span>
+        </div>
+        <div class="linha-valor linha-desconto" id="linha-desconto" hidden>
+          <span>Desconto (<span id="cupom-aplicado-codigo"></span>)</span>
+          <span id="desconto-valor">- R$ 0,00</span>
+        </div>
+        <div class="linha-valor linha-total-final">
+          <span>Total</span>
+          <span id="carrinho-total-valor">R$ 0,00</span>
+        </div>
+      </div>
+
       <button type="button" class="btn-pedido" id="btn-fazer-pedido" disabled>
         Fazer pedido pelo WhatsApp
       </button>

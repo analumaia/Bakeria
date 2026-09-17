@@ -1,5 +1,24 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Cupom de desconto no carrinho
+- Novo campo "Cupom de desconto" no rodapé do carrinho, com botão "Aplicar"
+  (também funciona apertando Enter).
+- **Para criar/editar cupons**: abra `data.js`, procure por `CUPONS` (perto
+  do topo). Cada cupom tem um `tipo` — `"percentual"` (ex: 10%) ou
+  `"fixo"` (ex: R$ 5,00 de desconto) — e uma `descricao` que aparece pro
+  cliente quando o cupom é aceito.
+- Já vêm dois cupons de exemplo: `BEMVINDO10` (10% off) e `DESCONTO5`
+  (R$ 5 fixo). Apague ou troque à vontade.
+- O desconto nunca deixa o total ficar negativo (um cupom fixo maior que
+  o carrinho só desconta até zerar, não gera valor negativo).
+- O desconto vale só sobre os produtos — o frete, quando for entrega,
+  continua sendo combinado à parte pelo WhatsApp, como já era antes.
+- O cupom aplicado fica salvo no navegador do cliente (some se ele limpar
+  os dados do navegador ou se você apagar o código de `CUPONS`).
+- Se o cupom salvo no navegador do cliente não existir mais em `data.js`
+  (porque você removeu ou trocou), o site avisa "Esse cupom não é mais
+  válido" e recalcula o total sem o desconto — não trava nem quebra nada.
+
 ## Horário de funcionamento (Aberto/Fechado automático)
 Logo abaixo do banner, agora tem uma aba mostrando se a loja está
 **Aberta** ou **Fechada**, calculado automaticamente com base no horário

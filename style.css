@@ -1079,12 +1079,87 @@ h1, h2, h3, .fonte-titulo{
   margin: 10px 0 0;
 }
 
-.carrinho-total{
+/* --------- CUPOM DE DESCONTO --------- */
+.campo-cupom{
+  margin-bottom: 14px;
+}
+.campo-cupom label{
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.cupom-linha{
+  display: flex;
+  gap: 8px;
+}
+
+.cupom-linha input{
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--marrom-claro);
+  font-family: inherit;
+  font-size: 0.92rem;
+  background: var(--branco);
+  color: var(--marrom-escuro);
+  text-transform: uppercase;
+}
+.cupom-linha input::placeholder{ text-transform: none; }
+.cupom-linha input:focus{ border-color: var(--rosa); }
+
+.cupom-linha button{
+  flex-shrink: 0;
+  background: var(--marrom-escuro);
+  color: var(--bege-claro);
+  border: none;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+.cupom-linha button:hover{ background: var(--rosa); }
+
+.cupom-status{
+  font-size: 0.78rem;
+  margin: 6px 0 0;
+  min-height: 1.1em;
+}
+.cupom-status.sucesso{ color: #1e7a45; font-weight: 600; }
+.cupom-status.erro{ color: #b23a3a; font-weight: 600; }
+
+.link-remover-cupom{
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  text-decoration: underline;
+  font-size: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.carrinho-total-bloco{
+  margin-bottom: 14px;
+}
+
+.linha-valor{
   display: flex;
   justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--marrom-cafe);
+  padding: 2px 0;
+}
+
+.linha-desconto{ color: #1e7a45; font-weight: 600; }
+
+.linha-total-final{
   font-weight: 700;
   font-size: 1.05rem;
-  margin-bottom: 14px;
+  color: var(--marrom-escuro);
+  margin-top: 4px;
 }
 
 .btn-pedido{

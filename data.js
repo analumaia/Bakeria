@@ -20,6 +20,26 @@
 const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
 
 /* ------------------------------------------------------------
+   CUPONS DE DESCONTO
+   O cliente digita o código no carrinho e clica em "Aplicar".
+   O desconto vale sobre o subtotal dos produtos (não conta o frete,
+   que é sempre combinado à parte pelo WhatsApp).
+
+   COMO ADICIONAR UM CUPOM NOVO:
+   - Use MAIÚSCULAS no código (o site já converte automaticamente
+     o que o cliente digitar, então não precisa se preocupar com isso).
+   - "tipo": "percentual" (desconto em %) ou "fixo" (valor em reais).
+   - "descricao" aparece pro cliente quando o cupom é aplicado.
+
+   COMO DESATIVAR UM CUPOM:
+   - Apague o bloco inteiro, ou comente as linhas colocando // na frente.
+------------------------------------------------------------ */
+const CUPONS = {
+  "BEMVINDO10": { tipo: "percentual", valor: 10, descricao: "10% de desconto" },
+  "DESCONTO5": { tipo: "fixo", valor: 5, descricao: "R$ 5,00 de desconto" }
+};
+
+/* ------------------------------------------------------------
    HORÁRIO DE FUNCIONAMENTO
    Aparece numa aba logo abaixo do banner, mostrando "Aberto"/"Fechado"
    automaticamente, sempre seguindo o horário de Brasília — não importa
