@@ -17,7 +17,7 @@
    Aparece no carrinho quando o cliente escolhe "Retirada" em vez
    de "Entrega". Troque pelo endereço real da sua loja/cozinha.
 ------------------------------------------------------------ */
-const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
+const ENDERECO_RETIRADA = "Rua Ponta Porã, 13 - Bairro Sumaré - Montes Claros/MG";
 
 /* ------------------------------------------------------------
    CUPONS DE DESCONTO
@@ -35,8 +35,7 @@ const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
    - Apague o bloco inteiro, ou comente as linhas colocando // na frente.
 ------------------------------------------------------------ */
 const CUPONS = {
-  "BEMVINDO10": { tipo: "percentual", valor: 10, descricao: "10% de desconto" },
-  "DESCONTO5": { tipo: "fixo", valor: 5, descricao: "R$ 5,00 de desconto" }
+  "BEMVINDO5": { tipo: "percentual", valor: 5, descricao: "10% de desconto" },
 };
 
 /* ------------------------------------------------------------
@@ -53,13 +52,13 @@ const CUPONS = {
      almoço com esse formato simples — se precisar disso, me avise).
 ------------------------------------------------------------ */
 const HORARIO_FUNCIONAMENTO = {
-  segunda: { abre: "09:00", fecha: "19:00" },
-  terca:   { abre: "09:00", fecha: "19:00" },
-  quarta:  { abre: "09:00", fecha: "19:00" },
-  quinta:  { abre: "09:00", fecha: "19:00" },
-  sexta:   { abre: "09:00", fecha: "19:00" },
-  sabado:  { abre: "09:00", fecha: "13:00" },
-  domingo: null
+  segunda: null,
+  terca:   { abre: "18:00", fecha: "21:00" },
+  quarta:  { abre: "18:00", fecha: "21:00" },
+  quinta:  { abre: "18:00", fecha: "21:00" },
+  sexta:   { abre: "18:00", fecha: "21:00" },
+  sabado:  { abre: "12:00", fecha: "16:00" },
+  domingo: { abre: "12:00", fecha: "16:00" }
 };
 
 // Usado só para exibir os nomes dos dias na lista expandida — não precisa editar.
@@ -74,11 +73,11 @@ const DIAS_SEMANA = [
 ];
 
 const CATEGORIAS = [
-  { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos que nunca saem de moda", icone: "🍪" },
-  { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookie recheado, quentinho e generoso", icone: "🥧" },
-  { id: "combos",       nome: "Combos",        subtitulo: "Mais sabor, mais economia", icone: "🎁" },
-  { id: "promocoes",    nome: "Promoções",     subtitulo: "Por tempo limitado", icone: "🔥" },
-  { id: "encomendas",   nome: "Encomendas",    subtitulo: "Tortas de cookie sob encomenda — combine a data de entrega", icone: "🎂" },
+  { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Cookies sem recheio mas com muito chocolate!", icone: "🍪" },
+  { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookies recheados para matar a vontade de doce", icone: "🥧" },
+  { id: "combos",       nome: "Combos",        subtitulo: "Leve mais por menos! Aproveite nossos combos", icone: "🎁" },
+  { id: "promocoes",    nome: "Promoções",     subtitulo: "Promoções exclusivas por tempo limitado", icone: "🔥" },
+  { id: "encomendas",   nome: "Encomendas",    subtitulo: "Tortas para presentear a si ou alguém que ama — combine a data de entrega", icone: "🎂" },
 ];
 
 /* ------------------------------------------------------------
