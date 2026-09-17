@@ -166,7 +166,7 @@ const PRODUTOS = [
     id: 6,
     nome: "Leve 3 tradicionais, pague 2",
     categoria: "combos",
-    preco: 28,00,
+    preco: 28.00,
     descricaoCurta: "Leve 3 cookies tradicionais e pague apenas por 2 ",
     descricaoCompleta: "Combo perfeito para quem ama um cookie tradicional",
     ingredientes: ["cookies tradicionais"],
