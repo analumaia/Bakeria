@@ -1,5 +1,16 @@
 # Bakeria Confeitaria Artesanal — Site de Delivery
 
+## Link direto pro Google Maps no endereço de retirada
+Abaixo do endereço de retirada, agora tem um link "📍 Ver no mapa" que
+abre o Google Maps direto na busca pelo endereço, numa aba nova.
+
+- Não precisa de chave de API do Google nem nada pago — é só um link
+  formatado que o Google Maps já entende.
+- O link é montado automaticamente a partir do `ENDERECO_RETIRADA` que
+  você já edita em `data.js` — ou seja, quando você trocar o endereço lá,
+  o link do mapa atualiza sozinho junto. Não precisa editar em dois
+  lugares.
+
 ## Cupom de desconto no carrinho
 - Novo campo "Cupom de desconto" no rodapé do carrinho, com botão "Aplicar"
   (também funciona apertando Enter).

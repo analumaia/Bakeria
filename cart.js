@@ -267,8 +267,15 @@ function atualizarVisibilidadeEntrega(){
   if(avisoRetirada){
     avisoRetirada.style.display = ehEntrega ? "none" : "block";
     const textoEndereco = document.getElementById("texto-endereco-retirada");
+    const linkMapa = document.getElementById("link-mapa-retirada");
     if(textoEndereco && typeof ENDERECO_RETIRADA !== "undefined"){
       textoEndereco.textContent = `Endereço para retirada: ${ENDERECO_RETIRADA}`;
+    }
+    if(linkMapa && typeof ENDERECO_RETIRADA !== "undefined"){
+      // Link direto pro Google Maps, sem precisar de chave de API — usa o
+      // mesmo texto de ENDERECO_RETIRADA, então atualiza sozinho quando
+      // você editar o endereço em data.js.
+      linkMapa.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ENDERECO_RETIRADA)}`;
     }
   }
 

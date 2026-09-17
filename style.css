@@ -1010,6 +1010,16 @@ h1, h2, h3, .fonte-titulo{
   border: 1.5px dashed var(--marrom-claro);
 }
 
+.link-mapa{
+  display: block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--rosa);
+  text-decoration: underline;
+}
+.link-mapa:hover{ color: #cf5c86; }
+
 /* --------- ENDEREÇO (CEP com busca automática + número manual) --------- */
 .campo-endereco{
   margin-bottom: 14px;
