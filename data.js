@@ -118,8 +118,8 @@ const PRODUTOS = [
     categoria: "tradicionais",
     preco: 14.00,
     descricaoCurta: "Cookie crocante por fora, macio por dentro, com gotas de chocolate.",
-    descricaoCompleta: "Nosso cookie tradicional é feito com manteiga de verdade e uma generosa quantidade de gotas de chocolate meio amargo. Assado na hora para garantir aquele centro macio e derretido.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Açúcar mascavo", "Ovos", "Baunilha"],
+    descricaoCompleta: "Nosso cookie tradicional é feito com gotas de chocolate meio amargo e sabor de baunilha. Frequinho para garantir aquele centro macio e derretido.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
     imagens: ["cookie-tradicional-1.jpg", "cookie-tradicional-2.jpg"]
   },
   {
@@ -127,9 +127,9 @@ const PRODUTOS = [
     nome: "Cookie Pie Chocotella",
     categoria: "cookie-pies",
     preco: 17.00,
-    descricaoCurta: "Cookie em formato de tartelete, servido com muuuuuita Nutella.",
-    descricaoCompleta: "Uma torta de cookie individual, com bordas crocantes e centro derretido recheado com creme de chocolate e avelã. Perfeito para comer de colher.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Creme de avelã", "Chocolate ao leite", "Açúcar", "Ovos"],
+    descricaoCurta: "Cookie pie servido com muuuuuita Nutella.",
+    descricaoCompleta: "Uma torta de cookie individual, com bordas crocantes e recheado com nutella de verdade.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Nutella Original", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
     imagens: ["cookie-pie-avela-1.jpg", "cookie-pie-avela-2.jpg", "cookie-pie-avela-3.jpg"]
   },
   {
@@ -137,9 +137,9 @@ const PRODUTOS = [
     nome: "Cookie Pie Kinder Bueno",
     categoria: "cookie-pies",
     preco: 17.00,
-    descricaoCurta: "Recheio cremoso com pedaços de Kinder Bueno.",
-    descricaoCompleta: "Massa de cookie amanteigada recheada com creme de chocolate e pedaços de Kinder Bueno, para quem ama uma combinação irresistível.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Kinder Bueno", "Chocolate ao leite", "Açúcar mascavo", "Ovos"],
+    descricaoCurta: "Recheio cremoso com pedaços de Kinder Bueno e farofa de avelã.",
+    descricaoCompleta: "Massa de cookie amanteigada recheada com creme de chocolate e pedaços de Kinder Bueno e farofa de avelã, para quem ama uma combinação irresistível.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Kinder Bueno", "Avelã", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
     imagens: ["cookie-pie-kinderbueno-1.jpg"]
   },
   {
@@ -147,9 +147,9 @@ const PRODUTOS = [
     nome: "Cookie Pie Ninhotella",
     categoria: "cookie-pies",
     preco: 17.00,
-    descricaoCurta: "Combinação cremosa de leite Ninho com Nutella.",
-    descricaoCompleta: "Torta de cookie recheada com creme de leite Ninho e Nutella, uma dupla clássica em formato de cookie quentinho.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Leite em pó Ninho", "Nutella", "Açúcar mascavo", "Ovos"],
+    descricaoCurta: "Combinação perfeito de brigadeiro de leite Ninho com Nutella.",
+    descricaoCompleta: "Torta de cookie recheada com brigadeiro de leite Ninho e Nutella, uma dupla clássica em formato de cookie quentinho.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Nutella Original", "Leite em pó", "Leite condensado", "Creme de leite", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
     imagens: ["cookie-pie-ninhonutella-1.jpg"]
   },
   {
@@ -157,38 +157,28 @@ const PRODUTOS = [
     nome: "Cookie Pie Brigadeiro ao Leite",
     categoria: "cookie-pies",
     preco: 17.00,
-    descricaoCurta: "Recheio de brigadeiro cremoso ao leite.",
+    descricaoCurta: "Recheio de brigadeiro cremoso ao leite para os amantes de chocolate.",
     descricaoCompleta: "Massa de cookie recheada com brigadeiro cremoso ao leite, para quem não abre mão do sabor clássico brasileiro.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Brigadeiro ao leite", "Chocolate ao leite", "Açúcar mascavo", "Ovos"],
+    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Cacau 50%", "Leite condensado", "Creme de leite", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
     imagens: ["cookie-pie-brigadeiro-1.jpg"]
   },
   {
     id: 6,
-    nome: "Tradicional + Coca Zero",
+    nome: "Leve 3 tradicionais, pague 2",
     categoria: "combos",
-    preco: 17.90,
-    descricaoCurta: "1 cookies tradicionais à sua escolha + coca cola zero.",
-    descricaoCompleta: "Combo perfeito para matar a vontade: cookie tradicional e leve uma coquinha para acompanhar.",
-    ingredientes: ["cookies tradicionais", "Coca Cola Zero Lata"],
+    preco: 28,00,
+    descricaoCurta: "Leve 3 cookies tradicionais e pague apenas por 2 ",
+    descricaoCompleta: "Combo perfeito para quem ama um cookie tradicional",
+    ingredientes: ["cookies tradicionais"],
     imagens: ["combo-dupla-1.jpg"]
   },
   {
     id: 7,
-    nome: "Combo Cookie Pie + Refrigerante",
-    categoria: "combos",
-    preco: 29.90,
-    descricaoCurta: "1 Cookie Pie do sabor que preferir + refrigerante lata.",
-    descricaoCompleta: "O combo mais pedido da casa: um Cookie Pie inteiro, do sabor que você escolher, acompanhado de um refrigerante gelado.",
-    ingredientes: ["1 Cookie Pie (sabor à escolha)", "Refrigerante lata 350ml"],
-    imagens: ["combo-cookiepie-1.jpg"]
-  },
-  {
-    id: 8,
-    nome: "Combo dupla Cookie Pìes",
+    nome: "Dupla Cookie Pìes",
     categoria: "combos",
     preco: 30.00,
-    descricaoCurta: "2 cookies pies à sua escolha por R$ 30.",
-    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 30.",
+    descricaoCurta: "2 cookies pies à sua escolha por R$ 30,00!",
+    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 30,00.",
     ingredientes: ["2 cookies à escolha"],
     imagens: ["combo-doiscookies-1.jpg"]
   },
@@ -196,22 +186,12 @@ const PRODUTOS = [
     id: 9,
     nome: "Promoção: Leve 5 pague 4",
     categoria: "promocoes",
-    preco: 68.00,
+    preco: 85.00,
     descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
     descricaoCompleta: "Monte sua caixa com 5 cookies pies dos sabores que quiser e leve um cookie tradicional de bride. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["5 cookies pies a sua escolha"],
     imagens: ["promo-leve6-1.jpg"]
   },
-  {
-    id: 10,
-    nome: "Torta de Cookie sob Encomenda",
-    categoria: "encomendas",
-    preco: 120.00,
-    descricaoCurta: "Torta de cookie personalizada, feita sob encomenda — combine sabor, tamanho e data de entrega.",
-    descricaoCompleta: "Torta de cookie artesanal, feita especialmente para o seu pedido. Aceita personalização de sabor e tamanho. IMPORTANTE: pedidos de encomenda precisam ser feitos com antecedência — combine a data de entrega no carrinho.",
-    ingredientes: ["Massa de cookie", "Recheio à escolha", "Cobertura à escolha"],
-    imagens: ["torta-cookie-encomenda-1.jpg"]
-  }
 ];
 
 /* ------------------------------------------------------------
@@ -231,4 +211,4 @@ const PRODUTOS = [
    - Pode deixar vazia ([]) — nesse caso, a vitrine simplesmente
      segue a ordem de cadastro em PRODUTOS.
 ------------------------------------------------------------ */
-const DESTAQUES = [9, 7, 8, 1, 2, 3, 4, 5, 6, 10];
+const DESTAQUES = [9, 7, 6, 1, 2, 3, 4, 5];
