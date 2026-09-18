@@ -88,20 +88,28 @@ const CATEGORIAS = [
 ------------------------------------------------------------ */
 const BANNERS = [
   {
-    tag: "Promoção da semana",
-    titulo: "Combo Cookie Pie + Refrigerante",
-    texto: "Peça pelo WhatsApp e garanta preço especial até domingo.",
+    tag: "Combo queridinho",
+    titulo: "Dupla Cookie Pìes",
+    texto: "Aproveite mais por menos levando dois cookies pies por preço promocional!",
     imagem: "banner-1.jpg",
-    linkTexto: "Ver promoções",
-    linkCategoria: "promocoes"
+    linkTexto: "Garanta agora",
+    linkCategoria: "combos"
   },
   {
-    tag: "Novidade",
-    titulo: "Cookie Pie Chocotella",
-    texto: "Massa crocante por fora, recheio generoso de Nutella por dentro.",
+    tag: "Promoção limitada",
+    titulo: "Quer ganhar um tradicional de brinde?",
+    texto: "Compre 5 cookie pies e ganhe um tradicional de brinde!",
     imagem: "banner-2.jpg",
-    linkTexto: "Conferir Cookie Pies",
-    linkCategoria: "cookie-pies"
+    linkTexto: "Garantir promoção",
+    linkCategoria: "promocoes"
+  }
+  {
+    tag: "Presenteie quem você ama",
+    titulo: "Nossas tortas cookies conquistam qualquer um",
+    texto: "Faça sua encomenda e surpreenda quem você ama!",
+    imagem: "banner-2.jpg",
+    linkTexto: "Encomendar!",
+    linkCategoria: "encomendas"
   }
 ];
 
