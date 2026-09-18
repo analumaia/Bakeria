@@ -102,7 +102,7 @@ const BANNERS = [
     imagem: "banner-2.jpg",
     linkTexto: "Garantir promoção",
     linkCategoria: "promocoes"
-  }
+  },
   {
     tag: "Presenteie quem você ama",
     titulo: "Nossas tortas cookies conquistam qualquer um",
