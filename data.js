@@ -162,7 +162,7 @@ const PRODUTOS = [
   },
   {
     id: 5,
-    nome: "Cookie Pie Brigadeiro ao Leite",
+    nome: "Cookie Pie Brigs ao Leite",
     categoria: "cookie-pies",
     preco: 17.00,
     descricaoCurta: "Recheio de brigadeiro cremoso ao leite para os amantes de chocolate.",
