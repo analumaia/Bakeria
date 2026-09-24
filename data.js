@@ -91,7 +91,7 @@ const BANNERS = [
     tag: "Combo queridinho",
     titulo: "Dupla Cookie Pìes",
     texto: "Aproveite mais por menos levando dois cookies pies por preço promocional!",
-    imagem: "banner-1.jpg",
+    imagem: "banner-1.jpeg",
     linkTexto: "Garanta agora",
     linkCategoria: "combos"
   },
