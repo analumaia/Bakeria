@@ -92,7 +92,7 @@ const BANNERS = [
     tag: "Promoção da semana",
     titulo: "Combo Cookie Pie + Refrigerante",
     texto: "Peça pelo WhatsApp e garanta preço especial até domingo.",
-    imagem: "banner-1.jpg",
+    imagem: "banner-1.jpeg",
     linkTexto: "Ver promoções",
     linkCategoria: "promocoes"
   },
