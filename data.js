@@ -17,7 +17,7 @@
    Aparece no carrinho quando o cliente escolhe "Retirada" em vez
    de "Entrega". Troque pelo endereço real da sua loja/cozinha.
 ------------------------------------------------------------ */
-const ENDERECO_RETIRADA = "Rua Ponta Porã, 13 - Bairro Sumaré - Montes Claros/MG";
+const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
 
 /* ------------------------------------------------------------
    CUPONS DE DESCONTO
@@ -35,7 +35,8 @@ const ENDERECO_RETIRADA = "Rua Ponta Porã, 13 - Bairro Sumaré - Montes Claros/
    - Apague o bloco inteiro, ou comente as linhas colocando // na frente.
 ------------------------------------------------------------ */
 const CUPONS = {
-  "BEMVINDO5": { tipo: "percentual", valor: 5, descricao: "10% de desconto" },
+  "BEMVINDO10": { tipo: "percentual", valor: 10, descricao: "10% de desconto" },
+  "DESCONTO5": { tipo: "fixo", valor: 5, descricao: "R$ 5,00 de desconto" }
 };
 
 /* ------------------------------------------------------------
@@ -52,13 +53,13 @@ const CUPONS = {
      almoço com esse formato simples — se precisar disso, me avise).
 ------------------------------------------------------------ */
 const HORARIO_FUNCIONAMENTO = {
-  segunda: null,
-  terca:   { abre: "18:00", fecha: "21:00" },
-  quarta:  { abre: "18:00", fecha: "21:00" },
-  quinta:  { abre: "18:00", fecha: "21:00" },
-  sexta:   { abre: "18:00", fecha: "21:00" },
-  sabado:  { abre: "12:00", fecha: "16:00" },
-  domingo: { abre: "12:00", fecha: "16:00" }
+  segunda: { abre: "09:00", fecha: "19:00" },
+  terca:   { abre: "09:00", fecha: "19:00" },
+  quarta:  { abre: "09:00", fecha: "19:00" },
+  quinta:  { abre: "09:00", fecha: "19:00" },
+  sexta:   { abre: "09:00", fecha: "19:00" },
+  sabado:  { abre: "09:00", fecha: "13:00" },
+  domingo: null
 };
 
 // Usado só para exibir os nomes dos dias na lista expandida — não precisa editar.
@@ -73,11 +74,11 @@ const DIAS_SEMANA = [
 ];
 
 const CATEGORIAS = [
-  { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Cookies sem recheio mas com muito chocolate!", icone: "🍪" },
-  { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookies recheados para matar a vontade de doce", icone: "🥧" },
-  { id: "combos",       nome: "Combos",        subtitulo: "Leve mais por menos! Aproveite nossos combos", icone: "🎁" },
-  { id: "promocoes",    nome: "Promoções",     subtitulo: "Promoções exclusivas por tempo limitado", icone: "🔥" },
-  { id: "encomendas",   nome: "Encomendas",    subtitulo: "Tortas para presentear a si ou alguém que ama — combine a data de entrega", icone: "🎂" },
+  { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos que nunca saem de moda", icone: "🍪" },
+  { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookie recheado, quentinho e generoso", icone: "🥧" },
+  { id: "combos",       nome: "Combos",        subtitulo: "Mais sabor, mais economia", icone: "🎁" },
+  { id: "promocoes",    nome: "Promoções",     subtitulo: "Por tempo limitado", icone: "🔥" },
+  { id: "encomendas",   nome: "Encomendas",    subtitulo: "Tortas de cookie sob encomenda — combine a data de entrega", icone: "🎂" },
 ];
 
 /* ------------------------------------------------------------
@@ -88,28 +89,20 @@ const CATEGORIAS = [
 ------------------------------------------------------------ */
 const BANNERS = [
   {
-    tag: "Combo queridinho",
-    titulo: "Dupla Cookie Pìes",
-    texto: "Aproveite mais por menos levando dois cookies pies por preço promocional!",
-    imagem: "banner-1.jpeg",
-    linkTexto: "Garanta agora",
-    linkCategoria: "combos"
-  },
-  {
-    tag: "Promoção limitada",
-    titulo: "Quer ganhar um tradicional de brinde?",
-    texto: "Compre 5 cookie pies e ganhe um tradicional de brinde!",
-    imagem: "banner-2.jpg",
-    linkTexto: "Garantir promoção",
+    tag: "Promoção da semana",
+    titulo: "Combo Cookie Pie + Refrigerante",
+    texto: "Peça pelo WhatsApp e garanta preço especial até domingo.",
+    imagem: "banner-1.jpg",
+    linkTexto: "Ver promoções",
     linkCategoria: "promocoes"
   },
   {
-    tag: "Presenteie quem você ama",
-    titulo: "Nossas tortas cookies conquistam qualquer um",
-    texto: "Faça sua encomenda e surpreenda quem você ama!",
+    tag: "Novidade",
+    titulo: "Cookie Pie Chocotella",
+    texto: "Massa crocante por fora, recheio generoso de Nutella por dentro.",
     imagem: "banner-2.jpg",
-    linkTexto: "Encomendar!",
-    linkCategoria: "encomendas"
+    linkTexto: "Conferir Cookie Pies",
+    linkCategoria: "cookie-pies"
   }
 ];
 
@@ -126,28 +119,28 @@ const PRODUTOS = [
     categoria: "tradicionais",
     preco: 14.00,
     descricaoCurta: "Cookie crocante por fora, macio por dentro, com gotas de chocolate.",
-    descricaoCompleta: "Nosso cookie tradicional é feito com gotas de chocolate meio amargo e sabor de baunilha. Frequinho para garantir aquele centro macio e derretido.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
+    descricaoCompleta: "Nosso cookie tradicional é feito com manteiga de verdade e uma generosa quantidade de gotas de chocolate meio amargo. Assado na hora para garantir aquele centro macio e derretido.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Açúcar mascavo", "Ovos", "Baunilha"],
     imagens: ["cookie-tradicional-1.jpg", "cookie-tradicional-2.jpg"]
   },
   {
     id: 2,
     nome: "Cookie Pie Chocotella",
     categoria: "cookie-pies",
-    preco: 18.00,
-    descricaoCurta: "Cookie pie servido com muuuuuita Nutella.",
-    descricaoCompleta: "Uma torta de cookie individual, com bordas crocantes e recheado com nutella de verdade.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Nutella Original", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
+    preco: 17.00,
+    descricaoCurta: "Cookie em formato de tartelete, servido com muuuuuita Nutella.",
+    descricaoCompleta: "Uma torta de cookie individual, com bordas crocantes e centro derretido recheado com creme de chocolate e avelã. Perfeito para comer de colher.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Creme de avelã", "Chocolate ao leite", "Açúcar", "Ovos"],
     imagens: ["cookie-pie-avela-1.jpg", "cookie-pie-avela-2.jpg", "cookie-pie-avela-3.jpg"]
   },
   {
     id: 3,
-    nome: "Cookie Pie Bueníssimo",
+    nome: "Cookie Pie Kinder Bueno",
     categoria: "cookie-pies",
-    preco: 18.00,
-    descricaoCurta: "Recheio cremoso com pedaços de Kinder Bueno e farofa de avelã.",
-    descricaoCompleta: "Massa de cookie amanteigada recheada com creme de chocolate e pedaços de Kinder Bueno e farofa de avelã, para quem ama uma combinação irresistível.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Kinder Bueno", "Avelã", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
+    preco: 17.00,
+    descricaoCurta: "Recheio cremoso com pedaços de Kinder Bueno.",
+    descricaoCompleta: "Massa de cookie amanteigada recheada com creme de chocolate e pedaços de Kinder Bueno, para quem ama uma combinação irresistível.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Kinder Bueno", "Chocolate ao leite", "Açúcar mascavo", "Ovos"],
     imagens: ["cookie-pie-kinderbueno-1.jpg"]
   },
   {
@@ -155,38 +148,48 @@ const PRODUTOS = [
     nome: "Cookie Pie Ninhotella",
     categoria: "cookie-pies",
     preco: 17.00,
-    descricaoCurta: "Combinação perfeito de brigadeiro de leite Ninho com Nutella.",
-    descricaoCompleta: "Torta de cookie recheada com brigadeiro de leite Ninho e Nutella, uma dupla clássica em formato de cookie quentinho.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Nutella Original", "Leite em pó", "Leite condensado", "Creme de leite", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
+    descricaoCurta: "Combinação cremosa de leite Ninho com Nutella.",
+    descricaoCompleta: "Torta de cookie recheada com creme de leite Ninho e Nutella, uma dupla clássica em formato de cookie quentinho.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Leite em pó Ninho", "Nutella", "Açúcar mascavo", "Ovos"],
     imagens: ["cookie-pie-ninhonutella-1.jpg"]
   },
   {
     id: 5,
-    nome: "Cookie Pie Brigs ao Leite",
+    nome: "Cookie Pie Brigadeiro ao Leite",
     categoria: "cookie-pies",
     preco: 17.00,
-    descricaoCurta: "Recheio de brigadeiro cremoso ao leite para os amantes de chocolate.",
+    descricaoCurta: "Recheio de brigadeiro cremoso ao leite.",
     descricaoCompleta: "Massa de cookie recheada com brigadeiro cremoso ao leite, para quem não abre mão do sabor clássico brasileiro.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Cacau 50%", "Leite condensado", "Creme de leite", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de Milho" ],
+    ingredientes: ["Farinha de trigo", "Manteiga", "Brigadeiro ao leite", "Chocolate ao leite", "Açúcar mascavo", "Ovos"],
     imagens: ["cookie-pie-brigadeiro-1.jpg"]
   },
   {
     id: 6,
-    nome: "Leve 3 tradicionais, pague 2",
+    nome: "Tradicional + Coca Zero",
     categoria: "combos",
-    preco: 28.00,
-    descricaoCurta: "Leve 3 cookies tradicionais e pague apenas por 2 ",
-    descricaoCompleta: "Combo perfeito para quem ama um cookie tradicional",
-    ingredientes: ["cookies tradicionais"],
+    preco: 17.90,
+    descricaoCurta: "1 cookies tradicionais à sua escolha + coca cola zero.",
+    descricaoCompleta: "Combo perfeito para matar a vontade: cookie tradicional e leve uma coquinha para acompanhar.",
+    ingredientes: ["cookies tradicionais", "Coca Cola Zero Lata"],
     imagens: ["combo-dupla-1.jpg"]
   },
   {
     id: 7,
-    nome: "Dupla Cookie Pìes",
+    nome: "Combo Cookie Pie + Refrigerante",
+    categoria: "combos",
+    preco: 29.90,
+    descricaoCurta: "1 Cookie Pie do sabor que preferir + refrigerante lata.",
+    descricaoCompleta: "O combo mais pedido da casa: um Cookie Pie inteiro, do sabor que você escolher, acompanhado de um refrigerante gelado.",
+    ingredientes: ["1 Cookie Pie (sabor à escolha)", "Refrigerante lata 350ml"],
+    imagens: ["combo-cookiepie-1.jpg"]
+  },
+  {
+    id: 8,
+    nome: "Combo dupla Cookie Pìes",
     categoria: "combos",
     preco: 30.00,
-    descricaoCurta: "2 cookies pies à sua escolha por R$ 30,00!",
-    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 30,00.",
+    descricaoCurta: "2 cookies pies à sua escolha por R$ 30.",
+    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 30.",
     ingredientes: ["2 cookies à escolha"],
     imagens: ["combo-doiscookies-1.jpg"]
   },
@@ -194,12 +197,22 @@ const PRODUTOS = [
     id: 9,
     nome: "Promoção: Leve 5 pague 4",
     categoria: "promocoes",
-    preco: 85.00,
+    preco: 68.00,
     descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
     descricaoCompleta: "Monte sua caixa com 5 cookies pies dos sabores que quiser e leve um cookie tradicional de bride. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["5 cookies pies a sua escolha"],
     imagens: ["promo-leve6-1.jpg"]
   },
+  {
+    id: 10,
+    nome: "Torta de Cookie sob Encomenda",
+    categoria: "encomendas",
+    preco: 120.00,
+    descricaoCurta: "Torta de cookie personalizada, feita sob encomenda — combine sabor, tamanho e data de entrega.",
+    descricaoCompleta: "Torta de cookie artesanal, feita especialmente para o seu pedido. Aceita personalização de sabor e tamanho. IMPORTANTE: pedidos de encomenda precisam ser feitos com antecedência — combine a data de entrega no carrinho.",
+    ingredientes: ["Massa de cookie", "Recheio à escolha", "Cobertura à escolha"],
+    imagens: ["torta-cookie-encomenda-1.jpg"]
+  }
 ];
 
 /* ------------------------------------------------------------
@@ -219,4 +232,4 @@ const PRODUTOS = [
    - Pode deixar vazia ([]) — nesse caso, a vitrine simplesmente
      segue a ordem de cadastro em PRODUTOS.
 ------------------------------------------------------------ */
-const DESTAQUES = [9, 7, 6, 1, 2, 3, 4, 5];
+const DESTAQUES = [9, 7, 8, 1, 2, 3, 4, 5, 6, 10];
