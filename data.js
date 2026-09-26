@@ -9,7 +9,7 @@
    4. Salve o arquivo — o site atualiza sozinho.
 
    CATEGORIAS VÁLIDAS (use exatamente estes textos em "categoria"):
-   "tradicionais" | "cookie-pies" | "combos" | "promocoes" | "encomendas"
+   "tradicionais" | "cookie-pies" | "combos" | "promocoes"
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -19,66 +19,11 @@
 ------------------------------------------------------------ */
 const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
 
-/* ------------------------------------------------------------
-   CUPONS DE DESCONTO
-   O cliente digita o código no carrinho e clica em "Aplicar".
-   O desconto vale sobre o subtotal dos produtos (não conta o frete,
-   que é sempre combinado à parte pelo WhatsApp).
-
-   COMO ADICIONAR UM CUPOM NOVO:
-   - Use MAIÚSCULAS no código (o site já converte automaticamente
-     o que o cliente digitar, então não precisa se preocupar com isso).
-   - "tipo": "percentual" (desconto em %) ou "fixo" (valor em reais).
-   - "descricao" aparece pro cliente quando o cupom é aplicado.
-
-   COMO DESATIVAR UM CUPOM:
-   - Apague o bloco inteiro, ou comente as linhas colocando // na frente.
------------------------------------------------------------- */
-const CUPONS = {
-  "BEMVINDO10": { tipo: "percentual", valor: 10, descricao: "10% de desconto" },
-  "DESCONTO5": { tipo: "fixo", valor: 5, descricao: "R$ 5,00 de desconto" }
-};
-
-/* ------------------------------------------------------------
-   HORÁRIO DE FUNCIONAMENTO
-   Aparece numa aba logo abaixo do banner, mostrando "Aberto"/"Fechado"
-   automaticamente, sempre seguindo o horário de Brasília — não importa
-   de onde o cliente esteja acessando o site.
-
-   COMO EDITAR:
-   - Para um dia com atendimento, use: { abre: "09:00", fecha: "19:00" }
-   - Para um dia sem atendimento (fechado o dia todo), use: null
-   - Os horários usam formato 24h ("19:00", não "7:00 PM")
-   - Só é possível um intervalo por dia (não dá pra configurar pausa de
-     almoço com esse formato simples — se precisar disso, me avise).
------------------------------------------------------------- */
-const HORARIO_FUNCIONAMENTO = {
-  segunda: { abre: "09:00", fecha: "19:00" },
-  terca:   { abre: "09:00", fecha: "19:00" },
-  quarta:  { abre: "09:00", fecha: "19:00" },
-  quinta:  { abre: "09:00", fecha: "19:00" },
-  sexta:   { abre: "09:00", fecha: "19:00" },
-  sabado:  { abre: "09:00", fecha: "13:00" },
-  domingo: null
-};
-
-// Usado só para exibir os nomes dos dias na lista expandida — não precisa editar.
-const DIAS_SEMANA = [
-  { chave: "segunda", nome: "Segunda-feira" },
-  { chave: "terca",   nome: "Terça-feira" },
-  { chave: "quarta",  nome: "Quarta-feira" },
-  { chave: "quinta",  nome: "Quinta-feira" },
-  { chave: "sexta",   nome: "Sexta-feira" },
-  { chave: "sabado",  nome: "Sábado" },
-  { chave: "domingo", nome: "Domingo" },
-];
-
 const CATEGORIAS = [
   { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos que nunca saem de moda", icone: "🍪" },
   { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookie recheado, quentinho e generoso", icone: "🥧" },
   { id: "combos",       nome: "Combos",        subtitulo: "Mais sabor, mais economia", icone: "🎁" },
   { id: "promocoes",    nome: "Promoções",     subtitulo: "Por tempo limitado", icone: "🔥" },
-  { id: "encomendas",   nome: "Encomendas",    subtitulo: "Tortas de cookie sob encomenda — combine a data de entrega", icone: "🎂" },
 ];
 
 /* ------------------------------------------------------------
@@ -92,7 +37,7 @@ const BANNERS = [
     tag: "Promoção da semana",
     titulo: "Combo Cookie Pie + Refrigerante",
     texto: "Peça pelo WhatsApp e garanta preço especial até domingo.",
-    imagem: "banner-1.jpeg",
+    imagem: "banner-1.jpg",
     linkTexto: "Ver promoções",
     linkCategoria: "promocoes"
   },
@@ -202,16 +147,6 @@ const PRODUTOS = [
     descricaoCompleta: "Monte sua caixa com 5 cookies pies dos sabores que quiser e leve um cookie tradicional de bride. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["5 cookies pies a sua escolha"],
     imagens: ["promo-leve6-1.jpg"]
-  },
-  {
-    id: 10,
-    nome: "Torta de Cookie sob Encomenda",
-    categoria: "encomendas",
-    preco: 120.00,
-    descricaoCurta: "Torta de cookie personalizada, feita sob encomenda — combine sabor, tamanho e data de entrega.",
-    descricaoCompleta: "Torta de cookie artesanal, feita especialmente para o seu pedido. Aceita personalização de sabor e tamanho. IMPORTANTE: pedidos de encomenda precisam ser feitos com antecedência — combine a data de entrega no carrinho.",
-    ingredientes: ["Massa de cookie", "Recheio à escolha", "Cobertura à escolha"],
-    imagens: ["torta-cookie-encomenda-1.jpg"]
   }
 ];
 
@@ -232,4 +167,4 @@ const PRODUTOS = [
    - Pode deixar vazia ([]) — nesse caso, a vitrine simplesmente
      segue a ordem de cadastro em PRODUTOS.
 ------------------------------------------------------------ */
-const DESTAQUES = [9, 7, 8, 1, 2, 3, 4, 5, 6, 10];
+const DESTAQUES = [9, 7, 8, 1, 2, 3, 4, 5, 6];
