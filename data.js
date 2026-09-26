@@ -20,10 +20,11 @@
 const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
 
 const CATEGORIAS = [
-  { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos que nunca saem de moda", icone: "🍪" },
-  { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookie recheado, quentinho e generoso", icone: "🥧" },
-  { id: "combos",       nome: "Combos",        subtitulo: "Mais sabor, mais economia", icone: "🎁" },
-  { id: "promocoes",    nome: "Promoções",     subtitulo: "Por tempo limitado", icone: "🔥" },
+  { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos sem recheio, crocantes por fora e macios por dentro.", icone: "🍪" },
+  { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookies com muuuuito recheio para matar a sua vontade de doce.", icone: "🥧" },
+  { id: "combos",       nome: "Combos",        subtitulo: "Economize levando mais por menos!", icone: "🎁" },
+  { id: "promocoes",    nome: "Promoções",     subtitulo: "Promoções exclusivas por tempo limitado, aproveite!", icone: "🔥" },
+  { id: "encomendas",    nome: "Encomendas",     subtitulo: "Presenteie algum que ama ou a si mesmo! - Confirme a data da encomenda via whatsapp", icone: "🔥" },
 ];
 
 /* ------------------------------------------------------------
@@ -34,17 +35,17 @@ const CATEGORIAS = [
 ------------------------------------------------------------ */
 const BANNERS = [
   {
-    tag: "Promoção da semana",
-    titulo: "Combo Cookie Pie + Refrigerante",
-    texto: "Peça pelo WhatsApp e garanta preço especial até domingo.",
+    tag: "Promoção de lançamento!",
+    titulo: "Leve os 4 sabores de cookie pie e ganhe um tradicional de brinde!",
+    texto: "Garanta antes que seja tarde.",
     imagem: "banner-1.jpg",
-    linkTexto: "Ver promoções",
+    linkTexto: "Garantir minha promoção",
     linkCategoria: "promocoes"
   },
   {
-    tag: "Novidade",
-    titulo: "Cookie Pie Chocotella",
-    texto: "Massa crocante por fora, recheio generoso de Nutella por dentro.",
+    tag: "Leve dois por menos",
+    titulo: "Dois cookie pies por apenas R$30,00",
+    texto: "Aproveite e leve seus favoritos para casa com um desconto especial",
     imagem: "banner-2.jpg",
     linkTexto: "Conferir Cookie Pies",
     linkCategoria: "cookie-pies"
@@ -63,9 +64,9 @@ const PRODUTOS = [
     nome: "Cookie Tradicional Chocolate",
     categoria: "tradicionais",
     preco: 14.00,
-    descricaoCurta: "Cookie crocante por fora, macio por dentro, com gotas de chocolate.",
-    descricaoCompleta: "Nosso cookie tradicional é feito com manteiga de verdade e uma generosa quantidade de gotas de chocolate meio amargo. Assado na hora para garantir aquele centro macio e derretido.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Chocolate meio amargo", "Açúcar mascavo", "Ovos", "Baunilha"],
+    descricaoCurta: "Cookie crocante por fora, macio por dentro, com muitas gotas de chocolate.",
+    descricaoCompleta: "O clássico cookie de massa de baunilha, com uma casquinha crocante por fora, e super macio por dentro. Feito com chocolate selecionado e assado na hora.",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico",],
     imagens: ["cookie-tradicional-1.jpg", "cookie-tradicional-2.jpg"]
   },
   {
