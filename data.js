@@ -117,7 +117,7 @@ const PRODUTOS = [
     descricaoCurta: "3 cookies tradicionais pelo preço de 2",
     descricaoCompleta: "Combo perfeito para quem ama um clássico, 3 cookies tradicionais pelo preço de 2",
     ingredientes: ["cookies tradicionais"],
-    imagens: ["combo-dupla-1.jpg"]
+    imagens: ["cookie 3 por 2.jpg"]
   },
 {
     id: 9,
@@ -127,7 +127,7 @@ const PRODUTOS = [
     descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
     descricaoCompleta: "Monte sua caixa com 4 cookies pies dos sabores que quiser e leve um cookie tradicional de brinde. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["4 cookies pies a sua escolha","cookies tradicionais"],
-    imagens: ["Combo leve 5 pague 4.jpgg"]
+    imagens: ["Combo leve 5 pague 4.jpg"]
   },
   {
     id: 8,
