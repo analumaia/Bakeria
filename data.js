@@ -17,7 +17,7 @@
    Aparece no carrinho quando o cliente escolhe "Retirada" em vez
    de "Entrega". Troque pelo endereço real da sua loja/cozinha.
 ------------------------------------------------------------ */
-const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
+const ENDERECO_RETIRADA = "Rua Ponta Porã, 13 - Bairro Sumaré - Montes Claros/MG";
 
 const CATEGORIAS = [
   { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos sem recheio, crocantes por fora e macios por dentro.", icone: "🍪" },
@@ -44,7 +44,7 @@ const BANNERS = [
   },
   {
     tag: "Leve dois por menos",
-    titulo: "Dois cookie pies por apenas R$30,00",
+    titulo: "Dois cookie pies por apenas R$32,00",
     texto: "Aproveite e leve seus favoritos para casa com um desconto especial",
     imagem: "banner-2.jpg",
     linkTexto: "Conferir Cookie Pies",
