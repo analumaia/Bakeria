@@ -24,7 +24,7 @@ const CATEGORIAS = [
   { id: "cookie-pies",  nome: "Cookie Pies",   subtitulo: "Cookies com muuuuito recheio para matar a sua vontade de doce.", icone: "🥧" },
   { id: "combos",       nome: "Combos",        subtitulo: "Economize levando mais por menos!", icone: "🎁" },
   { id: "promocoes",    nome: "Promoções",     subtitulo: "Promoções exclusivas por tempo limitado, aproveite!", icone: "🔥" },
-  { id: "encomendas",    nome: "Encomendas",     subtitulo: "Presenteie algum que ama ou a si mesmo! - Confirme a data da encomenda via whatsapp", icone: "🔥" },
+  { id: "encomendas",    nome: "Encomendas",     subtitulo: "Presenteie algum que ama ou a si mesmo! - Confirme a data da encomenda via whatsapp", icone: "🎂" },
 ];
 
 /* ------------------------------------------------------------
