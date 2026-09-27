@@ -77,7 +77,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie pie unitário com muuuuuita Nutella e lascas de avelã.",
     descricaoCompleta: "Cookie individual, com bordas crocantes e recheado com Nutella original. Para quem ama um doce.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Nutella Original"],
-    imagens: ["cookie-pie-avela-1.jpg", "cookie-pie-avela-2.jpg", "cookie-pie-avela-3.jpg"]
+    imagens: ["chocotella.jpg", "chocotella close.jpg"]
   },
   {
     id: 3,
@@ -87,7 +87,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie pie unitário com recheio cremoso de avelã e Kinder Bueno",
     descricaoCompleta: "Cookie individual com bordas crocantes, recheada com creme de chocolate e avelã e pedaço de Kinder Bueno por cima, para quem ama uma combinação irresistível.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Kinder Bueno", "Avelã", "Chocolate Branco"],
-    imagens: ["cookie-pie-kinderbueno-1.jpg"]
+    imagens: ["bueníssimo.jpg", "bueníssimo close.jpg"]
   },
   {
     id: 4,
@@ -107,7 +107,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie Pie unitário com recheio de brigadeiro cremoso ao leite.",
     descricaoCompleta: "Cookie individual com bordas crocantes, recheado com um brigadeiro cremoso ao leite e granulados que geram nostalgia.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Creme de leite", "Leite condensado", "Chocolate meio amargo", "Granulado"],
-    imagens: ["cookie-pie-brigadeiro-1.jpg"]
+    imagens: ["brigs ao leite.jpg", "brigs ao leite close.jpg"]
   },
   {
     id: 6,
@@ -127,7 +127,7 @@ const PRODUTOS = [
     descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
     descricaoCompleta: "Monte sua caixa com 4 cookies pies dos sabores que quiser e leve um cookie tradicional de brinde. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["4 cookies pies a sua escolha","cookies tradicionais"],
-    imagens: ["promo-leve6-1.jpg"]
+    imagens: ["Combo leve 5 pague 4.jpgg"]
   },
   {
     id: 8,
@@ -137,7 +137,7 @@ const PRODUTOS = [
     descricaoCurta: "2 cookies pies à sua escolha por R$ 32.",
     descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 32.",
     ingredientes: ["2 cookies à escolha"],
-    imagens: ["combo-doiscookies-1.jpg"]
+    imagens: ["Combo dupla.jpg"]
   },
 ];
 
