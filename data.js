@@ -38,7 +38,7 @@ const BANNERS = [
     tag: "Promoção de lançamento!",
     titulo: "Leve os 4 sabores de cookie pie e ganhe um tradicional de brinde!",
     texto: "Garanta antes que seja tarde.",
-    imagem: "banner-1.jpg",
+    imagem: "Foto Combo de cookie pies.png",
     linkTexto: "Garantir minha promoção",
     linkCategoria: "promocoes"
   },
