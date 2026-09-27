@@ -46,7 +46,7 @@ const BANNERS = [
     tag: "Leve dois por menos",
     titulo: "Dois cookie pies por apenas R$32,00",
     texto: "Aproveite e leve seus favoritos para casa com um desconto especial",
-    imagem: "banner-2.jpg",
+    imagem: "Foto Dupla de cookie pies.png",
     linkTexto: "Conferir Cookie Pies",
     linkCategoria: "cookie-pies"
   }
