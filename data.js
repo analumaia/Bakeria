@@ -111,44 +111,34 @@ const PRODUTOS = [
   },
   {
     id: 6,
-    nome: "Tradicional + Coca Zero",
+    nome: "Leve 3 por 2",
     categoria: "combos",
-    preco: 17.90,
-    descricaoCurta: "1 cookies tradicionais à sua escolha + coca cola zero.",
-    descricaoCompleta: "Combo perfeito para matar a vontade: cookie tradicional e leve uma coquinha para acompanhar.",
-    ingredientes: ["cookies tradicionais", "Coca Cola Zero Lata"],
+    preco: 28.00,
+    descricaoCurta: "3 cookies tradicionais pelo preço de 2",
+    descricaoCompleta: "Combo perfeito para quem ama um clássico, 3 cookies tradicionais pelo preço de 2",
+    ingredientes: ["cookies tradicionais"],
     imagens: ["combo-dupla-1.jpg"]
   },
-  {
-    id: 7,
-    nome: "Combo Cookie Pie + Refrigerante",
-    categoria: "combos",
-    preco: 29.90,
-    descricaoCurta: "1 Cookie Pie do sabor que preferir + refrigerante lata.",
-    descricaoCompleta: "O combo mais pedido da casa: um Cookie Pie inteiro, do sabor que você escolher, acompanhado de um refrigerante gelado.",
-    ingredientes: ["1 Cookie Pie (sabor à escolha)", "Refrigerante lata 350ml"],
-    imagens: ["combo-cookiepie-1.jpg"]
+{
+    id: 9,
+    nome: "Promoção: Leve 5 pague 4",
+    categoria: "promocoes",
+    preco: 64.00,
+    descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
+    descricaoCompleta: "Monte sua caixa com 4 cookies pies dos sabores que quiser e leve um cookie tradicional de brinde. Promoção válida enquanto durarem os estoques do dia.",
+    ingredientes: ["4 cookies pies a sua escolha","cookies tradicionais"],
+    imagens: ["promo-leve6-1.jpg"]
   },
   {
     id: 8,
     nome: "Combo dupla Cookie Pìes",
     categoria: "combos",
-    preco: 30.00,
-    descricaoCurta: "2 cookies pies à sua escolha por R$ 30.",
-    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 30.",
+    preco: 32.00,
+    descricaoCurta: "2 cookies pies à sua escolha por R$ 32.",
+    descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 32.",
     ingredientes: ["2 cookies à escolha"],
     imagens: ["combo-doiscookies-1.jpg"]
   },
-  {
-    id: 9,
-    nome: "Promoção: Leve 5 pague 4",
-    categoria: "promocoes",
-    preco: 68.00,
-    descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
-    descricaoCompleta: "Monte sua caixa com 5 cookies pies dos sabores que quiser e leve um cookie tradicional de bride. Promoção válida enquanto durarem os estoques do dia.",
-    ingredientes: ["5 cookies pies a sua escolha"],
-    imagens: ["promo-leve6-1.jpg"]
-  }
 ];
 
 /* ------------------------------------------------------------
