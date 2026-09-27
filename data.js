@@ -97,7 +97,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie Pie unitário com o clásico de brigadeiro de ninho com Nutella original, finalizado com leite em pó",
     descricaoCompleta: "Cookie individual com bordas crocantes, recheado com brigadeiro de leite ninho, Nutella original e leite em pó por cima, uma dupla clássica para quem gosta de equilíbrio.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Leite em pó", "Leite condensado", "Creme de leite", "Nutella Original"],
-    imagens: ["cookie-pie-ninhonutella-1.jpg"]
+    imagens: ["ninhotella.jpg","ninhotella close.jpg"]
   },
   {
     id: 5,
