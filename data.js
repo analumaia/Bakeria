@@ -9,7 +9,7 @@
    4. Salve o arquivo — o site atualiza sozinho.
 
    CATEGORIAS VÁLIDAS (use exatamente estes textos em "categoria"):
-   "tradicionais" | "cookie-pies" | "combos" | "promocoes"
+   "tradicionais" | "cookie-pies" | "combos" | "promocoes" | "encomendas"
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -17,7 +17,61 @@
    Aparece no carrinho quando o cliente escolhe "Retirada" em vez
    de "Entrega". Troque pelo endereço real da sua loja/cozinha.
 ------------------------------------------------------------ */
-const ENDERECO_RETIRADA = "Rua Ponta Porã, 13 - Bairro Sumaré - Montes Claros/MG";
+const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
+
+/* ------------------------------------------------------------
+   CUPONS DE DESCONTO
+   O cliente digita o código no carrinho e clica em "Aplicar".
+   O desconto vale sobre o subtotal dos produtos (não conta o frete,
+   que é sempre combinado à parte pelo WhatsApp).
+
+   COMO ADICIONAR UM CUPOM NOVO:
+   - Use MAIÚSCULAS no código (o site já converte automaticamente
+     o que o cliente digitar, então não precisa se preocupar com isso).
+   - "tipo": "percentual" (desconto em %) ou "fixo" (valor em reais).
+   - "descricao" aparece pro cliente quando o cupom é aplicado.
+
+   COMO DESATIVAR UM CUPOM:
+   - Apague o bloco inteiro, ou comente as linhas colocando // na frente.
+------------------------------------------------------------ */
+const CUPONS = {
+  "BEMVINDO5": { tipo: "percentual", valor: 5, descricao: "10% de desconto" }
+};
+
+/* ------------------------------------------------------------
+   HORÁRIO DE FUNCIONAMENTO
+   Aparece numa aba logo abaixo do banner, mostrando "Aberto"/"Fechado"
+   automaticamente, sempre seguindo o horário de Brasília — não importa
+   de onde o cliente esteja acessando o site.
+
+   COMO EDITAR:
+   - Para um dia com atendimento, use: { abre: "09:00", fecha: "19:00" }
+   - Para um dia sem atendimento (fechado o dia todo), use: null
+   - Os horários usam formato 24h ("19:00", não "7:00 PM")
+   - Só é possível um intervalo por dia (não dá pra configurar pausa de
+     almoço com esse formato simples — se precisar disso, me avise).
+------------------------------------------------------------ */
+const HORARIO_FUNCIONAMENTO = {
+  segunda: null,
+  terca:   null,
+  quarta:  null,
+  quinta:  null,
+  sexta:   { abre: "18:00", fecha: "21:00" },
+  sabado:  { abre: "13:00", fecha: "16:00" },
+  domingo: { abre: "13:00", fecha: "16:00" }
+};
+
+// Usado só para exibir os nomes dos dias na lista expandida — não precisa editar.
+const DIAS_SEMANA = [
+  { chave: "segunda", nome: "Segunda-feira" },
+  { chave: "terca",   nome: "Terça-feira" },
+  { chave: "quarta",  nome: "Quarta-feira" },
+  { chave: "quinta",  nome: "Quinta-feira" },
+  { chave: "sexta",   nome: "Sexta-feira" },
+  { chave: "sabado",  nome: "Sábado" },
+  { chave: "domingo", nome: "Domingo" },
+];
+
 
 const CATEGORIAS = [
   { id: "tradicionais", nome: "Tradicionais",  subtitulo: "Os clássicos sem recheio, crocantes por fora e macios por dentro.", icone: "🍪" },
