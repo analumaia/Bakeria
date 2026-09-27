@@ -17,7 +17,7 @@
    Aparece no carrinho quando o cliente escolhe "Retirada" em vez
    de "Entrega". Troque pelo endereço real da sua loja/cozinha.
 ------------------------------------------------------------ */
-const ENDERECO_RETIRADA = "Rua Exemplo, 123 - Bairro Exemplo - Sua Cidade/UF";
+const ENDERECO_RETIRADA = "Rua Ponta Porã, 13 - Bairro Sumaré - Montes Claros/MG";
 
 /* ------------------------------------------------------------
    CUPONS DE DESCONTO
