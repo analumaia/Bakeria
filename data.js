@@ -67,7 +67,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie crocante por fora, macio por dentro, com muitas gotas de chocolate.",
     descricaoCompleta: "O clássico cookie de massa de baunilha, com uma casquinha crocante por fora, e super macio por dentro. Feito com chocolate selecionado e assado na hora.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico"],
-    imagens: ["cookie-tradicional-1.jpg", "cookie-tradicional-2.jpg"]
+    imagens: ["Cookie tradicional.jpeg", "Cookie tradicional close.jpg"]
   },
   {
     id: 2,
