@@ -54,8 +54,8 @@ const CUPONS = {
 const HORARIO_FUNCIONAMENTO = {
   segunda: null,
   terca:   null,
-  quarta:  null,
-  quinta:  null,
+  quarta:  { abre: "18:00", fecha: "21:00" },
+  quinta:  { abre: "18:00", fecha: "21:00" },
   sexta:   { abre: "18:00", fecha: "21:00" },
   sabado:  { abre: "13:00", fecha: "16:00" },
   domingo: { abre: "13:00", fecha: "16:00" }
