@@ -291,7 +291,7 @@ function renderizarHorarioFuncionamento(){
   if(horarioHojeEl){
     horarioHojeEl.textContent = horarioHoje
       ? `Hoje: ${horarioHoje.abre} às ${horarioHoje.fecha}`
-      : "Hoje: fechado o dia todo";
+      : "Hoje: fechado o dia todo, faça sua encomenda!";
   }
 
   if(lista){
