@@ -179,7 +179,7 @@ const PRODUTOS = [
     categoria: "promocoes",
     preco: 64.00,
     descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
-    descricaoCompleta: "Monte sua caixa com 4 cookies pies dos sabores que quiser e leve um cookie tradicional de brinde. Promoção válida enquanto durarem os estoques do dia.",
+    descricaoCompleta: "Leve todos os sabores de lançamento e ganhe um cookie tradicional de brinde. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["4 cookies pies a sua escolha","cookies tradicionais"],
     imagens: ["Combo leve 5 pague 4.jpg"]
   },
