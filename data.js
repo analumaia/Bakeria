@@ -177,7 +177,7 @@ const PRODUTOS = [
     id: 9,
     nome: "Promoção: Leve 5 pague 4",
     categoria: "promocoes",
-    preco: 64.00,
+    preco: 70.00,
     descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
     descricaoCompleta: "Leve todos os sabores de lançamento e ganhe um cookie tradicional de brinde. Promoção válida enquanto durarem os estoques do dia.",
     ingredientes: ["4 cookies pies a sua escolha","cookies tradicionais"],
