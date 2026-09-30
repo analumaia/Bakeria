@@ -35,7 +35,10 @@ const ENDERECO_RETIRADA = "Rua Ponta Porã, 13 - Bairro Sumaré - Montes Claros/
    - Apague o bloco inteiro, ou comente as linhas colocando // na frente.
 ------------------------------------------------------------ */
 const CUPONS = {
-  "BEMVINDO5": { tipo: "percentual", valor: 5, descricao: "10% de desconto" }
+  "BEMVINDO5": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+   "BAKETHU": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+   "BAKEMARI": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+   "BAKELIVIA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
 };
 
 /* ------------------------------------------------------------
