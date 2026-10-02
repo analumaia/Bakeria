@@ -49,6 +49,7 @@ const CUPONS = {
   "BAKEAMANDA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
   "BAKEANALU": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
   "BAKEPAOLA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKESARA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
 };
 
 /* ------------------------------------------------------------
