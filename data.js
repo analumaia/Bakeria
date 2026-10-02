@@ -39,6 +39,16 @@ const CUPONS = {
   "BAKETHU": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
   "BAKEMARI": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
   "BAKELIVIA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKESOFIA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKEYZA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKEVIRNA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKESAM": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKEOCTAVIO": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKEALICE": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKEVICK": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKEAMANDA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKEANALU": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
+  "BAKEPAOLA": { tipo: "percentual", valor: 5, descricao: "5% de desconto" },
 };
 
 /* ------------------------------------------------------------
