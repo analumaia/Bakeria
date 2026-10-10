@@ -68,11 +68,11 @@ const CUPONS = {
 const HORARIO_FUNCIONAMENTO = {
   segunda: null,
   terca:   null,
-  quarta:  { abre: "18:00", fecha: "21:00" },
-  quinta:  { abre: "18:00", fecha: "21:00" },
-  sexta:   { abre: "18:00", fecha: "21:00" },
-  sabado:  { abre: "13:00", fecha: "16:00" },
-  domingo: { abre: "13:00", fecha: "16:00" }
+  quarta:  { abre: "17:00", fecha: "20:00" },
+  quinta:  { abre: "17:00", fecha: "20:00" },
+  sexta:   { abre: "17:00", fecha: "20:00" },
+  sabado:  { abre: "13:30", fecha: "16:00" },
+  domingo: { abre: "13:30", fecha: "16:00" }
 };
 
 // Usado só para exibir os nomes dos dias na lista expandida — não precisa editar.
