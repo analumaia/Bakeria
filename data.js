@@ -103,12 +103,12 @@ const CATEGORIAS = [
 ------------------------------------------------------------ */
 const BANNERS = [
   {
-    tag: "Promoção de lançamento!",
-    titulo: "Leve os 4 sabores de cookie pie e ganhe um tradicional de brinde!",
-    texto: "Garanta antes que seja tarde.",
-    imagem: "Foto Combo de cookie pies.png",
-    linkTexto: "Garantir minha promoção",
-    linkCategoria: "promocoes"
+    tag: "Bento Cookies chegaram!",
+    titulo: "Torne momentos em algo ainda mais especial",
+    texto: "Comemore com nossos bento cookies",
+    imagem: "banner site.jpg",
+    linkTexto: "Encomende o seu",
+    linkCategoria: "encomendas"
   },
   {
     tag: "Leve dois por menos",
@@ -200,17 +200,17 @@ const PRODUTOS = [
   {
     id: 8,
     nome: "Bento Cookie Brigs ao Leite",
-    categoria: "Encomendas",
+    categoria: "encomendas",
     preco: 60.00,
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
     descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Creme de leite", "Leite condensado", "Chocolate meio amargo", "Granulado"],
-    imagens: [ ]
+    imagens: ["Foto produto.jpg"]
   },
   {
     id: 9,
     nome: "Bento Cookie Ninhotella",
-    categoria: "Encomendas",
+    categoria: "encomendas",
     preco: 60.00,
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
     descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
@@ -220,7 +220,7 @@ const PRODUTOS = [
   {
     id: 10,
     nome: "Bento Cookie Chocotella",
-    categoria: "Encomendas",
+    categoria: "encomendas",
     preco: 75.00,
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
     descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
@@ -230,7 +230,7 @@ const PRODUTOS = [
   {
     id: 11,
     nome: "Bento Cookie Bueníssimo",
-    categoria: "Encomendas",
+    categoria: "encomendas",
     preco: 75.00,
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
     descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
