@@ -237,6 +237,16 @@ const PRODUTOS = [
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico"],
     imagens: [ ]
   },
+  {
+    id: 12,
+    nome: "Adicional de Vela de Aniversário",
+    categoria: "encomendas",
+    preco: 1.50,
+    descricaoCurta: "Para comemorar uma ocasião especial",
+    descricaoCompleta: "Adicione uma vela de aniversário e comemore momentos com quem você ama!",
+    ingredientes: ["Vela de Aniversário"],
+    imagens: [ ]
+  },
 ];
 
 /* ------------------------------------------------------------
