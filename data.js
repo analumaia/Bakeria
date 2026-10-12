@@ -187,25 +187,55 @@ const PRODUTOS = [
     ingredientes: ["cookies tradicionais"],
     imagens: ["cookie 3 por 2.jpg"]
   },
-{
-    id: 9,
-    nome: "Promoção: Leve 5 pague 4",
-    categoria: "promocoes",
-    preco: 70.00,
-    descricaoCurta: "Compre 5 cookies pies a sua escolha e leve um cookie tradicional de chocolate de brinde!",
-    descricaoCompleta: "Leve todos os sabores de lançamento e ganhe um cookie tradicional de brinde. Promoção válida enquanto durarem os estoques do dia.",
-    ingredientes: ["4 cookies pies a sua escolha","cookies tradicionais"],
-    imagens: ["Combo leve 5 pague 4.jpg"]
-  },
   {
-    id: 8,
-    nome: "Combo dupla Cookie Pìes",
+    id: 7,
+    nome: "Combo dupla Cookie Pies",
     categoria: "combos",
     preco: 32.00,
     descricaoCurta: "2 cookies pies à sua escolha por R$ 32.",
     descricaoCompleta: "Combo com 2 cookies dos sabores que você preferir, por um preço especial de R$ 32.",
     ingredientes: ["2 cookies à escolha"],
     imagens: ["Combo dupla.jpg"]
+  },
+  {
+    id: 8,
+    nome: "Bento Cookie Brigs ao Leite",
+    categoria: "Encomendas",
+    preco: 60.00,
+    descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
+    descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Creme de leite", "Leite condensado", "Chocolate meio amargo", "Granulado"],
+    imagens: [ ]
+  },
+  {
+    id: 9,
+    nome: "Bento Cookie Ninhotella",
+    categoria: "Encomendas",
+    preco: 60.00,
+    descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
+    descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Leite em pó", "Leite condensado", "Creme de leite", "Nutella Original"],
+    imagens: [ ]
+  },
+  {
+    id: 10,
+    nome: "Bento Cookie Chocotella",
+    categoria: "Encomendas",
+    preco: 75.00,
+    descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
+    descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
+    ingredientes: ["2 cookies à escolha"],
+    imagens: [ ]
+  },
+  {
+    id: 11,
+    nome: "Bento Cookie Bueníssimo",
+    categoria: "Encomendas",
+    preco: 75.00,
+    descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
+    descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico"],
+    imagens: [ ]
   },
 ];
 
@@ -226,4 +256,4 @@ const PRODUTOS = [
    - Pode deixar vazia ([]) — nesse caso, a vitrine simplesmente
      segue a ordem de cadastro em PRODUTOS.
 ------------------------------------------------------------ */
-const DESTAQUES = [9, 7, 8, 1, 2, 3, 4, 5, 6];
+const DESTAQUES = [7, 6, 1, 2, 3, 4, 5];
