@@ -224,7 +224,7 @@ const PRODUTOS = [
     preco: 75.00,
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
     descricaoCompleta: "Cookie de massa de baunilha com recheio de nutella original com avelãs e farofa de avelã por cima assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
-    ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Nutella Original"],
+    ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Nutella Original"],
     imagens: [ ]
   },
   {
