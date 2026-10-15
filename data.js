@@ -106,7 +106,7 @@ const BANNERS = [
     tag: "Bento Cookies chegaram!",
     titulo: "Torne momentos em algo ainda mais especial",
     texto: "Comemore com nossos bento cookies",
-    imagem: "banner site.jpg",
+    imagem: "banner-site.jpg",
     linkTexto: "Encomende o seu",
     linkCategoria: "encomendas"
   },
@@ -135,7 +135,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie crocante por fora, macio por dentro, com muitas gotas de chocolate.",
     descricaoCompleta: "O clássico cookie de massa de baunilha, com uma casquinha crocante por fora, e super macio por dentro. Feito com chocolate selecionado e assado na hora.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico"],
-    imagens: ["Cookie tradicional.jpeg", "Cookie tradicional close.jpg"]
+    imagens: ["cookie-tradicional.jpeg", "cookie-tradicional-close.jpg"]
   },
   {
     id: 2,
@@ -155,7 +155,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie pie unitário com recheio cremoso de avelã e Kinder Bueno",
     descricaoCompleta: "Cookie individual com bordas crocantes, recheada com creme de chocolate e avelã e pedaço de Kinder Bueno por cima, para quem ama uma combinação irresistível.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Kinder Bueno", "Avelã", "Chocolate Branco"],
-    imagens: ["bueníssimo.jpg", "bueníssimo close.jpg"]
+    imagens: ["buenissimo.jpg", "buenissimo close.jpg"]
   },
   {
     id: 4,
@@ -180,7 +180,7 @@ const PRODUTOS = [
   {
     id: 6,
     nome: "Leve 3 por 2",
-    categoria: "combos",
+    categoria: "promocoes",
     preco: 28.00,
     descricaoCurta: "3 cookies tradicionais pelo preço de 2",
     descricaoCompleta: "Combo perfeito para quem ama um clássico, 3 cookies tradicionais pelo preço de 2",
@@ -213,7 +213,7 @@ const PRODUTOS = [
     categoria: "encomendas",
     preco: 60.00,
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
-    descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
+    descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro de ninho com nutella assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Leite em pó", "Leite condensado", "Creme de leite", "Nutella Original"],
     imagens: [ ]
   },
@@ -223,8 +223,8 @@ const PRODUTOS = [
     categoria: "encomendas",
     preco: 75.00,
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
-    descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
-    ingredientes: ["2 cookies à escolha"],
+    descricaoCompleta: "Cookie de massa de baunilha com recheio de nutella original com avelãs e farofa de avelã por cima assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
+    ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Nutella Original"],
     imagens: [ ]
   },
   {
@@ -233,8 +233,8 @@ const PRODUTOS = [
     categoria: "encomendas",
     preco: 75.00,
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
-    descricaoCompleta: "Cookie de massa de baunilha com recheio de brigadeiro ao leite e confeitos coloridos assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico"],
+    descricaoCompleta: "Cookie de massa de baunilha com recheio de creme de avelã com chocolate branco e kinder bueno por cima assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
+    ingredientes:["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Kinder Bueno", "Avelã", "Chocolate Branco"],
     imagens: [ ]
   },
   {
