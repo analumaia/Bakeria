@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Produto — Bakeria</title>
+<meta name="theme-color" content="#F6EFDD">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
@@ -39,10 +40,13 @@
     <span class="logo-caixa logo-caixa-rodape">
       <img src="logo-rodape.png" alt="Bakeria Confeitaria Artesanal">
     </span>
+    <!-- Contato: preenchido por cart.js (WhatsApp, Instagram e endereço vêm de data.js/cart.js) -->
+    <div class="rodape-contato" id="rodape-contato"></div>
     <p>Feito com carinho, pedido pelo WhatsApp. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- ===================== CARRINHO (painel lateral fixo, igual em todas as páginas) ===================== -->
+  <!-- ===================== CARRINHO (painel lateral fixo, igual em todas as páginas) =====================
+       ATENÇÃO: este bloco é idêntico ao da index.html. Se mudar um, mude o outro. -->
   <div class="overlay-carrinho" id="overlay-carrinho"></div>
   <aside class="painel-carrinho" id="painel-carrinho" aria-label="Carrinho de compras">
     <div class="carrinho-cabecalho">
@@ -61,11 +65,11 @@
 
         <div class="campo-nome">
           <label for="campo-nome-cliente">Seu nome <span class="obrigatorio">*</span></label>
-          <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome">
+          <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome" autocomplete="name">
         </div>
 
         <p class="dica-data-entrega-geral">
-          📅 A data de entrega/retirada agora é escolhida individualmente para cada produto, na lista acima. Pedidos de encomenda podem precisar de mais dias — combine pelo WhatsApp se a data for muito em cima da hora.
+          📅 A data de entrega/retirada é escolhida em cada produto, na lista acima. Encomendas podem precisar de mais dias — combine pelo WhatsApp se a data for muito em cima da hora.
         </p>
 
         <div class="campo-tipo-entrega">
@@ -93,8 +97,8 @@
 
         <div class="campo-endereco" id="bloco-endereco">
           <label for="campo-cep">CEP de entrega <span class="obrigatorio">*</span></label>
-          <input type="text" id="campo-cep" placeholder="00000-000" inputmode="numeric" maxlength="9">
-          <span class="cep-status" id="cep-status"></span>
+          <input type="text" id="campo-cep" placeholder="00000-000" inputmode="numeric" maxlength="9" autocomplete="postal-code">
+          <span class="cep-status" id="cep-status" aria-live="polite"></span>
 
           <div class="linha-endereco">
             <div class="campo-endereco-item campo-rua-wrap">
@@ -102,10 +106,15 @@
               <input type="text" id="campo-rua" placeholder="Preenchido pelo CEP (edite se precisar)">
             </div>
             <div class="campo-endereco-item campo-numero-wrap">
-              <label for="campo-numero">Número</label>
+              <label for="campo-numero">Número <span class="obrigatorio">*</span></label>
               <input type="text" id="campo-numero" placeholder="Nº" inputmode="numeric">
             </div>
           </div>
+
+          <label class="check-sem-numero">
+            <input type="checkbox" id="campo-sem-numero">
+            <span>Endereço sem número (s/n)</span>
+          </label>
 
           <div class="linha-endereco">
             <div class="campo-endereco-item">
@@ -117,6 +126,11 @@
               <input type="text" id="campo-cidade" placeholder="Preenchido pelo CEP (edite se precisar)">
             </div>
           </div>
+
+          <div class="campo-endereco-item campo-complemento-wrap">
+            <label for="campo-complemento">Complemento (opcional)</label>
+            <input type="text" id="campo-complemento" placeholder="Apto, bloco, ponto de referência">
+          </div>
         </div>
       </div>
     </div>
@@ -126,10 +140,10 @@
       <div class="campo-cupom">
         <label for="campo-cupom">Cupom de desconto</label>
         <div class="cupom-linha">
-          <input type="text" id="campo-cupom" placeholder="Digite o código" autocapitalize="characters">
+          <input type="text" id="campo-cupom" placeholder="Digite o código" autocapitalize="characters" autocomplete="off">
           <button type="button" id="btn-aplicar-cupom">Aplicar</button>
         </div>
-        <p class="cupom-status" id="cupom-status"></p>
+        <p class="cupom-status" id="cupom-status" aria-live="polite"></p>
       </div>
 
       <div class="carrinho-total-bloco" id="carrinho-total-bloco">
@@ -147,10 +161,12 @@
         </div>
       </div>
 
-      <button type="button" class="btn-pedido" id="btn-fazer-pedido" disabled>
+      <!-- O botão só fica desativado com o carrinho vazio. Com algo faltando,
+           ele continua ativo e, ao clicar, o site mostra e destaca o que falta. -->
+      <button type="button" class="btn-pedido" id="btn-fazer-pedido">
         Fazer pedido pelo WhatsApp
       </button>
-      <p class="aviso-obrigatorio" id="aviso-obrigatorio">* Nome, CEP e a data de cada item são obrigatórios para fazer o pedido</p>
+      <p class="aviso-obrigatorio" id="aviso-obrigatorio" aria-live="polite"></p>
     </div>
   </aside>
 

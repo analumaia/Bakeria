@@ -7,6 +7,10 @@
    - Pink Cosmos (rosa)       -> --rosa / --rosa-claro
    Ajuste os valores hexadecimais abaixo se tiver o código exato
    das etiquetas Pantone (TPX/TCX -> HEX) da sua gráfica.
+
+   CONTRASTE (acessibilidade, WCAG AA = 4,5:1 para texto pequeno):
+   o rosa e o verde do WhatsApp foram escurecidos em relação à versão
+   anterior para o texto branco ficar legível (rosa ~5,3:1, verde ~5,4:1).
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Erica+One&family=Poppins:wght@400;500;600;700&display=swap');
@@ -18,9 +22,13 @@
   --marrom-escuro: #3A2A1C;
   --marrom-cafe:   #8B5A2B;
   --marrom-claro:  #C9946B;
-  --rosa:          #E0709A;
+  --rosa:          #B93E70;
+  --rosa-hover:    #A23362;
   --rosa-claro:    #F4C3D6;
   --branco:        #FFFDF9;
+  --erro:          #B23A3A;
+  --whatsapp:      #0F7A41;
+  --whatsapp-hover:#0B6636;
 
   /* Tipografia */
   --fonte-titulo: 'Erica One', cursive;
@@ -45,6 +53,9 @@ body{
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Com o carrinho aberto, o fundo não rola (só o painel) */
+body.carrinho-aberto{ overflow: hidden; }
 
 img{ max-width: 100%; display: block; }
 a{ color: inherit; text-decoration: none; }
@@ -71,6 +82,7 @@ h1, h2, h3, .fonte-titulo{
 
 @media (prefers-reduced-motion: reduce){
   *{ animation: none !important; transition: none !important; }
+  html{ scroll-behavior: auto; }
 }
 
 /* ---------------------------------------------------------
@@ -170,7 +182,7 @@ h1, h2, h3, .fonte-titulo{
   transition: transform 0.15s ease, background 0.2s ease;
 }
 
-.btn-carrinho:hover{ background: #cf5c86; transform: translateY(-1px); }
+.btn-carrinho:hover{ background: var(--rosa-hover); transform: translateY(-1px); }
 
 .badge-carrinho{
   position: absolute;
@@ -186,6 +198,15 @@ h1, h2, h3, .fonte-titulo{
   align-items: center;
   justify-content: center;
   padding: 0 4px;
+}
+
+/* "Pulso" do contador quando um produto é adicionado */
+.badge-carrinho.pulsar{ animation: pulso-badge 0.5s ease; }
+
+@keyframes pulso-badge{
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.45); }
+  100% { transform: scale(1); }
 }
 
 /* ---------------------------------------------------------
@@ -266,7 +287,7 @@ h1, h2, h3, .fonte-titulo{
   font-size: 0.9rem;
   transition: background 0.2s ease, transform 0.15s ease;
 }
-.banner-conteudo .btn-primario:hover{ background: #cf5c86; transform: translateY(-1px); }
+.banner-conteudo .btn-primario:hover{ background: var(--rosa-hover); transform: translateY(-1px); }
 
 .banner-pontos{
   display: flex;
@@ -439,10 +460,8 @@ h1, h2, h3, .fonte-titulo{
     padding: 14px 16px;
   }
 
-  /* Antes disso, os tiles rolavam na horizontal e ficavam cortados na
-     borda (ex: "Combos" cortado, "Promoções" invisível, sem indicação
-     de que dava pra arrastar). Agora quebram em linhas — sempre visíveis
-     por completo, sem precisar rolar. */
+  /* Os tiles quebram em linhas (sempre visíveis por completo), em vez de
+     rolar na horizontal e ficar cortados na borda da tela. */
   .grade-filtro{
     grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
     gap: 10px;
@@ -527,6 +546,7 @@ h1, h2, h3, .fonte-titulo{
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 999px;
+  z-index: 1;
 }
 
 .foto-indisponivel{ display: none; }
@@ -651,6 +671,7 @@ h1, h2, h3, .fonte-titulo{
 }
 
 .galeria .imagem-principal{
+  position: relative; /* necessário para o aviso "Foto em breve" ocupar a área toda */
   border-radius: var(--raio);
   overflow: hidden;
   aspect-ratio: 4/3;
@@ -744,7 +765,50 @@ h1, h2, h3, .fonte-titulo{
   font-size: 0.95rem;
   box-shadow: var(--sombra);
 }
-.btn-adicionar-grande:hover{ background: #cf5c86; }
+.btn-adicionar-grande:hover{ background: var(--rosa-hover); }
+
+/* ---------------------------------------------------------
+   AVISO RÁPIDO (TOAST) — aparece ao adicionar um produto
+--------------------------------------------------------- */
+.toast-carrinho{
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 20px);
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: min(92vw, 460px);
+  background: var(--marrom-escuro);
+  color: var(--bege-claro);
+  padding: 12px 18px;
+  border-radius: 999px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+  font-size: 0.88rem;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast-carrinho.visivel{
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.toast-carrinho button{
+  flex-shrink: 0;
+  background: var(--rosa);
+  color: var(--branco);
+  border: none;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.toast-carrinho button:hover{ background: var(--rosa-hover); }
 
 /* ---------------------------------------------------------
    CARRINHO (painel lateral fixo, acessível de qualquer página)
@@ -768,12 +832,19 @@ h1, h2, h3, .fonte-titulo{
   z-index: 201;
   box-shadow: -8px 0 30px rgba(0,0,0,0.2);
   transform: translateX(100%);
-  transition: transform 0.3s ease;
+  /* visibility garante que, fechado, nada do painel receba foco/leitor de
+     tela (reforço para navegadores sem suporte ao atributo "inert") */
+  visibility: hidden;
+  transition: transform 0.3s ease, visibility 0s linear 0.3s;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
-.painel-carrinho.aberto{ transform: translateX(0); }
+.painel-carrinho.aberto{
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.3s ease, visibility 0s;
+}
 
 .carrinho-cabecalho{
   display: flex;
@@ -800,6 +871,7 @@ h1, h2, h3, .fonte-titulo{
   flex: 1;
   min-height: 0; /* necessário para o overflow funcionar dentro de flex */
   overflow-y: auto;
+  overscroll-behavior: contain; /* rolar o painel não rola a página ao fundo */
 }
 
 .lista-carrinho{
@@ -825,7 +897,7 @@ h1, h2, h3, .fonte-titulo{
 .item-carrinho{
   display: flex;
   gap: 12px;
-  align-items: center;
+  align-items: flex-start;
   background: var(--branco);
   border-radius: 10px;
   padding: 10px;
@@ -871,11 +943,46 @@ h1, h2, h3, .fonte-titulo{
   color: var(--marrom-escuro);
 }
 .data-item-input:focus{ border-color: var(--rosa); }
-.data-item-input:invalid{ border-color: #b23a3a; }
+
+/* Aviso discreto quando a data cai num dia sem atendimento */
+.dica-data-item, .dica-dia-item{
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #8a5a00;
+  margin-top: 4px;
+}
+.dica-dia-item:empty{ display: none; }
+
+/* Observações por item (sabores do combo, texto do bento...) */
+.obs-item-label{
+  display: block;
+  margin-top: 8px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--marrom-cafe);
+}
+
+.obs-item-input{
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 7px 9px;
+  border-radius: 8px;
+  border: 1.5px solid var(--marrom-claro);
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  background: var(--branco);
+  color: var(--marrom-escuro);
+  resize: vertical;
+  min-height: 52px;
+}
+.obs-item-input:focus{ border-color: var(--rosa); }
 
 .item-carrinho .remover{
   background: none; border: none;
-  color: #b23a3a;
+  color: var(--erro);
   font-size: 0.78rem;
   font-weight: 600;
   text-decoration: underline;
@@ -888,11 +995,31 @@ h1, h2, h3, .fonte-titulo{
   font-size: 0.92rem;
 }
 
-.carrinho-rodape{
-  /* Classe legada, sem uso no HTML atual (substituída por
-     .carrinho-dados + .carrinho-fixo). Mantida vazia de propósito
-     para não quebrar nada caso algo externo ainda a referencie. */
+/* Sugestão de vela quando há uma encomenda no carrinho */
+.upsell-vela{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--rosa-claro);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--marrom-escuro);
 }
+
+.upsell-vela button{
+  flex-shrink: 0;
+  background: var(--marrom-escuro);
+  color: var(--bege-claro);
+  border: none;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+.upsell-vela button:hover{ background: var(--rosa); }
 
 .titulo-dados-pedido{
   font-family: var(--fonte-corpo);
@@ -925,7 +1052,13 @@ h1, h2, h3, .fonte-titulo{
 
 .obrigatorio{ color: var(--rosa); }
 
-/* --------- AVISO GERAL SOBRE DATA (a data em si fica em cada item, veja .data-item-* mais abaixo) --------- */
+/* Campo com problema, destacado ao clicar em "Fazer pedido" com algo faltando */
+.campo-invalido{
+  border-color: var(--erro) !important;
+  box-shadow: 0 0 0 3px rgba(178, 58, 58, 0.2);
+}
+
+/* --------- AVISO GERAL SOBRE DATA (a data em si fica em cada item) --------- */
 .dica-data-entrega-geral{
   font-size: 0.8rem;
   color: var(--marrom-cafe);
@@ -954,6 +1087,7 @@ h1, h2, h3, .fonte-titulo{
 }
 
 .opcao-entrega{
+  position: relative; /* âncora do input escondido (evita salto de rolagem ao focar) */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -981,6 +1115,11 @@ h1, h2, h3, .fonte-titulo{
 .opcao-entrega:has(input:checked){
   border-color: var(--rosa);
   background: var(--rosa-claro);
+}
+
+.opcao-entrega:has(input:focus-visible){
+  outline: 3px solid var(--rosa);
+  outline-offset: 2px;
 }
 
 /* Fallback via JS para navegadores sem suporte a :has() */
@@ -1018,7 +1157,7 @@ h1, h2, h3, .fonte-titulo{
   color: var(--rosa);
   text-decoration: underline;
 }
-.link-mapa:hover{ color: #cf5c86; }
+.link-mapa:hover{ color: var(--rosa-hover); }
 
 /* --------- ENDEREÇO (CEP com busca automática + número manual) --------- */
 .campo-endereco{
@@ -1052,7 +1191,8 @@ h1, h2, h3, .fonte-titulo{
 }
 .cep-status.buscando{ color: var(--marrom-cafe); }
 .cep-status.sucesso{ color: #2e7d4f; font-weight: 600; }
-.cep-status.erro{ color: #b23a3a; font-weight: 600; }
+.cep-status.aviso{ color: #8a5a00; font-weight: 600; }
+.cep-status.erro{ color: var(--erro); font-weight: 600; }
 
 .linha-endereco{
   display: grid;
@@ -1081,12 +1221,32 @@ h1, h2, h3, .fonte-titulo{
 }
 
 .campo-endereco-item input:focus{ border-color: var(--rosa); }
+.campo-endereco-item input:disabled{ background: var(--bege); opacity: 0.7; }
+
+.campo-complemento-wrap{ margin-top: 10px; }
+
+.check-sem-numero{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--marrom-cafe);
+  cursor: pointer;
+}
+.check-sem-numero input{ width: 16px; height: 16px; accent-color: var(--rosa); }
 
 .aviso-obrigatorio{
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   color: var(--marrom-cafe);
   text-align: center;
   margin: 10px 0 0;
+}
+.aviso-obrigatorio.erro{
+  color: var(--erro);
+  font-weight: 700;
+  font-size: 0.82rem;
 }
 
 /* --------- CUPOM DE DESCONTO --------- */
@@ -1138,7 +1298,7 @@ h1, h2, h3, .fonte-titulo{
   min-height: 1.1em;
 }
 .cupom-status.sucesso{ color: #1e7a45; font-weight: 600; }
-.cupom-status.erro{ color: #b23a3a; font-weight: 600; }
+.cupom-status.erro{ color: var(--erro); font-weight: 600; }
 
 .link-remover-cupom{
   background: none;
@@ -1174,7 +1334,7 @@ h1, h2, h3, .fonte-titulo{
 
 .btn-pedido{
   width: 100%;
-  background: #25D366;
+  background: var(--whatsapp);
   color: #fff;
   border: none;
   padding: 13px;
@@ -1187,7 +1347,43 @@ h1, h2, h3, .fonte-titulo{
   gap: 8px;
 }
 .btn-pedido:disabled{ opacity: 0.5; cursor: not-allowed; }
-.btn-pedido:not(:disabled):hover{ background: #1ebd5a; }
+.btn-pedido:not(:disabled):hover{ background: var(--whatsapp-hover); }
+
+.btn-secundario{
+  width: 100%;
+  background: none;
+  color: var(--marrom-escuro);
+  border: 1.5px solid var(--marrom-claro);
+  padding: 11px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.btn-secundario:hover{ border-color: var(--rosa); color: var(--rosa); }
+
+/* --------- TELA DE CONFIRMAÇÃO APÓS ENVIAR O PEDIDO --------- */
+.confirmacao-envio{
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--bege-claro);
+}
+
+.confirmacao-corpo{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.confirmacao-icone{ font-size: 2.6rem; line-height: 1; }
+.confirmacao-corpo h3{ font-size: 1.4rem; margin: 0; }
+.confirmacao-corpo p{ margin: 0 0 6px; font-size: 0.92rem; color: #5a4a3a; }
 
 /* ---------------------------------------------------------
    RODAPÉ
@@ -1209,6 +1405,21 @@ h1, h2, h3, .fonte-titulo{
   max-width: 200px;
 }
 .rodape p{ margin: 0; opacity: 0.85; }
+
+.rodape-contato{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 22px;
+  padding: 0 16px;
+}
+.rodape-contato a{
+  color: var(--bege-claro);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.rodape-contato a:hover{ color: var(--rosa-claro); }
 
 /* ============================================================
    RESPONSIVO — TABLET E CELULAR (9:16)
@@ -1240,6 +1451,9 @@ h1, h2, h3, .fonte-titulo{
   }
   .rodape{
     padding-bottom: max(36px, env(safe-area-inset-bottom));
+  }
+  .carrinho-fixo{
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
 }
 
@@ -1277,6 +1491,15 @@ h1, h2, h3, .fonte-titulo{
   .btn-adicionar{ padding: 10px 16px; font-size: 0.85rem; }
   .fechar-carrinho{ min-width: 40px; min-height: 40px; display: flex; align-items: center; justify-content: center; }
 
+  /* Campos com 16px: abaixo disso o iPhone dá zoom automático ao tocar
+     no campo e desorganiza o carrinho. */
+  .campo-nome input,
+  .campo-endereco > input,
+  .campo-endereco-item input,
+  .cupom-linha input,
+  .data-item-input,
+  .obs-item-input{ font-size: 16px; }
+
   .produto-detalhe{ gap: 24px; }
   .galeria .miniaturas button{ width: 58px; height: 58px; }
   .acao-produto .seletor-qtd button{ width: 40px; height: 40px; }
@@ -1288,6 +1511,8 @@ h1, h2, h3, .fonte-titulo{
   .btn-adicionar-grande{ width: 100%; text-align: center; padding: 14px 26px; }
 
   .painel-carrinho{ width: 100vw; }
+
+  .toast-carrinho{ bottom: 16px; width: calc(100vw - 28px); justify-content: space-between; }
 }
 
 /* --- Celulares bem pequenos (ex: iPhone SE, ~360px e menos) --- */
