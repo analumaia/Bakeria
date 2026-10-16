@@ -8,9 +8,10 @@
    Ajuste os valores hexadecimais abaixo se tiver o código exato
    das etiquetas Pantone (TPX/TCX -> HEX) da sua gráfica.
 
-   CONTRASTE (acessibilidade, WCAG AA = 4,5:1 para texto pequeno):
-   o rosa e o verde do WhatsApp foram escurecidos em relação à versão
-   anterior para o texto branco ficar legível (rosa ~5,3:1, verde ~5,4:1).
+   CONTRASTE: o rosa voltou ao tom original da marca (#E0709A). O texto
+   branco sobre ele fica em ~3:1, abaixo do 4,5:1 recomendado (WCAG AA)
+   para texto pequeno. Se quiser ganhar legibilidade no futuro, escureça
+   --rosa e --rosa-hover (ex.: #C2487A).
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Erica+One&family=Poppins:wght@400;500;600;700&display=swap');
@@ -22,8 +23,8 @@
   --marrom-escuro: #3A2A1C;
   --marrom-cafe:   #8B5A2B;
   --marrom-claro:  #C9946B;
-  --rosa:          #B93E70;
-  --rosa-hover:    #A23362;
+  --rosa:          #E0709A;
+  --rosa-hover:    #CC5F89;
   --rosa-claro:    #F4C3D6;
   --branco:        #FFFDF9;
   --erro:          #B23A3A;

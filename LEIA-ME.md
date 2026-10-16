@@ -85,7 +85,7 @@ Endereço para retirada: Rua Ponta Porã, 13 - Bairro Sumaré - Montes Claros/MG
 
 ## Acessibilidade e celular
 - Com o carrinho aberto, o fundo não rola nem recebe foco por Tab; `Esc` fecha.
-- Contraste do rosa e do verde do WhatsApp ajustado para legibilidade (WCAG AA).
+- Verde do botão do WhatsApp escurecido para legibilidade (WCAG AA). O rosa voltou ao tom original da marca (`#E0709A`); o texto branco sobre ele fica abaixo do recomendado, e dá para escurecer em `--rosa` no `style.css` se quiser.
 - Campos com 16px no celular (evita zoom automático no iPhone).
 - Banner não troca sozinho para quem ativou "reduzir movimento" no aparelho.
 
