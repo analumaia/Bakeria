@@ -135,7 +135,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie crocante por fora, macio por dentro, com muitas gotas de chocolate.",
     descricaoCompleta: "O clássico cookie de massa de baunilha, com uma casquinha crocante por fora, e super macio por dentro. Feito com chocolate selecionado e assado na hora.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico"],
-    imagens: ["cookie-tradicional.jpeg", "cookie-tradicional-close.jpg"]
+    imagens: ["cookie-tradicional.jpeg", "tradicional-close.jpeg"]
   },
   {
     id: 2,
@@ -155,7 +155,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie pie unitário com recheio cremoso de avelã e Kinder Bueno",
     descricaoCompleta: "Cookie individual com bordas crocantes, recheada com creme de chocolate e avelã e pedaço de Kinder Bueno por cima, para quem ama uma combinação irresistível.",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Kinder Bueno", "Avelã", "Chocolate Branco"],
-    imagens: ["buenissimo.jpg", "buenissimo close.jpg"]
+    imagens: ["buenissimo.jpeg", "buenissimo close.jpeg"]
   },
   {
     id: 4,
