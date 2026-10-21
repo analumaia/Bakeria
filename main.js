@@ -1,17 +1,15 @@
 /* ============================================================
    MAIN.JS — roda apenas na página inicial (index.html)
-   Renderiza o banner rotativo, o catálogo com filtro por categoria
-   e o horário de funcionamento.
+   Renderiza o banner rotativo e o catálogo com filtro por categoria.
    Não precisa editar este arquivo: edite data.js.
-   (Funções de data/hora e do carrinho ficam em cart.js.)
    ============================================================ */
 
 /* ------------------------------------------------------------
    FOTO INDISPONÍVEL
-   Usada quando o arquivo de imagem de um produto não carrega.
-   IMPORTANTE: nunca usar this.src="" no lugar disso — isso faz o
-   navegador recarregar a própria página como se fosse uma imagem,
-   entra em loop e trava o carregamento do site.
+   Usada quando o arquivo de imagem de um produto ainda não foi
+   adicionado. IMPORTANTE: nunca usar this.src="" no lugar disso —
+   isso faz o navegador recarregar a própria página como se fosse
+   uma imagem, entra em loop e trava o carregamento do site.
 ------------------------------------------------------------ */
 function marcarFotoIndisponivel(img){
   img.onerror = null; // evita disparar de novo caso o pixel também falhe
@@ -42,7 +40,7 @@ function renderizarBanners(){
         <span class="tag">${b.tag}</span>
         <h2>${b.titulo}</h2>
         <p>${b.texto}</p>
-        <button type="button" class="btn-primario" onclick="filtrarPorCategoria('${b.linkCategoria}')">${b.linkTexto}</button>
+        <button type="button" class="btn-primario" onclick="rastrear('selectPromotion', ${i}); filtrarPorCategoria('${b.linkCategoria}')">${b.linkTexto}</button>
       </div>
     </div>
   `).join("");
@@ -53,10 +51,7 @@ function renderizarBanners(){
     ).join("");
 
     pontosContainer.querySelectorAll("button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        mostrarBanner(parseInt(btn.dataset.indice, 10));
-        iniciarRotacaoBanner(); // reinicia a contagem dos 6s depois do clique
-      });
+      btn.addEventListener("click", () => mostrarBanner(parseInt(btn.dataset.indice, 10)));
     });
 
     iniciarRotacaoBanner();
@@ -75,10 +70,6 @@ function mostrarBanner(indice){
 
 function iniciarRotacaoBanner(){
   clearInterval(temporizadorBanner);
-
-  // Respeita quem pediu "reduzir movimento" no aparelho: sem troca automática.
-  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
   temporizadorBanner = setInterval(() => {
     mostrarBanner((indiceBannerAtual + 1) % BANNERS.length);
   }, 6000);
@@ -86,29 +77,22 @@ function iniciarRotacaoBanner(){
 
 /* ------------------------------------------------------------
    FILTRO LATERAL DE CATEGORIAS
-   Categorias sem nenhum produto cadastrado ficam escondidas
-   (evita o cliente clicar em "Promoções" e cair numa tela vazia).
 ------------------------------------------------------------ */
-function categoriasComProdutos(){
-  return CATEGORIAS.filter(c => PRODUTOS.some(p => p.categoria === c.id));
-}
-
 function renderizarFiltro(){
   const grade = document.getElementById("grade-filtro");
   if(!grade) return;
 
   const tiles = [
     { id: "todos", nome: "Todos", icone: "🍽️" },
-    ...categoriasComProdutos()
+    ...CATEGORIAS
   ];
 
   grade.innerHTML = tiles.map(cat => `
     <button type="button"
       class="tile-categoria ${cat.id === categoriaAtiva ? "ativa" : ""}"
       data-categoria="${cat.id}"
-      aria-pressed="${cat.id === categoriaAtiva}"
       onclick="filtrarPorCategoria('${cat.id}')">
-      <span class="tile-icone" aria-hidden="true">${cat.icone}</span>
+      <span class="tile-icone">${cat.icone}</span>
       <span class="tile-nome">${cat.nome}</span>
     </button>
   `).join("");
@@ -116,11 +100,9 @@ function renderizarFiltro(){
 
 function filtrarPorCategoria(idCategoria){
   categoriaAtiva = idCategoria;
-  document.querySelectorAll(".tile-categoria").forEach(el => {
-    const ativa = el.dataset.categoria === idCategoria;
-    el.classList.toggle("ativa", ativa);
-    el.setAttribute("aria-pressed", String(ativa));
-  });
+  document.querySelectorAll(".tile-categoria").forEach(el =>
+    el.classList.toggle("ativa", el.dataset.categoria === idCategoria)
+  );
   renderizarProdutos();
   document.getElementById("categorias-container")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -140,8 +122,6 @@ function renderizarProdutos(){
   const categoriasParaMostrar = CATEGORIAS.filter(c => c.id === categoriaAtiva);
 
   container.innerHTML = categoriasParaMostrar.map(cat => {
-    // Dentro de uma categoria, mostra todos os produtos dela (inclusive os
-    // marcados com visivelNaHome: false — essa flag só vale para a aba "Todos").
     const produtosDaCategoria = PRODUTOS.filter(p => p.categoria === cat.id);
     if(produtosDaCategoria.length === 0) return "";
 
@@ -155,21 +135,21 @@ function renderizarProdutos(){
       </section>
     `;
   }).join("") || `<p class="sem-produtos">Nenhum produto encontrado nessa categoria.</p>`;
+
+  rastrear("viewItemList", categoriaAtiva, PRODUTOS.filter(p => p.categoria === categoriaAtiva));
 }
 
 function renderizarVitrineDestaques(container){
-  // "Todos" mostra todos os produtos cadastrados, exceto os marcados com
-  // visivelNaHome: false (ex.: produto ainda sem foto, ou item de apoio como
-  // a vela). DESTAQUES só coloca produtos específicos primeiro na fila; o
-  // resto vem em seguida, na ordem de cadastro em PRODUTOS.
-  const visiveis = PRODUTOS.filter(p => p.visivelNaHome !== false);
-
+  // "Todos" SEMPRE mostra todos os produtos cadastrados — isso nunca muda.
+  // DESTAQUES serve apenas para colocar produtos específicos primeiro na fila.
+  // Qualquer produto que não esteja na lista DESTAQUES aparece do mesmo jeito,
+  // logo depois dos destacados, na ordem em que foi cadastrado em PRODUTOS.
   const destacados = (DESTAQUES || [])
-    .map(id => visiveis.find(p => p.id === id))
+    .map(id => PRODUTOS.find(p => p.id === id))
     .filter(Boolean);
 
   const idsDestacados = new Set(destacados.map(p => p.id));
-  const restantes = visiveis.filter(p => !idsDestacados.has(p.id));
+  const restantes = PRODUTOS.filter(p => !idsDestacados.has(p.id));
 
   const produtosParaMostrar = [...destacados, ...restantes];
 
@@ -185,28 +165,25 @@ function renderizarVitrineDestaques(container){
       </div>
     </section>
   `;
+
+  rastrear("viewItemList", "todos", produtosParaMostrar);
 }
 
 function cartaoProdutoHTML(produto){
   const imagem = (produto.imagens && produto.imagens[0]) || "";
   const categoriaInfo = CATEGORIAS.find(c => c.id === produto.categoria);
-
-  // Sem foto cadastrada: não cria <img> (um src vazio dispara requisição inútil).
-  const blocoImagem = imagem
-    ? `<img src="${imagem}" alt="${produto.nome}" loading="lazy" onerror="marcarFotoIndisponivel(this)">`
-    : `<span class="aviso-foto">🍪 Foto em breve</span>`;
-
+  const medirClique = `onclick="rastrear('selectItem', ${produto.id}, '${categoriaAtiva}')"`;
   return `
     <article class="cartao-produto">
-      <a class="imagem-produto" href="produto.html?id=${produto.id}">
-        ${blocoImagem}
+      <a class="imagem-produto" href="produto.html?id=${produto.id}" ${medirClique}>
+        <img src="${imagem}" alt="${produto.nome}" onerror="marcarFotoIndisponivel(this)">
         ${categoriaInfo ? `<span class="mini-tag">${categoriaInfo.icone} ${categoriaInfo.nome}</span>` : ""}
       </a>
       <div class="info">
         <h3>${produto.nome}</h3>
         <p class="desc-curta">${produto.descricaoCurta}</p>
         <span class="preco">${formatarPreco(produto.preco)}</span>
-        <a class="link-detalhe" href="produto.html?id=${produto.id}">Ver detalhes</a>
+        <a class="link-detalhe" href="produto.html?id=${produto.id}" ${medirClique}>Ver detalhes</a>
         <div class="linha-acoes">
           <div class="seletor-qtd" data-qtd-produto="${produto.id}" data-valor="1">
             <button type="button" onclick="alterarQtdCard(${produto.id}, -1)" aria-label="Diminuir quantidade">−</button>
@@ -247,6 +224,44 @@ function adicionarCard(id){
    America/Sao_Paulo), não importa de onde o cliente está acessando.
    Edite os horários em data.js (HORARIO_FUNCIONAMENTO) — não aqui.
 ------------------------------------------------------------ */
+function normalizarDiaSemana(diaIntl){
+  const mapa = {
+    "segunda-feira": "segunda",
+    "terça-feira": "terca",
+    "quarta-feira": "quarta",
+    "quinta-feira": "quinta",
+    "sexta-feira": "sexta",
+    "sábado": "sabado",
+    "domingo": "domingo"
+  };
+  return mapa[diaIntl.toLowerCase()] || diaIntl.toLowerCase();
+}
+
+function obterDataHoraBrasilia(){
+  const agora = new Date();
+  const partes = new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    weekday: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).formatToParts(agora);
+
+  const mapa = {};
+  partes.forEach(p => { mapa[p.type] = p.value; });
+
+  return {
+    diaSemana: normalizarDiaSemana(mapa.weekday || ""),
+    hora: parseInt(mapa.hour, 10),
+    minuto: parseInt(mapa.minute, 10)
+  };
+}
+
+function minutosDesdeMeiaNoite(horaStr){
+  const [h, m] = horaStr.split(":").map(Number);
+  return (h * 60) + m;
+}
+
 function obterStatusFuncionamento(){
   const { diaSemana, hora, minuto } = obterDataHoraBrasilia();
   const horarioHoje = HORARIO_FUNCIONAMENTO[diaSemana];
@@ -261,16 +276,6 @@ function obterStatusFuncionamento(){
 
   const aberto = agoraEmMinutos >= abreEmMinutos && agoraEmMinutos < fechaEmMinutos;
   return { aberto, horarioHoje, diaSemana };
-}
-
-// Ex.: "Abre hoje às 17:00", "Abre amanhã às 13:30", "Abre quarta-feira às 17:00"
-function textoProximaAbertura(){
-  const proxima = proximaAbertura();
-  if(!proxima) return "";
-  const quando = proxima.deslocamento === 0 ? "hoje"
-               : proxima.deslocamento === 1 ? "amanhã"
-               : nomeDiaSemana(proxima.chave).toLowerCase();
-  return `Abre ${quando} às ${proxima.abre}`;
 }
 
 function renderizarHorarioFuncionamento(){
@@ -289,13 +294,9 @@ function renderizarHorarioFuncionamento(){
   textoStatus.parentElement.classList.toggle("status-fechado", !aberto);
 
   if(horarioHojeEl){
-    if(aberto){
-      horarioHojeEl.textContent = `Hoje: ${horarioHoje.abre} às ${horarioHoje.fecha}`;
-    }else{
-      const proxima = textoProximaAbertura();
-      const convite = horarioHoje ? "" : " · faça sua encomenda!";
-      horarioHojeEl.textContent = proxima ? `${proxima}${convite}` : "Faça sua encomenda!";
-    }
+    horarioHojeEl.textContent = horarioHoje
+      ? `Hoje: ${horarioHoje.abre} às ${horarioHoje.fecha}`
+      : "Hoje: fechado o dia todo, faça sua encomenda!";
   }
 
   if(lista){
@@ -332,10 +333,10 @@ function iniciarHorarioFuncionamento(){
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Permite abrir a home já filtrada, ex: index.html?categoria=cookie-pies
+  // Permite abrir a home já filtrada, ex: index.html?categoria=promocoes
   const params = new URLSearchParams(window.location.search);
   const categoriaUrl = params.get("categoria");
-  if(categoriaUrl && categoriasComProdutos().some(c => c.id === categoriaUrl)){
+  if(categoriaUrl && (categoriaUrl === "todos" || CATEGORIAS.some(c => c.id === categoriaUrl))){
     categoriaAtiva = categoriaUrl;
   }
 

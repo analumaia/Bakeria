@@ -4,18 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bakeria Confeitaria Artesanal — Peça pelo WhatsApp</title>
-<meta name="description" content="Cookies tradicionais, cookie pies recheados e bento cookies sob encomenda em Montes Claros/MG. Monte seu pedido e finalize pelo WhatsApp.">
-<meta name="theme-color" content="#F6EFDD">
-
-<!-- Prévia ao compartilhar o link (WhatsApp, Instagram, etc.).
-     Para a imagem aparecer, descomente a linha de og:image e troque pelo
-     endereço COMPLETO de uma foto sua (precisa começar com https://). -->
-<meta property="og:type" content="website">
-<meta property="og:locale" content="pt_BR">
-<meta property="og:title" content="Bakeria Confeitaria Artesanal — Peça pelo WhatsApp">
-<meta property="og:description" content="Cookies tradicionais, cookie pies recheados e bento cookies sob encomenda. Monte seu pedido e finalize pelo WhatsApp.">
-<!-- <meta property="og:image" content="https://SEU-USUARIO.github.io/SEU-REPOSITORIO/banner-compartilhar.jpg"> -->
-
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
@@ -44,8 +32,8 @@
   </header>
 
   <!-- ===================== BANNER DE PROMOÇÃO ===================== -->
-  <!-- Conteúdo vem de data.js (array BANNERS) — edite lá, não aqui -->
-  <section class="banner-promo container" aria-label="Promoções">
+  <!-- Conteúdo vem de js/data.js (array BANNERS) — edite lá, não aqui -->
+  <section class="banner-promo container">
     <div id="banner-container"></div>
     <div class="banner-pontos" id="banner-pontos"></div>
   </section>
@@ -53,13 +41,13 @@
   <!-- ===================== HORÁRIO DE FUNCIONAMENTO ===================== -->
   <!-- Horários vêm de data.js (HORARIO_FUNCIONAMENTO) — edite lá, não aqui -->
   <section class="horario-funcionamento container">
-    <button type="button" class="horario-resumo" id="horario-resumo" aria-expanded="false" aria-controls="horario-lista">
+    <button type="button" class="horario-resumo" id="horario-resumo" aria-expanded="false">
       <span class="horario-status">
         <span class="horario-bolinha" id="horario-bolinha"></span>
         <strong id="horario-texto-status">Carregando horário...</strong>
       </span>
       <span class="horario-hoje" id="horario-hoje"></span>
-      <span class="horario-seta" id="horario-seta" aria-hidden="true">▾</span>
+      <span class="horario-seta" id="horario-seta">▾</span>
     </button>
     <div class="horario-lista" id="horario-lista" hidden></div>
   </section>
@@ -67,14 +55,14 @@
   <!-- ===================== FILTRO + PRODUTOS ===================== -->
   <main class="container conteudo-principal">
     <aside class="filtro-categorias" aria-label="Filtrar por categoria">
-      <h3>Selecione a categoria</h3>
+      <h3>Seleciona a categoria</h3>
       <div class="grade-filtro" id="grade-filtro">
-        <!-- Preenchido automaticamente por main.js a partir de data.js -->
+        <!-- Preenchido automaticamente por main.js a partir de js/data.js -->
       </div>
     </aside>
 
     <div class="area-produtos" id="categorias-container">
-      <!-- Preenchido automaticamente por main.js a partir de data.js -->
+      <!-- Preenchido automaticamente por main.js a partir de js/data.js -->
     </div>
   </main>
 
@@ -83,9 +71,8 @@
     <span class="logo-caixa logo-caixa-rodape">
       <img src="logo-rodape.png" alt="Bakeria Confeitaria Artesanal">
     </span>
-    <!-- Contato: preenchido por cart.js (WhatsApp, Instagram e endereço vêm de data.js/cart.js) -->
-    <div class="rodape-contato" id="rodape-contato"></div>
     <p>Feito com carinho, pedido pelo WhatsApp. Todos os direitos reservados.</p>
+    <p><a href="#" onclick="if(window.Analytics){ Analytics.reabrirConsentimento(); } return false;" style="text-decoration:underline;">Preferências de cookies</a></p>
   </footer>
 
   <!-- ===================== CARRINHO (painel lateral fixo) ===================== -->
@@ -107,11 +94,11 @@
 
         <div class="campo-nome">
           <label for="campo-nome-cliente">Seu nome <span class="obrigatorio">*</span></label>
-          <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome" autocomplete="name">
+          <input type="text" id="campo-nome-cliente" placeholder="Digite seu nome">
         </div>
 
         <p class="dica-data-entrega-geral">
-          📅 A data de entrega/retirada é escolhida em cada produto, na lista acima. Encomendas podem precisar de mais dias — combine pelo WhatsApp se a data for muito em cima da hora.
+          📅 A data de entrega/retirada agora é escolhida individualmente para cada produto, na lista acima. Pedidos de encomenda podem precisar de mais dias — combine pelo WhatsApp se a data for muito em cima da hora.
         </p>
 
         <div class="campo-tipo-entrega">
@@ -139,8 +126,8 @@
 
         <div class="campo-endereco" id="bloco-endereco">
           <label for="campo-cep">CEP de entrega <span class="obrigatorio">*</span></label>
-          <input type="text" id="campo-cep" placeholder="00000-000" inputmode="numeric" maxlength="9" autocomplete="postal-code">
-          <span class="cep-status" id="cep-status" aria-live="polite"></span>
+          <input type="text" id="campo-cep" placeholder="00000-000" inputmode="numeric" maxlength="9">
+          <span class="cep-status" id="cep-status"></span>
 
           <div class="linha-endereco">
             <div class="campo-endereco-item campo-rua-wrap">
@@ -148,15 +135,10 @@
               <input type="text" id="campo-rua" placeholder="Preenchido pelo CEP (edite se precisar)">
             </div>
             <div class="campo-endereco-item campo-numero-wrap">
-              <label for="campo-numero">Número <span class="obrigatorio">*</span></label>
+              <label for="campo-numero">Número</label>
               <input type="text" id="campo-numero" placeholder="Nº" inputmode="numeric">
             </div>
           </div>
-
-          <label class="check-sem-numero">
-            <input type="checkbox" id="campo-sem-numero">
-            <span>Endereço sem número (s/n)</span>
-          </label>
 
           <div class="linha-endereco">
             <div class="campo-endereco-item">
@@ -168,11 +150,6 @@
               <input type="text" id="campo-cidade" placeholder="Preenchido pelo CEP (edite se precisar)">
             </div>
           </div>
-
-          <div class="campo-endereco-item campo-complemento-wrap">
-            <label for="campo-complemento">Complemento (opcional)</label>
-            <input type="text" id="campo-complemento" placeholder="Apto, bloco, ponto de referência">
-          </div>
         </div>
       </div>
     </div>
@@ -182,10 +159,10 @@
       <div class="campo-cupom">
         <label for="campo-cupom">Cupom de desconto</label>
         <div class="cupom-linha">
-          <input type="text" id="campo-cupom" placeholder="Digite o código" autocapitalize="characters" autocomplete="off">
+          <input type="text" id="campo-cupom" placeholder="Digite o código" autocapitalize="characters">
           <button type="button" id="btn-aplicar-cupom">Aplicar</button>
         </div>
-        <p class="cupom-status" id="cupom-status" aria-live="polite"></p>
+        <p class="cupom-status" id="cupom-status"></p>
       </div>
 
       <div class="carrinho-total-bloco" id="carrinho-total-bloco">
@@ -203,16 +180,15 @@
         </div>
       </div>
 
-      <!-- O botão só fica desativado com o carrinho vazio. Com algo faltando,
-           ele continua ativo e, ao clicar, o site mostra e destaca o que falta. -->
-      <button type="button" class="btn-pedido" id="btn-fazer-pedido">
+      <button type="button" class="btn-pedido" id="btn-fazer-pedido" disabled>
         Fazer pedido pelo WhatsApp
       </button>
-      <p class="aviso-obrigatorio" id="aviso-obrigatorio" aria-live="polite"></p>
+      <p class="aviso-obrigatorio" id="aviso-obrigatorio">* Nome, CEP e a data de cada item são obrigatórios para fazer o pedido</p>
     </div>
   </aside>
 
   <script src="data.js"></script>
+  <script src="analytics.js"></script>
   <script src="cart.js"></script>
   <script src="main.js"></script>
 </body>
