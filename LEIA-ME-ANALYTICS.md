@@ -1,6 +1,6 @@
-# Bakeria — Medição (GA4 + dataLayer)
+# Bakeria — Medição (GA4 + Pixel da Meta + dataLayer)
 
-ID de medição instalado: **G-SH398XFQY1**. Tudo está centralizado em `analytics.js`.
+GA4: **G-SH398XFQY1**. Pixel da Meta: **1374233561456097**. Tudo está centralizado em `analytics.js`.
 
 ## Arquivos
 | Arquivo | O que mudou |
@@ -56,16 +56,56 @@ enviou a mensagem nem se pagou. Parâmetros do evento: `coupon`, `delivery_type`
 ## Dados pessoais e LGPD
 - **Nome, sobrenome, telefone, cidade e estado ficam só no dataLayer.** O que vai para o GA4 é
   comportamento, valores e o `user_id` anônimo. Os termos do Google proíbem enviar dados pessoais
-  ao Analytics. O dataLayer fica pronto para Google Tag Manager, Meta e Google Ads, que fazem o hash.
+  ao Analytics. O dataLayer fica pronto para Google Tag Manager e Google Ads. A Meta recebe esses dados
+  (ver seção abaixo).
 - Antes do "Aceitar": nenhum `user_id`, nenhum dado pessoal; o GA4 só recebe pings sem cookie (Consent Mode v2).
-- Cookies próprios: `bk_consent` (escolha, 1 ano) e `bk_uid` (identificador anônimo, ~13 meses).
+- Cookies próprios: `bk_consent_v2` (escolha, 1 ano) e `bk_uid` (identificador anônimo, ~13 meses).
   Nome e endereço continuam no `localStorage`, como o site já fazia; `analytics.js` só lê.
 - **Telefone:** o carrinho não pede telefone, então `phone_number` sai vazio. Se um dia houver o campo,
   chame `Analytics.definirTelefone(valor)` quando o cliente informar.
 - `country` é sempre `BR` (o site só atende no Brasil).
 - Pendente do seu lado: publicar uma **política de privacidade** e linkar no aviso de cookies.
 
-## Como testar
+## Pixel da Meta (Facebook e Instagram)
+O Pixel só é carregado **depois do "Aceitar"**. Quem recusa, ou ainda não escolheu, não envia nada à Meta.
+Quem já tinha aceitado antes vê o aviso de novo, porque a finalidade mudou (o cookie agora é `bk_consent_v2`).
+
+| Momento no site | Evento da Meta |
+|---|---|
+| Página aberta | `PageView` |
+| Produto aberto | `ViewContent` |
+| Adicionar / "+" no carrinho | `AddToCart` |
+| Primeira vez que mexe nos dados do pedido | `InitiateCheckout` |
+| Clique em "Fazer pedido pelo WhatsApp" | `Lead` |
+| Venda **confirmada** (você registra) | `Purchase` |
+
+- **Produtos:** cada evento leva o formato padrão da Meta (`content_ids`, `contents`, `value`, `currency`)
+  e também o array `products` com `product_id`, `product_name`, `product_category`, `value`, `currency`
+  (+ `quantity`).
+- **Cliente:** nome, sobrenome, cidade, estado, país (e telefone, se existir) vão em texto puro, só
+  normalizados (minúsculas, sem pontuação, acentos mantidos). O próprio Pixel faz o hash antes de enviar.
+  O `user_id` anônimo vai como `external_id`.
+- **`event_id`:** o mesmo do dataLayer vai como `eventID` (deduplicação futura com a API de Conversões).
+  O `event_time` fica só no dataLayer: o Pixel do navegador não aceita esse campo.
+- **Nome e cidade digitados depois:** a Meta ignora um segundo `fbq("init")`, e repeti-lo pode duplicar
+  eventos. Por isso o site preenche o objeto interno do Pixel antes do `Lead`. Esse método **não é
+  documentado oficialmente**; se a Meta mudar a biblioteca, o evento continua sendo enviado, só sem
+  nome e cidade. Confira em Gerenciador de Eventos → Testar eventos → o evento → "Parâmetros de
+  correspondência avançada". Cliente que volta já vai com os dados desde o `init`.
+
+### Por que o clique no WhatsApp é `Lead` e não `Purchase`
+O site não sabe se o pedido virou venda. Mandar `Purchase` a cada clique faria a Meta contar vendas que
+podem não existir, inflar o retorno dos anúncios e otimizar para o sinal errado.
+- **Venda confirmada:** `Analytics.purchase({ transaction_id: "BK-0001", value: 34.2, items: [{ id: 2, quantity: 2 }] })`
+  dispara `purchase` (GA4) e `Purchase` (Meta). O mesmo `transaction_id` nunca conta duas vezes.
+  Falta uma forma de chamar isso sem programar (ex: uma página de confirmação).
+- **Se mesmo assim quiser `Purchase` no clique:** em `analytics.js`, troque `purchaseNoPedido: false` por `true`.
+
+### Como testar a Meta
+Extensão **Meta Pixel Helper** (Chrome) ou Gerenciador de Eventos → Testar eventos. Abra o site, clique
+em Aceitar e use o carrinho. No Gerenciador devem aparecer `PageView`, `AddToCart`, `InitiateCheckout` e `Lead`.
+
+## Como testar o GA4
 1. Abra o site com `?ga_debug=1` no final (ex: `.../index.html?ga_debug=1`).
 2. Console do navegador (F12): cada evento aparece como `[Analytics] nome {…}`.
 3. GA4 → Admin → **DebugView**: os eventos chegam em tempo real.
@@ -83,3 +123,6 @@ para `discount_value`. Só passam a contar a partir do dia do cadastro.
 
 ## Desligar o aviso de cookies
 Em `analytics.js`: `exigirConsentimento: false`. Não recomendado sem orientação jurídica.
+
+## Observação
+`analytics.css` (se existir no repositório) não é usado: o aviso de cookies traz o próprio estilo dentro do `analytics.js`.

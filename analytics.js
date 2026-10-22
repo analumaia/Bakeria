@@ -8,17 +8,25 @@
    3. Controla o consentimento de cookies (LGPD) com Consent Mode v2:
       sem o "Aceitar" do cliente, nenhum identificador é criado e
       nenhum dado pessoal entra no dataLayer.
+   4. Instala o Pixel da Meta (ID em ANALYTICS_CONFIG.meta). O Pixel só
+      é carregado DEPOIS do "Aceitar": antes disso nada vai para a Meta.
 
    ⚠️ REGRA IMPORTANTE: dados pessoais (nome, sobrenome, telefone,
-   cidade, estado) ficam SOMENTE no dataLayer. Para o GA4 só seguem
-   comportamento, valores e o user_id anônimo. Os termos do Google
-   proíbem enviar dados pessoais ao Google Analytics; o dataLayer
-   fica pronto para outras ferramentas (ex: Google Tag Manager,
-   Meta, Google Ads), que fazem o hash por conta própria.
+   cidade, estado) ficam no dataLayer e vão para a META (que recebe
+   os dados em texto puro e faz o hash dentro do próprio Pixel).
+   Para o GA4 só seguem comportamento, valores e o user_id anônimo:
+   os termos do Google proíbem enviar dados pessoais ao Analytics.
+
+   EVENTOS DA META (mesmo momento dos eventos do GA4):
+     view_item → ViewContent      add_to_cart → AddToCart
+     begin_checkout → InitiateCheckout      generate_lead → Lead
+   "Purchase" NÃO dispara no clique do WhatsApp (veja meta.purchaseNoPedido).
+   Para registrar uma venda CONFIRMADA use Analytics.purchase({...}).
 
    COMO TESTAR: abra o site com ?ga_debug=1 no final do endereço.
    Os eventos aparecem no console do navegador e no DebugView do GA4
-   (Admin → DebugView).
+   (Admin → DebugView). Para a Meta: extensão "Meta Pixel Helper" ou
+   Gerenciador de Eventos → Testar eventos.
    ============================================================ */
 
 const ANALYTICS_CONFIG = {
@@ -27,14 +35,25 @@ const ANALYTICS_CONFIG = {
   pais: "BR",
   // true = exibe aviso de cookies e só mede depois do "Aceitar".
   // Deixe true, a menos que o jurídico oriente diferente.
-  exigirConsentimento: true
+  exigirConsentimento: true,
+
+  meta: {
+    pixelId: "1374233561456097",
+    // false (recomendado) = o clique em "Fazer pedido pelo WhatsApp" envia
+    // só "Lead". O site NÃO sabe se o pedido virou venda; mandar "Purchase"
+    // aqui registraria venda que pode não ter acontecido e distorceria o
+    // retorno dos anúncios. Mude para true só se aceitar essa troca.
+    purchaseNoPedido: false
+  }
 };
 
 window.Analytics = (function(){
   "use strict";
 
   const CFG = ANALYTICS_CONFIG;
-  const COOKIE_CONSENT = "bk_consent";
+  // "_v2": o aviso passou a incluir anúncios (Meta). Trocar o nome faz o aviso
+  // aparecer de novo para quem aceitou antes, pois a finalidade mudou.
+  const COOKIE_CONSENT = "bk_consent_v2";
   const COOKIE_USER = "bk_uid";
   const COOKIE_PHONE = "bk_phone";
   // Mesmas chaves usadas em cart.js
@@ -252,14 +271,154 @@ window.Analytics = (function(){
   }
 
   /* ------------------------------------------------------------
+     META PIXEL
+     - Carregado só depois do "Aceitar" (e removido da lista de envio ao recusar).
+     - Dados do cliente seguem em texto puro, só normalizados (minúsculas, sem
+       acento); o próprio Pixel faz o hash antes de enviar.
+     - O event_id do dataLayer vai como eventID (deduplicação futura).
+     - Produtos seguem no formato padrão da Meta (content_ids + contents com id,
+       quantity e item_price + value/currency) e, além disso, no parâmetro próprio
+       "products" com os campos pedidos: product_id, product_name,
+       product_category, value e currency (+ quantity), num único array.
+  ------------------------------------------------------------ */
+  const META_EVENTOS = {
+    view_item: "ViewContent",
+    add_to_cart: "AddToCart",
+    begin_checkout: "InitiateCheckout",
+    generate_lead: "Lead",
+    purchase: "Purchase"   // só via Analytics.purchase() (venda confirmada)
+  };
+  let metaAtivo = false;
+  let metaUltimaCorrespondencia = "";
+
+  // Minúsculas e sem pontuação, mas MANTÉM os acentos: a Meta pede UTF-8 e o hash
+  // de "joão" é diferente do de "joao", então tirar o acento piora a correspondência.
+  function limparMeta(texto){
+    return String(texto || "").toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, "")
+      .replace(/\s+/g, " ").trim();
+  }
+
+  // Formato da Meta: minúsculas; telefone só com dígitos e DDI; cidade sem espaços;
+  // estado e país com 2 letras.
+  function correspondenciaMeta(){
+    const p = perfil();
+    const d = {
+      fn: limparMeta(p.name),
+      ln: limparMeta(p.last_name),
+      ph: String(p.phone_number || "").replace(/\D/g, ""),
+      ct: limparMeta(p.city).replace(/ /g, ""),
+      st: String(p.state || "").toLowerCase(),
+      country: String(p.country || "").toLowerCase(),
+      external_id: obterUserId()
+    };
+    Object.keys(d).forEach(k => { if(!d[k]) delete d[k]; });
+    return d;
+  }
+
+  function iniciarMeta(){
+    if(metaAtivo || !CFG.meta || !CFG.meta.pixelId) return;
+    if(consentimentoAtual() !== "granted") return;
+    metaAtivo = true;
+
+    if(window.fbq){
+      window.fbq("consent", "grant");   // já carregado antes e revogado: só reativa
+    }else{
+      // Código padrão do Pixel da Meta
+      (function(f, b, e, v, n, t, s){
+        if(f.fbq) return;
+        n = f.fbq = function(){ n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+        if(!f._fbq) f._fbq = n;
+        n.push = n; n.loaded = true; n.version = "2.0"; n.queue = [];
+        t = b.createElement(e); t.async = true; t.src = v;
+        s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+      })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+
+      const dados = correspondenciaMeta();
+      metaUltimaCorrespondencia = JSON.stringify(dados);
+      window.fbq("init", CFG.meta.pixelId, dados);
+    }
+    window.fbq("track", "PageView", {}, { eventID: uuid() });
+  }
+
+  function pararMeta(){
+    metaAtivo = false;
+    if(window.fbq) window.fbq("consent", "revoke");
+    apagarCookie("_fbp"); apagarCookie("_fbc");
+  }
+
+  // O cliente digita nome e cidade DEPOIS de a página abrir. NÃO se deve chamar
+  // fbq("init") de novo para isso: a Meta ignora os dados do segundo init e a
+  // repetição pode duplicar eventos. A alternativa é preencher o objeto interno do
+  // Pixel (método não documentado oficialmente, descrito pela comunidade). Se a
+  // Meta mudar a biblioteca, nada quebra: o evento segue normal, sem nome/cidade.
+  function atualizarCorrespondenciaMeta(){
+    const dados = correspondenciaMeta();
+    const texto = JSON.stringify(dados);
+    if(texto === metaUltimaCorrespondencia) return;
+    try{
+      const inst = window.fbq && window.fbq.instance;
+      const px = inst && inst.pixelsByID && inst.pixelsByID[CFG.meta.pixelId];
+      if(!px) return;   // biblioteca ainda carregando: tenta de novo no próximo evento
+      px.userData = Object.assign({}, px.userData || {}, dados);
+      metaUltimaCorrespondencia = texto;
+    }catch(e){
+      if(DEBUG) console.warn("[Analytics] Meta: não foi possível atualizar os dados do cliente", e);
+    }
+  }
+
+  function enviarMeta(nome, itens, ecom, params, eventId){
+    const eventoMeta = META_EVENTOS[nome];
+    if(!eventoMeta || !metaActiveOk()) return;
+
+    const dados = {};
+    if(itens.length > 0){
+      dados.content_type = "product";
+      dados.content_ids = itens.map(i => i.product_id);
+      dados.contents = itens.map(i => ({ id: i.product_id, quantity: i.quantity, item_price: i.price }));
+      dados.num_items = itens.reduce((s, i) => s + i.quantity, 0);
+      dados.content_name = Array.from(new Set(itens.map(i => i.product_name))).join(", ");
+      dados.content_category = Array.from(new Set(itens.map(i => i.product_category))).join(", ");
+      dados.products = itens.map(i => ({
+        product_id: i.product_id,
+        product_name: i.product_name,
+        product_category: i.product_category,
+        value: i.value,
+        currency: i.currency,
+        quantity: i.quantity
+      }));
+    }
+    if(ecom.transaction_id) dados.order_id = ecom.transaction_id;
+    if(typeof ecom.value === "number"){
+      dados.value = ecom.value;
+      dados.currency = CFG.moeda;
+    }
+    if(ecom.coupon) dados.coupon = ecom.coupon;
+    if(nome === "generate_lead"){
+      dados.delivery_type = params.delivery_type;
+      dados.loja_aberta = params.loja_aberta;
+    }
+
+    atualizarCorrespondenciaMeta();
+    window.fbq("track", eventoMeta, dados, { eventID: eventId });
+
+    if(nome === "generate_lead" && CFG.meta.purchaseNoPedido){
+      window.fbq("track", "Purchase", dados, { eventID: eventId + "_purchase" });
+    }
+    if(DEBUG) console.log("[Analytics] Meta", eventoMeta, dados);
+  }
+
+  function metaActiveOk(){ return metaAtivo && !!window.fbq && !!CFG.meta; }
+
+  /* ------------------------------------------------------------
      EMISSÃO DE EVENTOS
      - dataLayer: registro completo (inclui dados pessoais se houver aceite)
      - gtag/GA4: mesmo evento SEM dados pessoais
+     - Meta Pixel: eventos padrão da Meta, só com aceite
   ------------------------------------------------------------ */
   function emitir(nome, opcoes){
     const o = opcoes || {};
     const itens = o.items || [];
-    const eventId = uuid();
+    const eventId = o.eventId || uuid();
 
     const registro = { event: nome, user: montarUsuario(eventId) };
 
@@ -281,6 +440,10 @@ window.Analytics = (function(){
     if(itens.length > 0) gaParams.items = itens.map(paraGA4);
     if(DEBUG) gaParams.debug_mode = true;
     window.gtag("event", nome, gaParams);
+
+    // Meta Pixel: um erro aqui nunca pode afetar o GA4 nem o site
+    try{ enviarMeta(nome, itens, registro.ecommerce || {}, o.params || {}, eventId); }
+    catch(e){ if(DEBUG) console.error("[Analytics] Meta:", e); }
 
     if(DEBUG) console.log("[Analytics]", nome, registro);
   }
@@ -356,6 +519,33 @@ window.Analytics = (function(){
       });
     }),
 
+    // VENDA CONFIRMADA (o site sozinho não sabe disso: use só depois de confirmar
+    // o pedido/pagamento). Dispara "purchase" no GA4 e "Purchase" na Meta.
+    // Exemplo:
+    //   Analytics.purchase({ transaction_id: "BK-0001", value: 34.2, coupon: "BAKEANALU",
+    //                        items: [{ id: 2, quantity: 2 }] })
+    // O mesmo transaction_id nunca conta duas vezes (nem ao recarregar a página).
+    purchase: seguro(function(pedido){
+      if(!pedido || !pedido.transaction_id || !pedido.items || pedido.items.length === 0) return;
+      const id = String(pedido.transaction_id);
+
+      let jaRegistrados = [];
+      try{ jaRegistrados = JSON.parse(lerLS("bk_purchases") || "[]"); }catch(e){}
+      if(jaRegistrados.indexOf(id) !== -1) return;
+      jaRegistrados.push(id);
+      gravarLS("bk_purchases", JSON.stringify(jaRegistrados.slice(-50)));
+
+      const itens = pedido.items.map(i => montarItem(i, i.quantity));
+      const ecom = { transaction_id: id };
+      if(pedido.coupon) ecom.coupon = pedido.coupon;
+      emitir("purchase", {
+        items: itens,
+        value: typeof pedido.value === "number" ? pedido.value : somaItens(itens),
+        ecommerce: ecom,
+        eventId: "purchase_" + id   // fixo por pedido: deduplica com a API de Conversões no futuro
+      });
+    }),
+
     applyCoupon: seguro(function(codigo, valido){
       emitir("apply_coupon", { params: { coupon: codigo, coupon_valid: valido ? "sim" : "nao" } });
     }),
@@ -393,8 +583,10 @@ window.Analytics = (function(){
 
       if(concedido){
         window.gtag("set", { user_id: obterUserId() });
+        iniciarMeta();
       }else{
-        // Retirou o consentimento: apaga o identificador e os cookies do GA
+        // Retirou o consentimento: apaga o identificador e os cookies do GA e da Meta
+        pararMeta();
         apagarCookie(COOKIE_USER); apagarLS(COOKIE_USER);
         apagarCookie(COOKIE_PHONE); apagarLS(COOKIE_PHONE);
         apagarCookiesGA();
@@ -440,7 +632,7 @@ window.Analytics = (function(){
     el.setAttribute("role", "dialog");
     el.setAttribute("aria-label", "Aviso de cookies");
     el.innerHTML = `
-      <p>🍪 Usamos cookies e um identificador anônimo para entender como o cardápio é usado (páginas vistas, produtos e pedidos) e melhorar o site. Você escolhe se aceita.</p>
+      <p>🍪 Usamos cookies e um identificador anônimo para medir o uso do site (páginas vistas, produtos e pedidos) e para medir e personalizar anúncios na Meta (Instagram e Facebook), incluindo o envio de nome e cidade quando você os informa. Você escolhe se aceita.</p>
       <div class="bk-botoes">
         <button type="button" class="bk-recusar">Recusar</button>
         <button type="button" class="bk-aceitar">Aceitar</button>
@@ -482,6 +674,8 @@ window.Analytics = (function(){
   script.async = true;
   script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(CFG.measurementId);
   document.head.appendChild(script);
+
+  if(estadoInicial === "granted") iniciarMeta();   // quem já aceitou: Pixel já nesta visita
 
   function aoCarregar(){
     if(CFG.exigirConsentimento && estadoInicial === "") mostrarBanner();
