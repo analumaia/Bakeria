@@ -29,8 +29,8 @@
    Gerenciador de Eventos → Testar eventos.
    ============================================================ */
 planilha: {
-  url: "https://script.google.com/macros/s/XXXX/exec",
-  token: "o mesmo valor de TOKEN_SITE"
+  url: "https://script.google.com/macros/s/AKfycbw0drOdO2iQJKSNzWIpePmgHlV813BftrkikJWGTJwGAAPpVL6SkK15b4zinoDaEXIl6w/exec",
+  token: "B293A2398K392E"
 }
 
 const ANALYTICS_CONFIG = {
