@@ -28,6 +28,10 @@
    (Admin → DebugView). Para a Meta: extensão "Meta Pixel Helper" ou
    Gerenciador de Eventos → Testar eventos.
    ============================================================ */
+planilha: {
+  url: "https://script.google.com/macros/s/XXXX/exec",
+  token: "o mesmo valor de TOKEN_SITE"
+}
 
 const ANALYTICS_CONFIG = {
   measurementId: "G-SH398XFQY1",
