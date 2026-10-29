@@ -48,7 +48,7 @@ const ANALYTICS_CONFIG = {
 
 planilha: {
   url: "https://script.google.com/macros/s/AKfycbw0drOdO2iQJKSNzWIpePmgHlV813BftrkikJWGTJwGAAPpVL6SkK15b4zinoDaEXIl6w/exec",
-  token: "B293A2398K392E"
+  token: "b293a2398k392e329420"
 };
 
 window.Analytics = (function(){
