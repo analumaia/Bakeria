@@ -31,6 +31,23 @@ function rastrear(metodo, ...argumentos){
 let checkoutIniciado = false;
 
 /* ------------------------------------------------------------
+   CÓDIGO DO PEDIDO — ex: BK-261022-7K3F (BK + AAMMDD no horário de
+   Brasília + 4 caracteres sem 0/O/1/I, para não confundir).
+   Vai na mensagem do WhatsApp, na planilha e nos eventos de medição,
+   para você cruzar cada conversa com a linha do pedido.
+------------------------------------------------------------ */
+function gerarPedidoId(){
+  const dia = obterDataISOHoje().replace(/-/g, "").slice(2);
+  const alfabeto = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let sufixo = "";
+  for(let i = 0; i < 4; i++) sufixo += alfabeto[Math.floor(Math.random() * alfabeto.length)];
+  return `BK-${dia}-${sufixo}`;
+}
+
+// Protege contra clique duplo em "Fazer pedido" (geraria dois pedidos iguais)
+let ultimoEnvioPedidoMs = 0;
+
+/* ------------------------------------------------------------
    CARRINHO (itens)
 ------------------------------------------------------------ */
 function obterCarrinho(){
@@ -538,7 +555,7 @@ function renderizarCarrinho(){
 /* ------------------------------------------------------------
    MENSAGEM E ENVIO PARA O WHATSAPP
 ------------------------------------------------------------ */
-function montarMensagemWhatsapp(){
+function montarMensagemWhatsapp(pedidoId){
   const itens = obterCarrinho();
   const nome = document.getElementById("campo-nome-cliente")?.value?.trim() || "";
   const tipoEntrega = obterTipoEntrega();
@@ -591,11 +608,17 @@ function montarMensagemWhatsapp(){
     }
   }
 
+  if(pedidoId){
+    mensagem += `\n\nCódigo do pedido: ${pedidoId}`;
+  }
+
   return mensagem;
 }
 
 function enviarPedidoWhatsapp(){
   if(!formularioValido()) return;
+  if(Date.now() - ultimoEnvioPedidoMs < 3000) return; // clique duplo
+  ultimoEnvioPedidoMs = Date.now();
 
   salvarNomeCliente(document.getElementById("campo-nome-cliente")?.value?.trim() || "");
   salvarTipoEntrega(obterTipoEntrega());
@@ -603,10 +626,12 @@ function enviarPedidoWhatsapp(){
     salvarEnderecoAtual();
   }
 
-  rastrear("generateLead");   // intenção de compra: o cliente clicou em fazer o pedido
-  checkoutIniciado = false;   // um próximo pedido na mesma visita volta a contar
+  const pedidoId = gerarPedidoId();
+  rastrear("generateLead", pedidoId);    // intenção de compra: o cliente clicou em fazer o pedido
+  rastrear("registrarPedido", pedidoId); // linha do pedido na planilha
+  checkoutIniciado = false;              // um próximo pedido na mesma visita volta a contar
 
-  const mensagem = montarMensagemWhatsapp();
+  const mensagem = montarMensagemWhatsapp(pedidoId);
   const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
 }
