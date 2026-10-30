@@ -28,6 +28,7 @@
    (Admin → DebugView). Para a Meta: extensão "Meta Pixel Helper" ou
    Gerenciador de Eventos → Testar eventos.
    ============================================================ */
+
 const ANALYTICS_CONFIG = {
   measurementId: "G-SH398XFQY1",
   moeda: "BRL",
@@ -43,12 +44,15 @@ const ANALYTICS_CONFIG = {
     // aqui registraria venda que pode não ter acontecido e distorceria o
     // retorno dos anúncios. Mude para true só se aceitar essa troca.
     purchaseNoPedido: false
-  }
-},
+  },
 
-planilha: {
-  url: "https://script.google.com/macros/s/AKfycbw0drOdO2iQJKSNzWIpePmgHlV813BftrkikJWGTJwGAAPpVL6SkK15b4zinoDaEXIl6w/exec",
-  token: "b293a2398k392e329420"
+  // Planilha de pedidos (Google Sheets via Apps Script). Veja LEIA-ME-PLANILHA.md.
+  // url   = endereço do "aplicativo da web" do Apps Script (termina em /exec).
+  //         Vazio = o site funciona normalmente, só não registra na planilha.
+  // token = o mesmo valor da propriedade TOKEN_SITE do script.
+  planilha: {
+    url: "https://script.google.com/macros/s/AKfycbw0drOdO2iQJKSNzWIpePmgHlV813BftrkikJWGTJwGAAPpVL6SkK15b4zinoDaEXIl6w/exec",
+    token: "b293a2398k392e329420"
   }
 };
 
@@ -276,6 +280,96 @@ window.Analytics = (function(){
   }
 
   /* ------------------------------------------------------------
+     ORIGEM DO CLIQUE: UTMs, fbclid/gclid e site de origem (referrer)
+     - Lidos na chegada e guardados no navegador por 30 dias, só COM aceite.
+       Antes da decisão ficam apenas na aba (sessionStorage); se recusar, nada é guardado.
+     - "Último toque" = a visita mais recente com origem; "1º toque" = a primeira.
+     - Vão para a planilha junto com o pedido (veja registrarPedido).
+  ------------------------------------------------------------ */
+  const UTM_CAMPOS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid", "gclid"];
+  const LS_UTM_ULTIMO = "bk_utm_last";
+  const LS_UTM_PRIMEIRO = "bk_utm_first";
+  const SS_UTM_PENDENTE = "bk_utm_pending";
+  const UTM_VALIDADE_MS = 30 * 86400000;
+
+  function lerSS(chave){ try{ return sessionStorage.getItem(chave) || ""; }catch(e){ return ""; } }
+  function gravarSS(chave, valor){ try{ sessionStorage.setItem(chave, valor); }catch(e){} }
+  function apagarSS(chave){ try{ sessionStorage.removeItem(chave); }catch(e){} }
+  function lerJSON(texto){ try{ return JSON.parse(texto || "null"); }catch(e){ return null; } }
+
+  function origemDestaVisita(){
+    const o = {};
+    UTM_CAMPOS.forEach(k => {
+      const v = params.get(k);
+      if(v) o[k] = String(v).slice(0, (k === "fbclid" || k === "gclid") ? 200 : 100);
+    });
+    try{
+      if(document.referrer){
+        const host = new URL(document.referrer).hostname.replace(/^www\./, "");
+        if(host && host !== window.location.hostname.replace(/^www\./, "")) o.referrer = host;
+      }
+    }catch(e){}
+    return Object.keys(o).length ? o : null;
+  }
+
+  function guardarOrigem(o){
+    const reg = Object.assign({}, o, { ts: Date.now() });
+    gravarLS(LS_UTM_ULTIMO, JSON.stringify(reg));
+    const primeiro = lerJSON(lerLS(LS_UTM_PRIMEIRO));
+    if(!primeiro || Date.now() - primeiro.ts > UTM_VALIDADE_MS) gravarLS(LS_UTM_PRIMEIRO, JSON.stringify(reg));
+  }
+
+  function origemValida(chave){
+    const reg = lerJSON(lerLS(chave));
+    return (reg && Date.now() - reg.ts <= UTM_VALIDADE_MS) ? reg : null;
+  }
+
+  function textoOrigem(reg){
+    if(!reg) return "direto";
+    if(reg.utm_source) return [reg.utm_source, reg.utm_medium, reg.utm_campaign].filter(Boolean).join(" / ");
+    if(reg.fbclid) return "meta (fbclid)";        // clique em anúncio da Meta sem UTM
+    if(reg.gclid) return "google ads (gclid)";
+    if(reg.referrer) return "site: " + reg.referrer;
+    return "direto";
+  }
+
+  function capturarOrigem(estado){
+    const o = origemDestaVisita();
+    if(!o) return;
+    if(estado === "granted") guardarOrigem(o);
+    else if(estado === "") gravarSS(SS_UTM_PENDENTE, JSON.stringify(o));   // ainda não decidiu
+  }
+
+  function aplicarOrigemPendente(){
+    const o = lerJSON(lerSS(SS_UTM_PENDENTE));
+    apagarSS(SS_UTM_PENDENTE);
+    if(o) guardarOrigem(o);
+  }
+
+  function apagarOrigem(){
+    apagarLS(LS_UTM_ULTIMO); apagarLS(LS_UTM_PRIMEIRO); apagarSS(SS_UTM_PENDENTE);
+  }
+
+  // _fbc é criado pelo Pixel; se ainda não existir, monta no formato da Meta a partir do fbclid
+  function obterFbc(){
+    const c = lerCookie("_fbc");
+    if(c) return c;
+    const u = origemValida(LS_UTM_ULTIMO);
+    return (u && u.fbclid) ? `fb.1.${u.ts}.${u.fbclid}` : "";
+  }
+
+  // Identificadores do GA4 (cookies _ga e _ga_<ID>), usados para atribuir a venda confirmada
+  function idsGA(){
+    const out = { ga_client_id: "", ga_session_id: "" };
+    const m = lerCookie("_ga").match(/^GA\d\.\d\.(.+)$/);
+    if(m) out.ga_client_id = m[1];
+    const s = lerCookie("_ga_" + CFG.measurementId.replace(/^G-/, ""));
+    const m2 = s.match(/^GS1\.\d\.(\d+)/) || s.match(/^GS2\.\d\.s(\d+)/);
+    if(m2) out.ga_session_id = m2[1];
+    return out;
+  }
+
+  /* ------------------------------------------------------------
      META PIXEL
      - Carregado só depois do "Aceitar" (e removido da lista de envio ao recusar).
      - Dados do cliente seguem em texto puro, só normalizados (minúsculas, sem
@@ -401,6 +495,7 @@ window.Analytics = (function(){
     if(nome === "generate_lead"){
       dados.delivery_type = params.delivery_type;
       dados.loja_aberta = params.loja_aberta;
+      if(params.order_id) dados.order_id = params.order_id;
     }
 
     atualizarCorrespondenciaMeta();
@@ -509,19 +604,100 @@ window.Analytics = (function(){
 
     // Clique em "Fazer pedido pelo WhatsApp" = intenção de compra.
     // NÃO é venda confirmada (isso o site não consegue saber).
-    generateLead: seguro(function(){
+    generateLead: seguro(function(pedidoId){
       const itens = itensDoCarrinho();
       if(itens.length === 0) return;
+      const extras = {
+        delivery_type: obterTipoEntrega(),            // "retirada" | "entrega"
+        discount_value: arredondar(calcularDesconto(totalCarrinho())),
+        loja_aberta: lojaAberta()                     // "sim" | "nao" (horário de Brasília)
+      };
+      if(pedidoId) extras.order_id = pedidoId;        // o mesmo código que vai no WhatsApp e na planilha
       emitir("generate_lead", {
         items: itens,
         value: totalComDesconto(),
         ecommerce: cupomExtra(),
-        params: {
-          delivery_type: obterTipoEntrega(),            // "retirada" | "entrega"
-          discount_value: arredondar(calcularDesconto(totalCarrinho())),
-          loja_aberta: lojaAberta()                     // "sim" | "nao" (horário de Brasília)
-        }
+        params: extras
       });
+    }),
+
+    // Registra o pedido na planilha (Google Sheets via Apps Script).
+    // O registro do pedido acontece sempre (é o seu controle de pedidos); UTMs,
+    // identificadores de anúncio e cookies só vão se o cliente tiver aceitado.
+    registrarPedido: seguro(function(pedidoId){
+      const P = CFG.planilha;
+      if(!P || !P.url || !pedidoId) return;
+      const carrinho = obterCarrinho();
+      if(carrinho.length === 0) return;
+
+      const consentido = consentimentoAtual() === "granted";
+      const cli = perfil();
+      const subtotal = totalCarrinho();
+      const desconto = calcularDesconto(subtotal);
+
+      const payload = {
+        token: P.token || "",
+        pedido_id: pedidoId,
+        nome: valorCampo("campo-nome-cliente") || lerLS(LS_NOME),
+        cidade: cli.city,
+        estado: cli.state,
+        recebimento: obterTipoEntrega(),
+        cupom: cupomExtra().coupon || "",
+        subtotal: arredondar(subtotal),
+        desconto: arredondar(desconto),
+        total: arredondar(totalComDesconto()),
+        loja_aberta: lojaAberta(),
+        consentimento: consentido ? "sim" : "nao",
+        itens: carrinho.map(ci => {
+          const it = montarItem(ci, ci.quantidade);
+          return {
+            produto_id: it.product_id,
+            produto: it.product_name,
+            categoria: it.product_category,
+            quantidade: ci.quantidade,
+            preco_unit: it.price,
+            total_item: it.value,
+            data_entrega: ci.dataEntrega || ""
+          };
+        })
+      };
+
+      if(consentido){
+        const ult = origemValida(LS_UTM_ULTIMO);
+        const pri = origemValida(LS_UTM_PRIMEIRO);
+        Object.assign(payload, {
+          utm_source: (ult && ult.utm_source) || "",
+          utm_medium: (ult && ult.utm_medium) || "",
+          utm_campaign: (ult && ult.utm_campaign) || "",
+          utm_content: (ult && ult.utm_content) || "",
+          utm_term: (ult && ult.utm_term) || "",
+          referrer: (ult && ult.referrer) || "",
+          fbclid: (ult && ult.fbclid) || "",
+          gclid: (ult && ult.gclid) || "",
+          ultimo_toque: textoOrigem(ult),
+          primeiro_toque: textoOrigem(pri),
+          fbp: lerCookie("_fbp"),
+          fbc: obterFbc(),
+          user_id: obterUserId(),
+          user_agent: String(navigator.userAgent || "").slice(0, 300),
+          url: window.location.origin + window.location.pathname
+        }, idsGA());
+      }else{
+        payload.ultimo_toque = "sem consentimento";
+        payload.primeiro_toque = "sem consentimento";
+      }
+
+      // Texto simples + no-cors: evita a verificação prévia (CORS) que o Apps Script não responde.
+      // O navegador não lê a resposta; o registro é confirmado olhando a planilha.
+      fetch(P.url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+        keepalive: true
+      }).catch(() => {});
+
+      if(DEBUG){ const p = Object.assign({}, payload); delete p.token; console.log("[Analytics] planilha", p); }
     }),
 
     // VENDA CONFIRMADA (o site sozinho não sabe disso: use só depois de confirmar
@@ -588,10 +764,12 @@ window.Analytics = (function(){
 
       if(concedido){
         window.gtag("set", { user_id: obterUserId() });
+        aplicarOrigemPendente();   // UTMs da chegada, que esperavam a decisão
         iniciarMeta();
       }else{
-        // Retirou o consentimento: apaga o identificador e os cookies do GA e da Meta
+        // Retirou o consentimento: apaga o identificador, a origem e os cookies do GA e da Meta
         pararMeta();
+        apagarOrigem();
         apagarCookie(COOKIE_USER); apagarLS(COOKIE_USER);
         apagarCookie(COOKIE_PHONE); apagarLS(COOKIE_PHONE);
         apagarCookiesGA();
@@ -654,6 +832,7 @@ window.Analytics = (function(){
   window.gtag = function(){ window.dataLayer.push(arguments); };
 
   const estadoInicial = consentimentoAtual();
+  capturarOrigem(estadoInicial);
   window.gtag("consent", "default", {
     analytics_storage: estadoInicial === "granted" ? "granted" : "denied",
     ad_storage: "denied",
