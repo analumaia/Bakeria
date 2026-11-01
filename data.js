@@ -225,7 +225,7 @@ const PRODUTOS = [
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
     descricaoCompleta: "Cookie de massa de baunilha com recheio de nutella original com avelãs e farofa de avelã por cima assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Nutella Original"],
-    imagens: [ ]
+    imagens: [ "bento-cookie-chocotella"]
   },
   {
     id: 11,
@@ -235,7 +235,7 @@ const PRODUTOS = [
     descricaoCurta: "Para tornar seu momento mais especial, serve 4 a 6 pessoas",
     descricaoCompleta: "Cookie de massa de baunilha com recheio de creme de avelã com chocolate branco e kinder bueno por cima assado em forma de 15cm. Perfeito para comemorar e presentear, tornando cada momento ainda mais especial. Capacidade de 14 letras ou símbolos, conferir custos adicionais. ",
     ingredientes:["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Kinder Bueno", "Avelã", "Chocolate Branco"],
-    imagens: [ ]
+    imagens: ["bento-cookie-buenissimo" ]
   },
   {
     id: 12,
