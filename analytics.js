@@ -37,6 +37,13 @@ const ANALYTICS_CONFIG = {
   // Deixe true, a menos que o jurídico oriente diferente.
   exigirConsentimento: true,
 
+  // Endereço da sua política de privacidade (ex.: "politica-de-privacidade.html").
+  // Vazio = o aviso não mostra a linha "Para mais informações...".
+  politicaPrivacidade: "",
+  // Endereço da sua política de privacidade (ex.: "politica-de-privacidade.html").
+  // Vazio = o link não aparece no aviso de cookies.
+  politicaPrivacidade: "",
+
   meta: {
     pixelId: "1374233561456097",
     // false (recomendado) = o clique em "Fazer pedido pelo WhatsApp" envia
@@ -51,7 +58,7 @@ const ANALYTICS_CONFIG = {
   //         Vazio = o site funciona normalmente, só não registra na planilha.
   // token = o mesmo valor da propriedade TOKEN_SITE do script.
   planilha: {
-    url: "https://script.google.com/macros/s/AKfycbw0drOdO2iQJKSNzWIpePmgHlV813BftrkikJWGTJwGAAPpVL6SkK15b4zinoDaEXIl6w/exec",
+    url: "",
     token: "b293a2398k392e329420"
   }
 };
@@ -795,17 +802,26 @@ window.Analytics = (function(){
       const css = document.createElement("style");
       css.id = "bk-consent-css";
       css.textContent = `
-        #bk-consent{position:fixed;left:12px;right:12px;bottom:12px;z-index:400;max-width:640px;margin:0 auto;
-          background:var(--branco,#FFFDF9);color:var(--marrom-escuro,#3A2A1C);border-radius:16px;
-          box-shadow:0 8px 30px rgba(58,42,28,.25);padding:16px 18px;font-family:var(--fonte-corpo,'Poppins',sans-serif);
-          font-size:.82rem;line-height:1.5;display:flex;gap:14px;align-items:center;flex-wrap:wrap;
-          padding-bottom:max(16px,env(safe-area-inset-bottom))}
-        #bk-consent p{margin:0;flex:1 1 260px}
-        #bk-consent .bk-botoes{display:flex;gap:8px;flex:0 0 auto}
-        #bk-consent button{border:none;border-radius:999px;padding:10px 18px;font-weight:700;font-size:.82rem;
-          font-family:inherit;cursor:pointer;min-height:40px}
-        #bk-consent .bk-aceitar{background:var(--rosa,#E0709A);color:var(--branco,#FFFDF9)}
-        #bk-consent .bk-recusar{background:var(--bege,#F6EFDD);color:var(--marrom-escuro,#3A2A1C)}
+        #bk-consent{position:fixed;left:0;right:0;bottom:0;z-index:150;
+          background:#0b0b0b;color:#fff;
+          padding:16px max(20px,3vw);padding-bottom:max(16px,env(safe-area-inset-bottom));
+          font-family:var(--fonte-corpo,'Poppins',sans-serif);font-size:.88rem;line-height:1.5;
+          display:flex;gap:16px 28px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+        #bk-consent .bk-texto{flex:1 1 380px;max-width:980px}
+        #bk-consent p{margin:0}
+        #bk-consent p + p{margin-top:8px;font-size:.8rem}
+        #bk-consent a{color:#fff;font-weight:700;text-decoration:underline}
+        #bk-consent .bk-botoes{display:flex;gap:10px;flex:0 0 auto;flex-wrap:wrap}
+        #bk-consent button{border:2px solid transparent;border-radius:4px;padding:12px 22px;font-weight:700;
+          font-size:.88rem;font-family:inherit;cursor:pointer;min-height:44px}
+        #bk-consent .bk-aceitar{background:var(--rosa,#E0709A);color:#fff}
+        #bk-consent .bk-recusar{background:transparent;color:#fff;border-color:#fff}
+        @media (max-width:600px){
+          #bk-consent{font-size:.76rem;line-height:1.4;padding:12px 14px;gap:10px;
+            padding-bottom:max(12px,env(safe-area-inset-bottom))}
+          #bk-consent .bk-botoes{width:100%}
+          #bk-consent button{flex:1 1 0;padding:10px 12px;font-size:.8rem;min-height:42px}
+        }
       `;
       document.head.appendChild(css);
     }
@@ -814,11 +830,16 @@ window.Analytics = (function(){
     el.id = "bk-consent";
     el.setAttribute("role", "dialog");
     el.setAttribute("aria-label", "Aviso de cookies");
+    const linkPolitica = CFG.politicaPrivacidade
+      ? `<p>Para mais informações, favor consultar a nossa <a href="${CFG.politicaPrivacidade}">política de privacidade</a>.</p>` : "";
     el.innerHTML = `
-      <p>🍪 Usamos cookies e um identificador anônimo para medir o uso do site (páginas vistas, produtos e pedidos) e para medir e personalizar anúncios na Meta (Instagram e Facebook), incluindo o envio de nome e cidade quando você os informa. Você escolhe se aceita.</p>
+      <div class="bk-texto">
+        <p>Ao clicar em <strong>"Aceitar todos os cookies"</strong>, você concorda com o armazenamento de cookies no seu dispositivo para melhorar a navegação no site, analisar o uso do site e ajudar em nossos esforços de marketing.</p>
+        ${linkPolitica}
+      </div>
       <div class="bk-botoes">
         <button type="button" class="bk-recusar">Recusar</button>
-        <button type="button" class="bk-aceitar">Aceitar</button>
+        <button type="button" class="bk-aceitar">Aceitar todos os cookies</button>
       </div>`;
     el.querySelector(".bk-aceitar").addEventListener("click", () => api.consentir("granted"));
     el.querySelector(".bk-recusar").addEventListener("click", () => api.consentir("denied"));
