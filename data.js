@@ -247,6 +247,16 @@ const PRODUTOS = [
     ingredientes: ["Vela de Aniversário"],
     imagens: [ ]
   },
+  {
+    id: 13,
+    nome: "Cookie Pie Chocomello",
+    categoria: "cookie-pies",
+    preco: 17.00,
+    descricaoCurta: "Para comemorar uma ocasião especial",
+    descricaoCompleta: "Adicione uma vela de aniversário e comemore momentos com quem você ama!",
+    ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Creme de Leite", "Sal"],
+    imagens: ["chocomello capa.jpeg", "chocomello close.jpeg" ]
+  },
 ];
 
 /* ------------------------------------------------------------
@@ -266,4 +276,4 @@ const PRODUTOS = [
    - Pode deixar vazia ([]) — nesse caso, a vitrine simplesmente
      segue a ordem de cadastro em PRODUTOS.
 ------------------------------------------------------------ */
-const DESTAQUES = [7, 6, 1, 2, 3, 4, 5];
+const DESTAQUES = [13, 7, 6, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12];
