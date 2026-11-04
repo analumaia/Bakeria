@@ -103,6 +103,14 @@ const CATEGORIAS = [
 ------------------------------------------------------------ */
 const BANNERS = [
   {
+    tag: "novo sabor!",
+    titulo: "Chegou o Chocomello",
+    texto: "Caramelo salgado cremoso com chocolatem meio amargo",
+    imagem: "chocomello close.jpg",
+    linkTexto: "Experimente o seu",
+    linkCategoria: "cookie-pies"
+  },
+  {
     tag: "Bento Cookies chegaram!",
     titulo: "Torne momentos em algo ainda mais especial",
     texto: "Comemore com nossos bento cookies",
@@ -252,8 +260,8 @@ const PRODUTOS = [
     nome: "Cookie Pie Chocomello",
     categoria: "cookie-pies",
     preco: 17.00,
-    descricaoCurta: "Para comemorar uma ocasião especial",
-    descricaoCompleta: "Adicione uma vela de aniversário e comemore momentos com quem você ama!",
+    descricaoCurta: "Cookie Pie unitário de Caramelo Salgado com Chocolate Meio Amago",
+    descricaoCompleta: "Cookie individual, com bordas crocantes e recheado com Caramelo Salgado cremoso e Chocolate Meio Amargo, finalizado com sal",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Creme de Leite", "Sal"],
     imagens: ["chocomello capa.jpeg", "chocomello close.jpeg" ]
   },
