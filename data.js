@@ -263,7 +263,7 @@ const PRODUTOS = [
     descricaoCurta: "Cookie Pie unitário de Caramelo Salgado com Chocolate Meio Amago",
     descricaoCompleta: "Cookie individual, com bordas crocantes e recheado com Caramelo Salgado cremoso e Chocolate Meio Amargo, finalizado com sal",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Creme de Leite", "Sal"],
-    imagens: ["chocomello capa.jpeg", "chocomello close.jpeg" ]
+    imagens: ["chocomello capa.jpg", "chocomello close.jpg" ]
   },
 ];
 
