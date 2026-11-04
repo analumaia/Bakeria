@@ -58,7 +58,7 @@ const ANALYTICS_CONFIG = {
   //         Vazio = o site funciona normalmente, só não registra na planilha.
   // token = o mesmo valor da propriedade TOKEN_SITE do script.
   planilha: {
-    url: "",
+    url: "https://script.google.com/macros/s/AKfycbw0drOdO2iQJKSNzWIpePmgHlV813BftrkikJWGTJwGAAPpVL6SkK15b4zinoDaEXIl6w/exec",
     token: "b293a2398k392e329420"
   }
 };
