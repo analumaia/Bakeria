@@ -259,7 +259,7 @@ const PRODUTOS = [
     id: 13,
     nome: "Cookie Pie Chocomello",
     categoria: "cookie-pies",
-    preco: 17.00,
+    preco: 15.00,
     descricaoCurta: "Cookie Pie unitário de Caramelo Salgado com Chocolate Meio Amago",
     descricaoCompleta: "Cookie individual, com bordas crocantes e recheado com Caramelo Salgado cremoso e Chocolate Meio Amargo, finalizado com sal",
     ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Creme de Leite", "Sal"],
