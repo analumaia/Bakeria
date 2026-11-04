@@ -106,7 +106,7 @@ const BANNERS = [
     tag: "novo sabor!",
     titulo: "Chegou o Chocomello",
     texto: "Caramelo salgado cremoso com chocolatem meio amargo",
-    imagem: "chocomello close.jpg",
+    imagem: "chocomello close.jpeg",
     linkTexto: "Experimente o seu",
     linkCategoria: "cookie-pies"
   },
