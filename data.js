@@ -176,16 +176,6 @@ const PRODUTOS = [
     imagens: ["ninhotella.jpg","ninhotella close.jpg"]
   },
   {
-    id: 5,
-    nome: "Cookie Pie Brigs ao Leite",
-    categoria: "cookie-pies",
-    preco: 17.00,
-    descricaoCurta: "Cookie Pie unitário com recheio de brigadeiro cremoso ao leite.",
-    descricaoCompleta: "Cookie individual com bordas crocantes, recheado com um brigadeiro cremoso ao leite e granulados que geram nostalgia.",
-    ingredientes: ["Farinha de trigo", "Manteiga", "Gotas de chocolate meio amargo", "Açúcar mascavo", "Açúcar cristal", "Ovos", "Baunilha", "Amido de milho", "Bicarbonato de sódio", "Fermento Químico", "Creme de leite", "Leite condensado", "Chocolate meio amargo", "Granulado"],
-    imagens: ["brigs ao leite.jpg", "brigs ao leite close.jpg"]
-  },
-  {
     id: 6,
     nome: "Leve 3 por 2",
     categoria: "promocoes",
